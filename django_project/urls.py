@@ -20,7 +20,7 @@ from django.urls import path
 from product.views import product
 from user.views import login, account, contact
 from blog.views import single_blog, blog
-from shop.views import order, checkout
+from shop.views import checkout
 from cards.views import wish, cart
 from product.views import product, single_product
 from core.views import about, error404, index
@@ -31,7 +31,6 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('account/', account, name='account'),
     path('single_blog/', single_blog, name='single-blog'),
-    path('order/', order, name='order'),
     path('product/', product, name='product'),
     path('single_product/', single_product, name='single_product'),
     path('wishlist/', wish, name='wishlist'),
