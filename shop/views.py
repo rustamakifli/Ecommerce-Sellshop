@@ -4,3 +4,6 @@ from django.shortcuts import render
 
 def order(request):
     return render(request,'order-complete.html')
+
+def checkout(request):
+    return render(request,'checkout.html')

@@ -7,3 +7,6 @@ def login(request):
 
 def account(request):
     return render(request,'my-account.html')
+
+def contact(request):
+    return render(request,'contact.html')
