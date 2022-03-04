@@ -9,8 +9,8 @@
 						<div class="pages-title-text text-center">
 							<h2>fashion style fine arts drawing</h2>
 							<ul class="text-left">
-								<li><a href="index.html">Home </a></li>
-								<li><span> // </span><a href="blog.html">blog </a></li>
+								<li><a href="{% url 'index' %}">Home </a></li>
+								<li><span> // </span><a href="{% url 'blog' %}">blog </a></li>
 								<li><span> // </span>fashion style fine arts drawing</li>
 							</ul>
 						</div>
@@ -319,9 +319,9 @@
 							</div>
 							<div class="col-sm-4">
 								<div class="l-blog-text">
-									<div class="banner"><a href="single-blog.html"><img src="{% static 'img/blog/6.jpg' %}" alt="" /></a></div>
+									<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/6.jpg' %}" alt="" /></a></div>
 									<div class="s-blog-text">
-										<h4><a href="single-blog.html">women’s winter Fashion style</a></h4>
+										<h4><a href="{% url 'single-blog' %}">women’s winter Fashion style</a></h4>
 										<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 									</div>
