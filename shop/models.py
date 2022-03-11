@@ -13,32 +13,17 @@ class AbsrtactModel(models.Model):
 
 
 class Basket(AbsrtactModel):
-<<<<<<< HEAD
-    # user = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE)
-    pass
-
-
-class Order(AbsrtactModel):
-    # basket = models.ForeignKey(Basket, related_name='basketid', on_delete=models.CASCADE)
-    pass
-=======
-    user = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_basket', on_delete=models.CASCADE, default=1)
     
 
 
 class Order(AbsrtactModel):
-    basket = models.ForeignKey(Basket, related_name='basketid', on_delete=models.CASCADE)
->>>>>>> rustamakifli
+    basket = models.ForeignKey(Basket, related_name='basket_order', on_delete=models.CASCADE, default=1)
 
 
 class BasketItems(AbsrtactModel):
     price = models.DecimalField(max_digits=12, decimal_places=6)
     count = models.IntegerField()
     subtotal = models.IntegerField()
-<<<<<<< HEAD
-    # product_version = models.ForeignKey(ProductVersion, related_name='productversion', on_delete=models.CASCADE)
-    # basket = models.ForeignKey(Basket, related_name='basket_id', on_delete=models.CASCADE)
-=======
-    product_version = models.ForeignKey(ProductVersion, related_name='productversion', on_delete=models.CASCADE)
-    basket = models.ForeignKey(Basket, related_name='basket_id', on_delete=models.CASCADE)
->>>>>>> rustamakifli
+    product_version = models.ForeignKey(ProductVersion, related_name='product_version_basket_items', on_delete=models.CASCADE, default=1)
+    basket = models.ForeignKey(Basket, related_name='basket_basket_items', on_delete=models.CASCADE, default=1)
