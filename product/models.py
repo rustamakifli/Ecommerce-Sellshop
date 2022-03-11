@@ -33,7 +33,6 @@ class ProductVersion(models.Model):
     description = models.TextField()
     is_main = models.BooleanField()
 
-
 class ProductImages(models.Model):
     product_version = models.ForeignKey(ProductVersion, related_name='productimage', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='media/story_images/')
@@ -52,3 +51,4 @@ class Brand(models.Model):
     title = models.CharField(max_length=50)
 
 
+print("test")
