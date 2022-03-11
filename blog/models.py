@@ -1,4 +1,8 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class AbsrtactModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -17,5 +21,5 @@ class Blog(AbsrtactModel):
 
 class BlogReviews(AbsrtactModel):
     review = models.TextField()
-    # blog = models.ForeignKey(Blog, related_name='blogreviews', on_delete=models.CASCADE)
-    # user = models.ForeignKey(User, related_name='blogreviews', on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, related_name='blog_blogreviews', on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, related_name='user_blogreviews', on_delete=models.CASCADE, default=1)
