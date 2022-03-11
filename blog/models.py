@@ -17,5 +17,5 @@ class Blog(AbsrtactModel):
 
 class BlogReviews(AbsrtactModel):
     review = models.TextField()
-    # blog_id = models.ForeignKey(Blog, related_name='blogreviews', on_delete=models.CASCADE)
-    # user_id = models.ForeignKey(User, related_name='blogreviews', on_delete=models.CASCADE)
+    # blog = models.ForeignKey(Blog, related_name='blogreviews', on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, related_name='blogreviews', on_delete=models.CASCADE)

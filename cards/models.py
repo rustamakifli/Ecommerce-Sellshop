@@ -9,6 +9,6 @@ class AbsrtactModel(models.Model):
 
 
 class Wishlist(AbsrtactModel):
-    # user_id = models.ForeignKey(User, related_name='blogreviews', on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, related_name='blogreviews', on_delete=models.CASCADE)
     # product_version_id = models.ForeignKey(ProductVersion, related_name='wishlist', on_delete=models.CASCADE)
     pass

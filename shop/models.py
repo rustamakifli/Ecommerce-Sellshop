@@ -9,12 +9,12 @@ class AbsrtactModel(models.Model):
 
 
 class Basket(AbsrtactModel):
-    # user_id = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE)
     pass
 
 
 class Order(AbsrtactModel):
-    # basket_id = models.ForeignKey(Basket, related_name='basketid', on_delete=models.CASCADE)
+    # basket = models.ForeignKey(Basket, related_name='basketid', on_delete=models.CASCADE)
     pass
 
 
@@ -22,5 +22,5 @@ class BasketItems(AbsrtactModel):
     price = models.DecimalField(max_digits=12, decimal_places=6)
     count = models.IntegerField()
     subtotal = models.IntegerField()
-    # product_version_id = models.ForeignKey(ProductVersion, related_name='productversion', on_delete=models.CASCADE)
-    # basket_id = models.ForeignKey(Basket, related_name='basket_id', on_delete=models.CASCADE)
+    # product_version = models.ForeignKey(ProductVersion, related_name='productversion', on_delete=models.CASCADE)
+    # basket = models.ForeignKey(Basket, related_name='basket_id', on_delete=models.CASCADE)
