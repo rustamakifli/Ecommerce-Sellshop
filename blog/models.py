@@ -12,13 +12,13 @@ class AbsrtactModel(models.Model):
         abstract = True
 
 
-class Category(models.Model):
+class BlogCategory(models.Model):
     parent_cat = models.ForeignKey('self', related_name='category_sub_cat', on_delete=models.CASCADE, default=1, null=True, blank=True)
     title = models.CharField(max_length=50)
 
 
 class Blog(AbsrtactModel):
-    category = models.ForeignKey(Category, related_name='blog_category', on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(BlogCategory, related_name='blog_category', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=50)
     image = models.ImageField(upload_to='media/blog/')
     description = models.CharField(max_length=255)

@@ -1,0 +1,14 @@
+1.son 3 blog:
+>>> from blog.models import *
+>>> Blog.objects.all()[1:]
+<QuerySet [<Blog: Blog object (2)>, <Blog: Blog object (3)>, <Blog: Blog object (4)>]>
+2.commenti olan blog:
+>>> Blog.objects.filter(blog_comment=1).all()
+<QuerySet [<Blog: Blog object (1)>]>
+3.Daxil edilmiş məlumata uyğun məhsulları axtarış edən qs yaradın
+>>> Product.objects.get(title='anti')
+<Product: Product object (2)>
+4.Daxil edilmiş məhsulun (product) review-larını qaytaran qs yazın
+>>> Product.objects.filter(production_version_product_review=1).all()
+5.Son səkkiz məhsulu (product) qaytaran queryset (qs) yaradın
+>>> Product.objects.all()[2:]

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Category(models.Model):
-    parent_cat = models.ForeignKey('self', related_name='category_sub_cat', on_delete=models.CASCADE, default=1, null=True, blank=True)
+    parent_cat = models.ForeignKey('self', related_name='mysweetchild', on_delete=models.CASCADE,default=1,null=True,blank=True)
     title = models.CharField(max_length=50)
 
 

@@ -13,7 +13,12 @@ class AbsrtactModel(models.Model):
 
 
 class Basket(AbsrtactModel):
-    user = models.ForeignKey(User, related_name='user_basket', on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE,default=1)
+
+
+class Order(AbsrtactModel):
+    basket = models.ForeignKey(Basket, related_name='basketid', on_delete=models.CASCADE,default=1)
+    user = models.ForeignKey(User, related_name='basket', on_delete=models.CASCADE,default=1)
     
 
 
