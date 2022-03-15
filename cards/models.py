@@ -15,3 +15,6 @@ class AbsrtactModel(models.Model):
 class Wishlist(AbsrtactModel):
     user = models.ForeignKey(User, related_name='user_wishlist', on_delete=models.CASCADE, default=1)
     product_version = models.ForeignKey(ProductVersion, related_name='product_version_wishlist', on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.user

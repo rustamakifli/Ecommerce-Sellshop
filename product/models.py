@@ -7,22 +7,31 @@ class Category(models.Model):
     parent_cat = models.ForeignKey('self', related_name='mysweetchild', on_delete=models.CASCADE,default=1,null=True,blank=True)
     title = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.title
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='category_product', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=30)
     info = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class PropertyName(models.Model):
     category = models.ForeignKey(Category, related_name='category_property_name', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
 
 class PropertyValues(models.Model):
     property_name = models.ForeignKey(PropertyName, related_name='property_name_property_value', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
 
 class ProductVersion(models.Model):
     publications = models.ManyToManyField(PropertyValues)
@@ -33,12 +42,16 @@ class ProductVersion(models.Model):
     description = models.TextField()
     is_main = models.BooleanField()
 
+    def __str__(self):
+        return self.title
 
 class ProductImages(models.Model):
     product_version = models.ForeignKey(ProductVersion, related_name='product_image', on_delete=models.CASCADE, default=1)
     image = models.ImageField(upload_to='media/story_images/')
     is_main = models.BooleanField()
 
+    def __str__(self):
+        return self.image
 
 class ProductReviews(models.Model):
     user = models.ForeignKey(User, related_name='user_product_review', on_delete=models.CASCADE, default=1)
@@ -46,8 +59,13 @@ class ProductReviews(models.Model):
     title = models.CharField(max_length=30)
     info = models.TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class Brand(models.Model):
     product = models.ForeignKey(Product, related_name='product_brand', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.title
