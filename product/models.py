@@ -53,8 +53,9 @@ class ProductVersion(models.Model):
     publications = models.ManyToManyField(PropertyValues)
     product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=50)
-    price = models.DecimalField(decimal_places = 2 ,max_digits=6)
-    quantity = models.IntegerField()
+    old_price = models.DecimalField(decimal_places = 2 ,max_digits=6,null=True,blank=True)
+    new_price = models.DecimalField(decimal_places = 2 ,max_digits=6)
+    quantity = models.IntegerField(null=True,blank=True)
     description = models.TextField()
     is_main = models.BooleanField()
 
@@ -67,7 +68,7 @@ class ProductVersion(models.Model):
 
 class ProductImages(models.Model):
     product_version = models.ForeignKey(ProductVersion, related_name='product_image', on_delete=models.CASCADE, default=1)
-    image = models.ImageField(upload_to='media/story_images/')
+    image = models.ImageField(upload_to='story_images/')
     is_main = models.BooleanField()
 
     class Meta:
