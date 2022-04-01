@@ -12,7 +12,7 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title', 'category', ),
+            'fields': ('title', 'category','image','description', ),
             'classes': ('collapse',)
         }),
         # ('Other', {

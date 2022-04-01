@@ -43,50 +43,37 @@
 													<p>To add a new address, please fill out the form below.</p>
 												</div>
 												<div class="custom-input">
-													<form action="mail.php" method="post">
+													<form action="" method="POST">
+														{% csrf_token %}
+
+														{{ form.non_field_errors }}
 														<div class="row">
 															<div class="col-md-6">
-																<input type="text" name="name" placeholder="First Name" />
+																{{form.first_name}}
 															</div>
 															<div class="col-md-6">
-																<input type="text" name="name" placeholder="Last Name" />
+																{{form.last_name}}
 															</div>
 														</div>
-														<input type="text" name="email" placeholder="Email Address" />
+														{{form.email}}
 														<div class="custom-select">
-															<select class="form-control">
-																<option> Country</option>
-																<option> Bangladesh </option>
-																<option> United States </option>
-																<option> United Kingdom </option>
-																<option> Canada </option>
-																<option> Malaysia </option>
-																<option> United Arab Emirates </option>
-															</select>
+															{{form.country}}
 														</div>
-														<input type="text" name="text" placeholder="Address" />
+														{{form.address}}
 														<div class="custom-select">
-															<select class="form-control">
-																<option> Town / City</option>
-																<option> Aberdeen </option>
-																<option> Bedfordshire </option>
-																<option> Caerphilly </option>
-																<option> Denbighshire </option>
-																<option> East Ayrshire </option>
-																<option> Falkirk </option>
-															</select>
+															{{form.town}}
 														</div>
 														<p class="red-color">** You must register at least one phone number.</p>
-														<input type="text" name="text" placeholder="Mobile Phone" />
+														{{form.mobile_phone}}
 														<div class="custom-mess">
-															<textarea rows="2" placeholder="Additional information" name="message"></textarea>
+															{{form.information}}
 														</div>
 														<label>Please assign an address title for future reference.<sup>*</sup></label>
 														<div class="input-text">
-															<input type="text" name="refrence" value="" />
+															{{form.reference}}
 														</div>
 														<div class="submit-text">
-															<a href="#">Save</a>
+															<button type="submit">Save</button>
 														</div>
 													</form>
 												</div>
