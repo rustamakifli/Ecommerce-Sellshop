@@ -92,23 +92,27 @@
 								</div>
 								<div class="leave-comment">
 									<h4>leave your review</h4>
-									<form action="mail.php" method="post">
+									<form action="" method="POST">
 										<div class="row">
-											<div class="col-xs-12 col-sm-6">
-												<div class="input-text">
-													<input type="text" name="name" placeholder="Name here" value="" />
+											{% csrf_token %}
+
+											{{ form.non_field_errors }}
+												<div class="col-xs-12 col-sm-6">
+														<div class="input-text">
+															{{ form.name }}
+														</div>
 												</div>
-											</div>
-											<div class="col-xs-12 col-sm-6">
-												<div class="input-text">
-													<input type="text" name="email" placeholder="Email here" value="" />
+												<div class="col-xs-12 col-sm-6">
+													<div class="input-text">
+														{{ form.email }}
+													</div>
 												</div>
-											</div>
-											<div class="col-xs-12">
-												<div class="input-text">
-													<textarea name="comment" id="comment" placeholder="Comment here" rows="4"></textarea>
+												<div class="col-xs-12 ">
+													<div class="input-text">
+														{{ form.comment }}
+													</div>
 												</div>
-											</div>
+
 											<div class="col-xs-12">
 												<div class="submit-text">
 													<button type="submit" value="submit form">submit comments</button>

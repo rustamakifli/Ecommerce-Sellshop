@@ -6,12 +6,12 @@ from product.models import Category, Product, ProductImages, ProductReviews, Pro
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title',  )
+    list_display = ('title', 'parent_cat' )
     list_filter = ('title', )
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title',  ),
+            'fields': ('title',  'parent_cat'),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -27,7 +27,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title', 'category', ),
+            'fields': ('title', 'category','info' ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -72,7 +72,7 @@ class ProductVersionAdmin(admin.ModelAdmin):
     search_fields = ('name', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title','price'  ),
+            'fields': ('title','price','product','description','is_main', ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -87,7 +87,7 @@ class ProductImagesAdmin(admin.ModelAdmin):
     search_fields = ('product_version','image' )
     fieldsets = [
         ('Standard info', {
-            'fields': ('image',  ),
+            'fields': ('image', 'is_main' ),
             'classes': ('collapse',)
         }),
         # ('Other', {
