@@ -309,7 +309,7 @@
 						<div class="col-sm-6 col-md-offset-1 col-md-5">
 							<div class="newsletter get-touch">
 								<h3>get in touch</h3>
-								<form role="form" class="contact-form" method="POST" name="contact">
+								<form action="{% url 'contact' %}"  role="form" class="contact-form" method="POST" name="contact">
 										{% csrf_token %}
 										{{ contact_form.non_field_errors }}
 

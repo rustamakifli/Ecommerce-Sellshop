@@ -256,21 +256,23 @@
 										</div>
 									</div>
 									<div class="custom-input">
-										<form action="mail.php" method="post">
+										<form action="" method="post">
+											{% csrf_token %}
+											{{ review_form.non_field_errors }}
 											<div class="row">
 												<div class="col-sm-6">
 													<div class="input-mail">
-														<input type="text" name="name" placeholder="Your Name" />
+														{{ review_form.name }}
 													</div>
 												</div>
 												<div class="col-sm-6">
 													<div class="input-mail">
-														<input type="text" name="email" placeholder="Your Email" />
+														{{ review_form.email }}
 													</div>
 												</div>
 												<div class="col-xs-12">
 													<div class="custom-mess">
-														<textarea name="message" placeholder="Your Review" rows="2"></textarea>
+														{{ review_form.review }}
 													</div>
 												</div>
 												<div class="col-xs-12">
@@ -304,53 +306,11 @@
 					</div>
 				</div>
 				<div class="row text-center">
-					<div class="col-xs-12 col-sm-6 col-md-3">
-						<div class="single-product">
-							<div class="product-img">
-								<div class="pro-type">
-									<span>new</span>
-								</div>
-								<a href="#"><img src="{% static 'img/products/1.jpg' %}" alt="Product Title" /></a>
-								<div class="actions-btn">
-									<a href="#"><i class="mdi mdi-cart"></i></a>
-									<a href="#" data-toggle="modal" data-target="#quick-view"><i class="mdi mdi-eye"></i></a>
-									<a href="#"><i class="mdi mdi-heart"></i></a>
-								</div>
-							</div>
-							<div class="product-dsc">
-								<p><a href="#">men’s Black t-shirt</a></p>
-								<span>$65.20</span>
-							</div>
-						</div>
-					</div>
-					<!-- single product end -->
-					<div class="col-xs-12 col-sm-6 col-md-3">
-						<div class="single-product">
-							<div class="product-img">
-								<div class="pro-type sell">
-									<span>sell</span>
-								</div>
-								<a href="#"><img src="{% static 'img/products/2.jpg' %}" alt="Product Title" /></a>
-								<div class="actions-btn">
-									<a href="#"><i class="mdi mdi-cart"></i></a>
-									<a href="#" data-toggle="modal" data-target="#quick-view"><i class="mdi mdi-eye"></i></a>
-									<a href="#"><i class="mdi mdi-heart"></i></a>
-								</div>
-							</div>
-							<div class="product-dsc">
-								<p><a href="#">men’s White t-shirt</a></p>
-								<span>$57.00</span>
-							</div>
-						</div>
-					</div>
-					<!-- single product end -->
+					{% for product in related_products %}
 					<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 						<div class="single-product">
 							<div class="product-img">
-								<div class="pro-type">
-									<span>-15%</span>
-								</div>
-								<a href="#"><img src="{% static 'img/products/3.jpg' %}" alt="Product Title" /></a>
+								<a href="#"><img src="{% static 'img/products/4.jpg' %}" alt="{{ product.title }}" /></a>
 								<div class="actions-btn">
 									<a href="#"><i class="mdi mdi-cart"></i></a>
 									<a href="#" data-toggle="modal" data-target="#quick-view"><i class="mdi mdi-eye"></i></a>
@@ -358,28 +318,12 @@
 								</div>
 							</div>
 							<div class="product-dsc">
-								<p><a href="#">men’s Blue t-shirt</a></p>
-								<span>$56.00</span>
+								<p><a href="#">{{ product.title }}</a></p>
+								<span>{{ product.price }}</span>
 							</div>
 						</div>
 					</div>
-					<!-- single product end -->
-					<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
-						<div class="single-product">
-							<div class="product-img">
-								<a href="#"><img src="{% static 'img/products/4.jpg' %}" alt="Product Title" /></a>
-								<div class="actions-btn">
-									<a href="#"><i class="mdi mdi-cart"></i></a>
-									<a href="#" data-toggle="modal" data-target="#quick-view"><i class="mdi mdi-eye"></i></a>
-									<a href="#"><i class="mdi mdi-heart"></i></a>
-								</div>
-							</div>
-							<div class="product-dsc">
-								<p><a href="#">men’s White t-shirt</a></p>
-								<span>$96.20</span>
-							</div>
-						</div>
-					</div>
+					{% endfor %}
 					<!-- single product end -->
 				</div>
 			</div>

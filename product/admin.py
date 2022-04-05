@@ -97,18 +97,9 @@ class ProductImagesAdmin(admin.ModelAdmin):
 
 @admin.register(ProductReviews)
 class ProductReviewsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product_version','title', 'info' )
-    list_filter = ('product_version','user','title')
-    search_fields = ('product_version','title' )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('user',  ),
-            'classes': ('collapse',)
-        }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
-    ]
+    list_display = ('name', 'email', 'review')
+    list_filter = ('name', 'email',)
+    search_fields = ('name', 'email', )
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):

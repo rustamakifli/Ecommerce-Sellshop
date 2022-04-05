@@ -1,19 +1,30 @@
-from django.shortcuts import render
-from product.models import Category
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from product.models import Category, ProductVersion
+from .forms import ProductReviewsForm
+from django.http import Http404
+
 # Create your views here.
+
 def product(request):
     category_list = Category.objects.all()
-    # sub_category_list = {}
-    # for each in category_list:
-    #     sub_category_list [each] = []
-    #     subcategories = Category.objects.filter (parent_cat= each.id).order_by('mysweetchild')
-    #     for subcat in subcategories:
-    #         sub_category_list[each].append(subcat)
     context = {
         'categories': category_list,
-        # 'sub_category': sub_category_list
     }
     return render(request,'product-list.html', context)
 
 def single_product(request):
-    return render(request,'single-product.html')
+    review_form = ProductReviewsForm()
+    related_products = ProductVersion.objects.all()
+    if request.method == 'POST':
+        review_form = ProductReviewsForm(data=request.POST)
+        if review_form.is_valid():
+            review_form.save()
+            return redirect(reverse_lazy('single_product'))
+        else:
+            raise Http404 
+    context = {
+        'review_form':review_form,
+        'related_products': related_products
+        }
+    return render(request,'single-product.html', context)
