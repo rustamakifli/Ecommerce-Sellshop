@@ -13,7 +13,7 @@ def product(request):
         'categories': category_list,
         # 'sub_category': sub_category_list
     }
-    return render(request,'product-list.html',context)
+    return render(request,'product-list.html', context)
 
 def single_product(request):
     return render(request,'single-product.html')

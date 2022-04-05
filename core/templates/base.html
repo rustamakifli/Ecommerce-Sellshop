@@ -291,8 +291,10 @@
 						<div class="col-sm-6">
 							<div class="newsletter newsletter2">
 								<h3>newsletter</h3>
-								<form action="mail.php" method="post">
-									<input type="text" name="email" placeholder="Enter your email..."/>
+								<form role="form" class="contact-form" method="POST" name="subscribe">
+										{% csrf_token %}
+
+										{{ subscribe_form.email }}
 									<input type="submit" value="subscribe"/>
 								</form>
 							</div>
@@ -307,12 +309,21 @@
 						<div class="col-sm-6 col-md-offset-1 col-md-5">
 							<div class="newsletter get-touch">
 								<h3>get in touch</h3>
-								<form action="mail.php" method="post">
+								<form role="form" class="contact-form" method="POST" name="contact">
+										{% csrf_token %}
+										{{ contact_form.non_field_errors }}
+
+										{{ contact_form.name }}
+										{{ contact_form.email }}
+										{{ contact_form.message }}
+									<input type="submit" value="send your message"/>
+								</form>
+								<!-- <form action="" method="post">
 									<input type="text" name="name" placeholder="Enter your Name..."/>
 									<input type="text" name="email" placeholder="Enter your email..."/>
 									<textarea name="message" rows="2" placeholder="Enter your message...."></textarea>
 									<input type="submit" value="send your message"/>
-								</form>
+								</form> -->
 							</div>
 						</div>
 					</div>

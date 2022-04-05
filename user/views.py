@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from user.forms import AddresForm
 # Create your views here.
@@ -20,5 +20,3 @@ def account(request):
     }
     return render(request,'my-account.html',context)
 
-def contact(request):
-    return render(request,'contact.html')
