@@ -27,12 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'accounts.User'
 # Application definition
 
 INSTALLED_APPS = [
     # 'jet.dashboard',
     # 'jet',
+    
+    'ckeditor',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'product',
     'order',
     'cards',
+    'accounts',
 ]
 
 MIDDLEWARE = [
