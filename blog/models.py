@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
@@ -25,10 +26,14 @@ class BlogCategory(models.Model):
 
 class Blog(AbsrtactModel):
     category = models.ForeignKey(BlogCategory, related_name='blog_category', on_delete=models.CASCADE, default=1)
-    title = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='media/blog/')
+    title = models.CharField(max_length=250)
+    image = models.ImageField(upload_to='blog/')
     description = models.CharField(max_length=255)
-    content = models.TextField()
+    content = RichTextField()
+    author = models.CharField(max_length=50,default=None)
+    # like_count = models.IntegerField(null=True,blank=True,default=0)
+    # comment_count = models.IntegerField(null=True,blank=True,default=0)
+
 
     class Meta:
         verbose_name = 'Blog'
@@ -57,6 +62,7 @@ class BlogComment(AbsrtactModel):
     comment = models.TextField()
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=40)
+
     class Meta:
         verbose_name = 'Blog comment'
         verbose_name_plural = 'Blog comments'

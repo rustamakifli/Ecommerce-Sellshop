@@ -7,12 +7,12 @@ from blog.models import Blog, BlogReviews, BlogCategory, BlogComment
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'image','description', 'created_at')
+    list_display = ('title', 'category', 'author','description', 'created_at')
     list_filter = ('category__title', 'created_at', )
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title', 'category','image','description', ),
+            'fields': ('title', 'category','author','image','description','content', ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -22,11 +22,11 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(BlogCategory)
 class BlogCategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', )
+    list_display = ('title', 'parent_cat' )
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title',),
+            'fields': ('title','parent_cat',),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -36,18 +36,18 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):
-    list_display = ( 'comment', 'user','created_at')
-    list_filter = ( 'comment','user','created_at', )
-    search_fields = ('comment', )
-    # fieldsets = [
-    #     ('Standard info', {
-    #         'fields': ('user', ),
-    #         'classes': ('collapse',)
-    #     }),
-    #     # ('Other', {
-    #     #     'fields': ('tags', )
-    #     # }),
-    # ]
+    list_display = ( 'name', 'email','created_at')
+    list_filter = ( 'name','created_at', )
+    search_fields = ('comment','name' )
+    fieldsets = [
+        ('Standard info', {
+            'fields': ('blog','name', 'email','comment'),
+            'classes': ('collapse',)
+        }),
+        # ('Other', {
+        #     'fields': ('tags', )
+        # }),
+    ]
 
 
 admin.site.register([ BlogReviews,])
