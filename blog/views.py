@@ -4,8 +4,6 @@ from blog.forms import BlogCommentForm
 from blog.models import BlogCategory,Blog
 # Create your views here.
 
-
-
 def single_blog(request):
     category = BlogCategory.objects.all()
     blog = Blog.objects.all()
@@ -15,8 +13,6 @@ def single_blog(request):
         if form.is_valid():
             form.save()
             return redirect(reverse_lazy('single-blog'))
-
-
     context = {
         'blogs':blog,
         'categories': category,

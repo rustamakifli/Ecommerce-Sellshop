@@ -51,7 +51,7 @@ class PropertyValues(models.Model):
 
 class ProductVersion(models.Model):
     publications = models.ManyToManyField(PropertyValues)
-    product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1, null=True, blank=True)
     title = models.CharField(max_length=50)
     old_price = models.DecimalField(decimal_places = 2 ,max_digits=6,null=True,blank=True)
     new_price = models.DecimalField(decimal_places = 2 ,max_digits=6)
@@ -79,17 +79,16 @@ class ProductImages(models.Model):
     #     return self.image
 
 class ProductReviews(models.Model):
-    user = models.ForeignKey(User, related_name='user_product_review', on_delete=models.CASCADE, default=1)
-    product_version = models.ForeignKey(ProductVersion, related_name='production_version_product_review', on_delete=models.CASCADE, default=1)
-    title = models.CharField(max_length=30)
-    info = models.TextField()
+    name = models.CharField(max_length=30)
+    email = models.EmailField()
+    review = models.TextField()
 
     class Meta:
-        verbose_name = 'Product reviews'
+        verbose_name = 'Product review'
         verbose_name_plural = 'Product reviews'
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Brand(models.Model):
