@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class AbsrtactModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -291,10 +291,12 @@
 						<div class="col-sm-6">
 							<div class="newsletter newsletter2">
 								<h3>newsletter</h3>
-								<form role="form" class="contact-form" method="POST" name="subscribe">
+								<form action="{% url 'subscribe' %}" role="form" class="contact-form" method="POST" name="subscribe">
 										{% csrf_token %}
-
+										{{ subscribe_form.non_field_errors }}
+										
 										{{ subscribe_form.email }}
+										<br>
 									<input type="submit" value="subscribe"/>
 								</form>
 							</div>
@@ -312,9 +314,9 @@
 								<form action="{% url 'contact' %}"  role="form" class="contact-form" method="POST" name="contact">
 										{% csrf_token %}
 										{{ contact_form.non_field_errors }}
-
 										{{ contact_form.name }}
 										{{ contact_form.email }}
+										<br>
 										{{ contact_form.message }}
 									<input type="submit" value="send your message"/>
 								</form>

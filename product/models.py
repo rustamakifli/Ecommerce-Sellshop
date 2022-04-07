@@ -51,12 +51,12 @@ class PropertyValues(models.Model):
 
 class ProductVersion(models.Model):
     publications = models.ManyToManyField(PropertyValues)
-    product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1, null=True, blank=True)
     title = models.CharField(max_length=50)
     price = models.DecimalField(decimal_places = 2 ,max_digits=6, null=True)
-    quantity = models.IntegerField(null=True)
-    description = models.TextField(null=True)
-    is_main = models.BooleanField(null=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    is_main = models.BooleanField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Product version'

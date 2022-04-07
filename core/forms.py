@@ -12,13 +12,16 @@ class ContactForm(forms.ModelForm):
         )
         widgets = {
             'name': forms.TextInput(attrs={
-                'placeholder': 'Enter your Name...'
+                'class': 'form-control',
+                'placeholder': 'Enter your Name...',
             }),
             'email': forms.EmailInput(attrs={
+                'class': 'form-control',
                 'placeholder': 'Enter your email...'
             }),
             'message': forms.Textarea(attrs={
-                'rows': 5,
+                'class': 'form-control',
+                'rows': 2,
                 'placeholder': 'Enter your message...'
             })
         }
@@ -31,6 +34,7 @@ class SubscribeForm(forms.ModelForm):
         )
         widgets = {
             'email': forms.EmailInput(attrs={
+                'class': 'form-control',
                 'placeholder': 'Enter your email...'
             }),
         }
