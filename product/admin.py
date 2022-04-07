@@ -57,7 +57,7 @@ class PropertyValuesAdmin(admin.ModelAdmin):
     search_fields = ('name', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('name',  ),
+            'fields': ('property_name','name',  ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -67,12 +67,12 @@ class PropertyValuesAdmin(admin.ModelAdmin):
 
 @admin.register(ProductVersion)
 class ProductVersionAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price','quantity', 'description', 'is_main' )
-    list_filter = ('title','price' )
+    list_display = ('title','old_price', 'new_price','quantity', 'description', 'is_main' )
+    list_filter = ('title','old_price','new_price' )
     search_fields = ('name', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title','price','product','description','is_main', ),
+            'fields': ('title','old_price','new_price','product','description','is_main','quantity' ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -87,7 +87,7 @@ class ProductImagesAdmin(admin.ModelAdmin):
     search_fields = ('product_version','image' )
     fieldsets = [
         ('Standard info', {
-            'fields': ('image', 'is_main' ),
+            'fields': ('product_version','image', 'is_main' ),
             'classes': ('collapse',)
         }),
         # ('Other', {

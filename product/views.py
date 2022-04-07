@@ -8,8 +8,10 @@ from django.http import Http404
 
 def product(request):
     category_list = Category.objects.all()
+    product_list = ProductVersion.objects.all()
     context = {
         'categories': category_list,
+        'products': product_list
     }
     return render(request,'product-list.html', context)
 
@@ -25,6 +27,7 @@ def single_product(request):
             raise Http404 
     context = {
         'review_form':review_form,
-        'related_products': related_products
+        'related_products': related_products,
+        'products': related_products,
         }
     return render(request,'single-product.html', context)

@@ -1,9 +1,12 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from blog.forms import BlogCommentForm
+from blog.models import BlogCategory,Blog
 # Create your views here.
 
 def single_blog(request):
+    category = BlogCategory.objects.all()
+    blog = Blog.objects.all()
     form = BlogCommentForm()
     if request.method == 'POST':
         form = BlogCommentForm(data=request.POST)
@@ -11,7 +14,10 @@ def single_blog(request):
             form.save()
             return redirect(reverse_lazy('single-blog'))
     context = {
-        'form':form
+        'blogs':blog,
+        'categories': category,
+        'form':form,
+        
     }
     return render(request,'single-blog.html',context)
    

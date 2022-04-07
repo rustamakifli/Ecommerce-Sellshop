@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from .forms import ContactForm, SubscribeForm
 from django.http import Http404
 from django.contrib import messages
@@ -22,7 +23,7 @@ def contact(request):
             messages.add_message(request, messages.SUCCESS, 'Contact qeyde alindi!')
         else:
             raise Http404
-        return redirect('/')
+        return redirect(reverse_lazy('index'))
     context = {
         'contact_form':contact_form
         }
@@ -37,7 +38,7 @@ def subscribe_renderer(request):
             messages.add_message(request, messages.SUCCESS, 'Email qeyde alindi!')
         else:
             raise Http404 
-        return redirect('/')
+        return redirect(reverse_lazy('index'))
     context = {
         'subscribe_form':subscribe_form
         }
