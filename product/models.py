@@ -33,7 +33,7 @@ class PropertyName(models.Model):
 
     class Meta:
         verbose_name = 'Property name'
-        verbose_name_plural = 'Propert names'
+        verbose_name_plural = 'Property names'
 
     def __str__(self):
         return self.name
