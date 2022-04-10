@@ -50,9 +50,9 @@ class PropertyValues(models.Model):
         return self.name
 
 class ProductVersion(models.Model):
-    publications = models.ManyToManyField(PropertyValues)
     product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1, null=True, blank=True)
     title = models.CharField(max_length=50)
+    property=models.ManyToManyField(PropertyValues,blank=True)
     old_price = models.DecimalField(decimal_places = 2 ,max_digits=6,null=True,blank=True)
     new_price = models.DecimalField(decimal_places = 2 ,max_digits=6)
     quantity = models.IntegerField(null=True,blank=True)

@@ -15,9 +15,12 @@ def product(request):
     }
     return render(request,'product-list.html', context)
 
-def single_product(request):
+def single_product(request, id):
     review_form = ProductReviewsForm()
-    related_products = ProductVersion.objects.all()
+    relatedproducts = ProductVersion.objects.all()
+    singleproduct = ProductVersion.objects.get(id=id)
+    product_colors = 
+    product_sizes = 
     if request.method == 'POST':
         review_form = ProductReviewsForm(data=request.POST)
         if review_form.is_valid():
@@ -27,7 +30,9 @@ def single_product(request):
             raise Http404 
     context = {
         'review_form':review_form,
-        'related_products': related_products,
-        'products': related_products,
+        'related_products': relatedproducts,
+        'product': singleproduct,
+        'colors' : product_colors,
+        'sizes' : product_sizes,
         }
     return render(request,'single-product.html', context)

@@ -70,15 +70,15 @@ class ProductVersionAdmin(admin.ModelAdmin):
     list_display = ('title','old_price', 'new_price','quantity', 'description', 'is_main' )
     list_filter = ('title','old_price','new_price' )
     search_fields = ('name', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('title','old_price','new_price','product','description','is_main','quantity' ),
-            'classes': ('collapse',)
-        }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
-    ]
+    # fieldsets = [
+    #     ('Standard info', {
+    #         'fields': ('title','old_price','new_price','product','description','is_main','quantity', 'property'),
+    #         'classes': ('collapse',)
+    #     }),
+    #     ('Other', {
+    #         'fields': ('tags', )
+    #     }),
+    # ]
 
 @admin.register(ProductImages)
 class ProductImagesAdmin(admin.ModelAdmin):
