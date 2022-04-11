@@ -59,10 +59,10 @@
 								<div class="quick-thumb">
 									<ul class="product-slider">
 										{% for image in product.product_image.all %}
-										<li><a data-toggle="tab" href="#sin-1"> <img src="{% static 'img/products/s1.jpg' %}" alt="quick view" /> </a></li>
-										<li class="active"><a data-toggle="tab" href="#sin-2"> <img src="{% static 'img/products/s2.jpg' %}" alt="small image" /> </a></li>
-										<li><a data-toggle="tab" href="#sin-3"> <img src="{% static 'img/products/s3.jpg' %}" alt="small image" /> </a></li>
-										<li><a data-toggle="tab" href="#sin-4"> <img src="{% static 'img/products/s4.jpg' %}" alt="small image" /> </a></li>
+										<li><a data-toggle="tab" href="#sin-1"> <img src="{{image.image.url}}" alt="quick view" /> </a></li>
+										<li class="active"><a data-toggle="tab" href="#sin-2"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
+										<li><a data-toggle="tab" href="#sin-3"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
+										<li><a data-toggle="tab" href="#sin-4"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
 										{% endfor %}
 									</ul>
 								</div>
@@ -88,9 +88,9 @@
 											<h5>Color</h5>
 											<div class="color-select clearfix">
 												{% for color in colors %}
-													<span>{{ color }}</span>
+													<span style="background-color: {{ color }};"></span>
+													<!-- don`t touch, it works )) -->
 												{% endfor %}
-												test
 												<!-- <span></span>
 												<span class="outline"></span>
 												<span></span>
@@ -106,10 +106,9 @@
 														<span class=""><i class="mdi mdi-chevron-down"></i></span>
 													</button>
 													<ul class="dropdown-menu">
-														<li><a href="#">Xl</a></li>
-														<li><a href="#">SL</a></li>
-														<li><a href="#">S</a></li>
-														<li><a href="#">L</a></li>
+														{% for size in sizes %}
+															<li><a href="#">{{ size }}</a></li>
+														{% endfor %}
 													</ul>
 												</div>
 											</div>
@@ -118,9 +117,11 @@
 											<h5>qty</h5>
 											<form action="#" method="POST">
 												<div class="plus-minus">
-													<a class="dec qtybutton">-</a>
-													<input type="text" value="02" name="qtybutton" class="plus-minus-box">
-													<a class="inc qtybutton">+</a>
+													<!-- <a class="dec qtybutton">-</a> -->
+													<label for="quantity"></label>
+													<input type="number" value="02" id="quantity" name="quantity" min="1" max="{{ product.quantity }}" class="plus-minus-box">
+													<!-- <input type="text" value="02" name="qtybutton" class="plus-minus-box"> -->
+													<!-- <a class="inc qtybutton">+</a> -->
 												</div>
 											</form>
 										</div>
@@ -161,23 +162,25 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a neque libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam erat mi, rutrum at sollicitudin rhoncus, ultricies posuere erat. Duis convallis, arcu nec aliquam consequat, purus felis vehicula felis, a dapibus enim lorem nec augue.</p>
 								</div>
 								<div class="info-reviews review-text tab-pane fade in active" id="reviews">
-									<div class="about-author">
-										<div class="autohr-text">
-											<img src="{% static 'img/blog/author1.png' %}" alt="" />
-											<div class="author-des">
-												<h4><a href="#">Gregory Hernandez</a></h4>
-												<span class="floatright ratting">
-													<i class="mdi mdi-star"></i>
-													<i class="mdi mdi-star"></i>
-													<i class="mdi mdi-star"></i>
-													<i class="mdi mdi-star-half"></i>
-													<i class="mdi mdi-star-outline"></i>
-												</span>
-												<span>27 Jun, 2016 at 2:30pm</span>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas eleifend. Phasellus a felis at est bibenes dum feugiat ut eget eni Praesent et messages in consectetur.</p>
+									{% for review in reviews %}
+										<div class="about-author col-12">
+											<div class="autohr-text">
+												<img src="{% static 'img/blog/author1.png' %}" alt="" />
+												<div class="author-des">
+													<h4><a href="#">{{ review.name }}</a></h4>
+													<span class="floatright ratting">
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star-half"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</span>
+													<span>{{ review.created_at }}</span>
+													<p>{{ review.review }}</p>
+												</div>
 											</div>
 										</div>
-									</div>
+									{% endfor %}
 									<hr />
 									<div class="about-author">
 										<div class="autohr-text">
