@@ -4,10 +4,6 @@ from product.models import Category, ProductVersion, ProductReviews
 from .forms import ProductReviewsForm
 from django.http import Http404
 
-# from webcolors import name_to_rgb
-# def Color(name):
-#   return name_to_rgb(name)[::-1] 
-
 
 def product(request):
     category_list = Category.objects.all()
@@ -23,18 +19,15 @@ def single_product(request, id=1):
     review_form = ProductReviewsForm()
     relatedproducts = ProductVersion.objects.all()
     singleproduct = ProductVersion.objects.get(id=id)
-    product_colors = ['green', 'black', 'white']
-    product_sizes = ['xs', 's', 'm', 'l', 'xl', '2xl', '3xl', '4xl']
+    product_colors = singleproduct.property.filter(property_name__name='color')
+    product_sizes =  singleproduct.property.filter(property_name__name='size')
     product_reviews = ProductReviews.objects.all()
-    # colors = []
-    # for i in product_colors:
-    #     i = Color(i)
-    #     colors.append(i)
+
     if request.method == 'POST':
         review_form = ProductReviewsForm(data=request.POST)
         if review_form.is_valid():
             review_form.save()
-            return redirect(reverse_lazy('single_product', kwargs={"id": 1}))
+            return redirect(reverse_lazy('single_product', kwargs={"id": singleproduct.id}))
         else:
             raise Http404 
     context = {
