@@ -242,10 +242,12 @@
 											</div>
 											<div class="col-xs-12 col-md-8">
 												<div class="list-text">
-													<h3>{{product.title}}</h3>
+													<a href="{% url 'single_product' id=product.id %}">
+														<h3>{{product.title}}</h3>
+													</a>
 													<span>{{product.product.info}}</span>
 													<div class="ratting floatright">
-														<p>( 27 Rating )</p>
+														<p>( 20 Rating )</p>
 														<i class="mdi mdi-star"></i>
 														<i class="mdi mdi-star"></i>
 														<i class="mdi mdi-star"></i>
