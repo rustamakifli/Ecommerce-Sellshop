@@ -1,6 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+
+
+class User(AbstractUser):
+    bio = models.TextField(max_length=500, blank=True)
+    image = models.ImageField(upload_to='profile_images')
+
 class AbsrtactModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     updated_at = models.DateTimeField(auto_now=True)

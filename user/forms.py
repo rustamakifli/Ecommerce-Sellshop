@@ -1,7 +1,9 @@
-from unittest.util import _MAX_LENGTH
 from django import forms
 from user.models import BillingAddress
+from django.contrib.auth import get_user_model
 
+
+USER = get_user_model()
 
 class AddresForm(forms.ModelForm):
     
@@ -50,5 +52,48 @@ class AddresForm(forms.ModelForm):
             
 
         }
+
+# class RegisterForm(forms.ModelForm):
+#     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Confirm Password'
+#             }))
+
+#     class Meta:
+#         model = USER
+#         fields = (
+#             'first_name',
+#             'email',
+#             'phone_number',
+#             'username',
+#             'password',
+#             'confirm_password'
+#         )
+
+#         widgets = {
+#             'first_name': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Name here'
+#             }),
+#             'email': forms.EmailInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Email'
+#             }),
+#             'phone_number':forms.CharField(),
+#             'username': forms.TextInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Username'
+#             }),
+#             'password': forms.PasswordInput(attrs={
+#                 'class': 'form-control',
+#                 'placeholder': 'Password'
+#             })
+#         }
+
+#     def clean(self):
+#         data = self.cleaned_data
+#         if data['password'] != data['confirm_password']:
+#             raise forms.ValidationError("Password and confirm_password does not match")
+#         return super().clean()
 
 
