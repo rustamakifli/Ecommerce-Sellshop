@@ -95,3 +95,20 @@ class RegisterForm(forms.ModelForm):
         return super().clean()
 
 
+class LoginForm(forms.ModelForm):
+    class Meta:
+        model = USER
+        fields = (
+            'email',
+            'password',
+        )
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email Address'
+            }),
+            'password': forms.PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Password'
+            }),
+        }

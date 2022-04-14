@@ -30,9 +30,19 @@
 							<div class="login-text">
 								<div class="custom-input">
 									<p>If you have an account with us, Please log in!</p>
-									<form action="mail.php" method="post">
-										<input type="text" name="email" placeholder="Email" />
-										<input type="password" name="password" placeholder="Password" />
+									<form action="" method="post">
+										{% csrf_token %}
+                        				{{ log_form.non_field_errors }}
+                        				{% for field in log_form %}
+											{{ field }}
+											<ul>
+											{% for error in field.errors %}
+													<li>{{error}}</li>
+												{% endfor %}
+											</ul>
+										{% endfor %}
+										<!-- <input type="text" name="email" placeholder="Email" />
+										<input type="password" name="password" placeholder="Password" /> -->
 										<a class="forget" href="#">Forget your password?</a>
 										<div class="submit-text">
 											<a href="{% url 'account' %}">login</a>
