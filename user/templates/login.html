@@ -48,18 +48,30 @@
 								<h3><strong>new customers</strong></h3>
 							</div>
 							<div class="custom-input">
-								<form action="mail.php" method="post">
-									<input type="text" name="name" placeholder="Name here.." />
+								<form method="POST">
+									{% csrf_token %}
+									{{ form.non_field_errors }}
+									{% for field in form %}
+									<div class="form-group">
+										{{field}}
+										<ul>
+										{% for error in field.errors %}
+											<li>{{error}}</li>
+										{% endfor %}
+										</ul>
+									</div>
+									{% endfor %}
+									<!-- <input type="text" name="name" placeholder="Name here.." />
 									<input type="text" name="email" placeholder="Email Address.." />
 									<input type="text" name="number" placeholder="Phone Number.." />
 									<input type="text" name="address" placeholder="Password" />
-									<input type="password" name="password" placeholder="Confirm Password" />
+									<input type="password" name="password" placeholder="Confirm Password" /> -->
 									<label class="first-child">
 										<input type="radio" name="rememberme" value="forever">
 										Sign up for our newsletter!
 									</label>
 									<div class="submit-text coupon">
-										<a href="{% url 'account' %}">Register</a>
+										<a href="{% url 'login' %}">Register</a>
 									</div>
 								</form>
 							</div>
