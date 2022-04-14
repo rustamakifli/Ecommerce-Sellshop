@@ -19,9 +19,14 @@ def single_product(request, id=1):
     review_form = ProductReviewsForm()
     relatedproducts = ProductVersion.objects.all()
     singleproduct = ProductVersion.objects.get(id=id)
+    product_reviews = ProductReviews.objects.all()
     product_colors = singleproduct.property.filter(property_name__name='color')
     product_sizes =  singleproduct.property.filter(property_name__name='size')
-    product_reviews = ProductReviews.objects.all()
+    
+    if len(product_colors) == 0:
+        product_colors = ['black', 'gray',]
+    if len(product_sizes) == 0:
+        product_sizes = ['s', 'm',]
 
     if request.method == 'POST':
         review_form = ProductReviewsForm(data=request.POST)
