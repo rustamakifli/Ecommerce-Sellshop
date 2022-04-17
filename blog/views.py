@@ -23,4 +23,8 @@ def single_blog(request):
    
 
 def blog(request):
-    return render(request,'blog.html')
+    blog = Blog.objects.all()
+    context = {
+        'blogs':blog,
+    }
+    return render(request,'blog.html', context)

@@ -3,6 +3,11 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class AbsrtactModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Category(models.Model):
     parent_cat = models.ForeignKey('self', related_name='mysweetchild', on_delete=models.CASCADE,null=True,blank=True)
     title = models.CharField(max_length=50)
@@ -50,9 +55,9 @@ class PropertyValues(models.Model):
         return self.name
 
 class ProductVersion(models.Model):
-    publications = models.ManyToManyField(PropertyValues)
     product = models.ForeignKey(Product, related_name='product_product_version', on_delete=models.CASCADE, default=1, null=True, blank=True)
     title = models.CharField(max_length=50)
+    property=models.ManyToManyField(PropertyValues,blank=True)
     old_price = models.DecimalField(decimal_places = 2 ,max_digits=6,null=True,blank=True)
     new_price = models.DecimalField(decimal_places = 2 ,max_digits=6)
     quantity = models.IntegerField(null=True,blank=True)
@@ -78,7 +83,8 @@ class ProductImages(models.Model):
     # def __str__(self):
     #     return self.image
 
-class ProductReviews(models.Model):
+class ProductReviews(AbsrtactModel):
+    product_version = models.ForeignKey(ProductVersion, related_name='product_review', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=30)
     email = models.EmailField()
     review = models.TextField()

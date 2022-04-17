@@ -26,8 +26,6 @@ urlpatterns = [
 urlpatterns += i18n_patterns(path("admin/", admin.site.urls))
 
 urlpatterns = [
-    # path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     path('', include('product.urls')),
     path('', include('user.urls')),

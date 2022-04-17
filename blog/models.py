@@ -49,7 +49,7 @@ class BlogReviews(AbsrtactModel):
     review = models.TextField()
 
     class Meta:
-        verbose_name = 'Blog reviews'
+        verbose_name = 'Blog review'
         verbose_name_plural = 'Blog reviews'
 
     def __str__(self):
