@@ -45,7 +45,9 @@
 										<input type="password" name="password" placeholder="Password" /> -->
 										<a class="forget" href="#">Forget your password?</a>
 										<div class="submit-text">
-											<a href="{% url 'account' %}">login</a>
+											<button type='submit' name='submit' value='login'>
+												<a href="{% url 'account' %}">login</a>
+											</button>
 										</div>
 									</form>
 								</div>
@@ -63,6 +65,7 @@
 									{{ form.non_field_errors }}
 									{% for field in form %}
 									<div class="form-group">
+										
 										{{field}}
 										<ul>
 										{% for error in field.errors %}
@@ -81,7 +84,9 @@
 										Sign up for our newsletter!
 									</label>
 									<div class="submit-text coupon">
-										<a href="{% url 'login' %}">Register</a>
+										<button type='submit' name='submit' value='register'>
+											<a href="{% url 'login' %}">Register</a>
+										</button>
 									</div>
 								</form>
 							</div>
