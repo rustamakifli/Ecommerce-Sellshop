@@ -60,18 +60,23 @@
 									<li>
 										<a href="#"><i class="mdi mdi-account"></i></a>
 										<ul>
-											<li><a href="{% url 'login' %}">Login</a></li>
-											<li><a href="{% url 'login' %}">Registar</a></li>
-											<li><a href="{% url 'account' %}">My account</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'account' %}">My account</a></li>
+											{% else %}
+												<li><a href="{% url 'login' %}">Login</a></li>
+												<li><a href="{% url 'register' %}">Registar</a></li>
+											{% endif %}							
 										</ul>
 									</li>
 									<li>
 										<a href="#"><i class="mdi mdi-settings"></i></a>
 										<ul>
-											<li><a href="{% url 'account' %}">My account</a></li>
-											<li><a href="{% url 'cart' %}">My cart</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'account' %}">My account</a></li>
+												<li><a href="{% url 'cart' %}">My cart</a></li>
+												<li><a href="{% url 'checkout' %}">Check out</a></li>
+											{% endif %}
 											<li><a href="{% url 'wishlist' %}">My wishlist</a></li>
-											<li><a href="{% url 'checkout' %}">Check out</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -258,6 +263,7 @@
 				</div>
 			</div>
 		</header>
+	
         <!-- header section end -->
         {% block content %}
 
@@ -368,11 +374,16 @@
 									</div>
 									<div class="footer-menu">
 										<ul>
-											<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
+												<li><a href="{% url 'cart' %}"><i class="mdi mdi-menu-right"></i>My Cart</a></li>
+												<li><a href="{% url 'checkout' %}"><i class="mdi mdi-menu-right"></i>Check out</a></li>
+
+											{% endif %}
+											
 											<li><a href="{% url 'wishlist' %}"><i class="mdi mdi-menu-right"></i>My Wishlist</a></li>
-											<li><a href="{% url 'cart' %}"><i class="mdi mdi-menu-right"></i>My Cart</a></li>
+											
 											<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>Sign In</a></li>
-											<li><a href="{% url 'checkout' %}"><i class="mdi mdi-menu-right"></i>Check out</a></li>
 											<li><a href="#"><i class="mdi mdi-menu-right"></i>Track My Orde</a></li>
 										</ul>
 									</div>

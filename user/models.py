@@ -6,8 +6,11 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    email = models.EmailField(('email address'), blank=True, unique=True)
     bio = models.TextField(max_length=500, blank=True)
     image = models.ImageField(upload_to='profile_images')
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
 class AbsrtactModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)

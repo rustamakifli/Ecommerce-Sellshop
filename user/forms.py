@@ -1,3 +1,4 @@
+import email
 from django import forms
 from user.models import BillingAddress
 from django.contrib.auth import get_user_model
@@ -95,20 +96,13 @@ class RegisterForm(forms.ModelForm):
         return super().clean()
 
 
-class LoginForm(forms.ModelForm):
-    class Meta:
-        model = USER
-        fields = (
-            'email',
-            'password',
-        )
-        widgets = {
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Email Address'
-            }),
-            'password': forms.PasswordInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Password'
-            }),
-        }
+class LoginForm(forms.Form):
+
+    email = forms.CharField(widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Email Address'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Password'
+    }))
