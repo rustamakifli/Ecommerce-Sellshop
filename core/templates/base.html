@@ -60,18 +60,23 @@
 									<li>
 										<a href="#"><i class="mdi mdi-account"></i></a>
 										<ul>
-											<li><a href="{% url 'login' %}">Login</a></li>
-											<li><a href="{% url 'login' %}">Registar</a></li>
-											<li><a href="{% url 'account' %}">My account</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'account' %}">My account</a></li>
+											{% else %}
+												<li><a href="{% url 'login' %}">Login</a></li>
+												<li><a href="{% url 'register' %}">Registar</a></li>
+											{% endif %}							
 										</ul>
 									</li>
 									<li>
 										<a href="#"><i class="mdi mdi-settings"></i></a>
 										<ul>
-											<li><a href="{% url 'account' %}">My account</a></li>
-											<li><a href="{% url 'cart' %}">My cart</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'account' %}">My account</a></li>
+												<li><a href="{% url 'cart' %}">My cart</a></li>
+												<li><a href="{% url 'checkout' %}">Check out</a></li>
+											{% endif %}
 											<li><a href="{% url 'wishlist' %}">My wishlist</a></li>
-											<li><a href="{% url 'checkout' %}">Check out</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -99,10 +104,10 @@
 								<nav>
 									<ul>
 										<li><a href="{% url 'index' %}">Home</a>
-											<ul class="dropdown">
+											<!-- <ul class="dropdown">
 												<li><a href="{% url 'index' %}">Home version one</a></li>
 												<li><a href="#">Home version two</a></li>
-											</ul>
+											</ul> -->
 										</li>
 										<li><a href="{% url 'product' %}">Shop</a>
 											<ul class="magamenu">
@@ -139,8 +144,8 @@
 												<li><a href="{% url 'wishlist' %}">Wishlist</a></li>
 												<li><a href="{% url 'checkout' %}">Checkout</a></li>
 												<li><a href="{% url 'cart' %}">Cart</a></li>
-												<li><a href="#">Product Grid View</a></li>
-												<li><a href="{% url 'product' %}">Product List View</a></li>
+												<!-- <li><a href="#">Product Grid View</a></li> -->
+												<li><a href="{% url 'product' %}">Product</a></li>
 												<li><a href="{% url 'error404' %}">404 page</a></li>
 											</ul>
 										</li>
@@ -258,6 +263,7 @@
 				</div>
 			</div>
 		</header>
+	
         <!-- header section end -->
         {% block content %}
 
@@ -368,11 +374,16 @@
 									</div>
 									<div class="footer-menu">
 										<ul>
-											<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
+											{% if user.is_authenticated %}
+												<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
+												<li><a href="{% url 'cart' %}"><i class="mdi mdi-menu-right"></i>My Cart</a></li>
+												<li><a href="{% url 'checkout' %}"><i class="mdi mdi-menu-right"></i>Check out</a></li>
+
+											{% endif %}
+											
 											<li><a href="{% url 'wishlist' %}"><i class="mdi mdi-menu-right"></i>My Wishlist</a></li>
-											<li><a href="{% url 'cart' %}"><i class="mdi mdi-menu-right"></i>My Cart</a></li>
+											
 											<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>Sign In</a></li>
-											<li><a href="{% url 'checkout' %}"><i class="mdi mdi-menu-right"></i>Check out</a></li>
 											<li><a href="#"><i class="mdi mdi-menu-right"></i>Track My Orde</a></li>
 										</ul>
 									</div>
