@@ -27,6 +27,7 @@ urlpatterns += i18n_patterns(path("admin/", admin.site.urls))
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', include('social_django.urls', namespace='social')), 
     path('', include('product.urls')),
     path('', include('user.urls')),
     path('', include('blog.urls')),

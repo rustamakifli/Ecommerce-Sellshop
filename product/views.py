@@ -58,7 +58,7 @@ class ProductView(DetailView,CreateView):
     model = ProductReviews
     template_name = 'single-product.html'
     form_class = ProductReviewsForm
-    success_url = reverse_lazy('product')
+    # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
         result = super().form_valid(form)

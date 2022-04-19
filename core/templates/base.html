@@ -37,6 +37,9 @@
 		<!-- responsive css -->
         <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 		<!-- modernizr js -->
+        {% block link %}
+
+        {% endblock %} 
         <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
     </head>
     <body>
