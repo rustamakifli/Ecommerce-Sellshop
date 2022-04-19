@@ -11,7 +11,7 @@ def login_register(request):
     next_page = request.GET.get('next','/')
     if request.method == 'POST':
         if request.POST.get('submit') == 'login':
-            login_form = LoginForm(request, data=request.POST)
+            login_form = LoginForm(data=request.POST)
             if login_form.is_valid():
                 user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
                 if user is not None:
@@ -21,7 +21,8 @@ def login_register(request):
                 else:
                     messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
         elif request.POST.get('submit') == 'register':
-            reg_form = RegisterForm(request, data=request.POST)
+            print(request.POST)
+            reg_form = RegisterForm(data=request.POST)
             if reg_form.is_valid():
                 user = reg_form.save()
                 user.set_password(reg_form.cleaned_data['password'])
