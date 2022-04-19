@@ -11,7 +11,7 @@ def login_register(request):
     next_page = request.GET.get('next','/')
     if request.method == 'POST':
         if request.POST.get('submit') == 'login':
-            login_form = LoginForm( data=request.POST)
+            login_form = LoginForm(data=request.POST)
             if login_form.is_valid():
                 user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
                 if user is not None:
@@ -34,39 +34,6 @@ def login_register(request):
     return render(request, 'login-register.html', context)
 
 
-# def register(request):
-#     reg_form = RegisterForm()
-#     if request.method == 'POST':
-#         reg_form = RegisterForm(data=request.POST)
-#         if reg_form.is_valid():
-#             user = reg_form.save()
-#             user.set_password(reg_form.cleaned_data['password'])
-#             user.save()
-#             return redirect('/')
-#     context = {
-#         'reg_form': reg_form
-#     }
-#     return render(request, 'login-register.html', context)
-
-
-# def login(request):
-#     login_form = LoginForm()
-#     next_page = request.GET.get('next','/')
-#     if request.method == 'POST':
-#         login_form = LoginForm(data=request.POST)
-#         if login_form.is_valid():
-#             user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
-#             if user is not None:
-#                 django_login(request, user)
-#                 messages.add_message(request, messages.SUCCESS, 'You signed in!')
-#                 return redirect(next_page)        
-#             else:
-#                 messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
-#     context = {
-#         'login_form':login_form,
-#     }
-#     return render(request, 'login-register.html', context)
-
 @login_required
 def account(request):
     form = AddresForm()
@@ -80,9 +47,6 @@ def account(request):
     }
     return render(request,'my-account.html',context)
 
-# @login_required
-# def user_profile(request):
-#     return render(request, 'my-account.html')
 
 @login_required
 def logout(request):

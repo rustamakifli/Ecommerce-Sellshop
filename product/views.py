@@ -5,6 +5,7 @@ from .forms import ProductReviewsForm
 from django.http import Http404
 from django.contrib import messages
 from django.views.generic import DetailView,CreateView
+from django.views.generic import ListView
 
 
 def product(request):
@@ -17,6 +18,17 @@ def product(request):
     return render(request,'product-list.html', context)
 
 
+class ProductListView(ListView):
+    template_name = 'product-list.html'
+    model = ProductVersion
+    context_object_name = 'products'
+    # ordering = ('created_at', )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
 def single_product(request, id=1):
     review_form = ProductReviewsForm()
     relatedproducts = ProductVersion.objects.all()
@@ -24,12 +36,6 @@ def single_product(request, id=1):
     product_reviews = ProductReviews.objects.all()
     product_colors = singleproduct.property.filter(property_name__name='color')
     product_sizes =  singleproduct.property.filter(property_name__name='size')
-    
-    # if len(product_colors) == 0:
-    #     product_colors = ['black', 'gray',]
-    # if len(product_sizes) == 0:
-    #     product_sizes = ['s', 'm',]
-
     if request.method == 'POST':
         review_form = ProductReviewsForm(data=request.POST)
         if review_form.is_valid():
@@ -47,16 +53,6 @@ def single_product(request, id=1):
         }
     return render(request,'single-product.html', context)
 
-# class CommentView(CreateView):
-#     template_name = 'single-product.html',
-#     form_class = 'form-control',
-#     success_url = reverse_lazy('product')
-
-
-#     def form_valid(self, form):
-#         result = super().form_valid(form)
-#         messages.add_message(self.request, messages.SUCCESS, 'Mesajiniz qeyde alindi!')
-#         return result
 
 class ProductView(DetailView,CreateView):
     model = ProductReviews
