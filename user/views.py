@@ -21,7 +21,6 @@ def login_register(request):
                 else:
                     messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
         elif request.POST.get('submit') == 'register':
-            print(request.POST)
             reg_form = RegisterForm(data=request.POST)
             if reg_form.is_valid():
                 user = reg_form.save()
