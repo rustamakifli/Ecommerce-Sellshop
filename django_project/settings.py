@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # 'social_django',
+    'social_django',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
@@ -82,23 +82,19 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '604412369734-2j44elfcbdqgvkj4p1gs8jmdahveb87f.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-SOCIAL_AUTH_FACEBOOK_KEY = '1663232374030445'      
-SOCIAL_AUTH_FACEBOOK_SECRET = 'd4f9e4dc9461b2faa770be24fc511a5c' 
-
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '71584129225-7lnhfk0k7issk68nms6hdn3asauu4k4l.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = 'user/login/'
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -115,7 +111,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'accounts.pipeline.get_avatar', # This is the path of your pipeline.py
+    'user.pipeline.get_avatar', # This is the path of your pipeline.py
     #and get_avatar is the function.
 )
 

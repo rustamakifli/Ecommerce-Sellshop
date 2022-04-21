@@ -1,6 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %}
 {% block link %}
+	<link rel="stylesheet" href="http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="http:////netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 {% endblock %}
 {% block content %} 
@@ -54,6 +55,9 @@
 										<div class="submit-text">
 											<button type='submit' name='submit' value='login'>Login</button>
 										</div>
+										<div class="form-group center">
+											<a href="{% url 'social:begin' 'google-oauth2' %}" class="social"><i class="fa fa-google-plus social-login google-color"></i></a>
+										</div>
 									</form>
 								</div>
 							</div>
@@ -79,11 +83,7 @@
 										</ul>
 									</div>
 									{% endfor %}
-									<!-- <input type="text" name="name" placeholder="Name here.." />
-									<input type="text" name="email" placeholder="Email Address.." />
-									<input type="text" name="number" placeholder="Phone Number.." />
-									<input type="text" name="address" placeholder="Password" />
-									<input type="password" name="password" placeholder="Confirm Password" /> -->
+								
 									<label class="first-child">
 										<input type="radio" name="rememberme" value="forever">
 										Sign up for our newsletter!
@@ -91,12 +91,9 @@
 									<div class="submit-text coupon">
 										<button type='submit' name='submit' value='register'>Register</button>
 									</div>
-									<!-- <div class="form-group center">
-										<a href="#" class="social"><i class="fa fa-facebook social-login fb-color"></i></a>
-										<a href="#" class="social"><i class="fa fa-google-plus social-login google-color"></i></a>
-										<a href="{% url 'social:begin' 'facebook' %}" class="social"><i class="fa fa-facebook social-login fb-color"></i></a>
+									<div class="form-group center">
 										<a href="{% url 'social:begin' 'google-oauth2' %}" class="social"><i class="fa fa-google-plus social-login google-color"></i></a>
-									</div> -->
+									</div>
 								</form>
 							</div>
 						</div>
