@@ -27,12 +27,9 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-8 col-md-9">
 						<div class="single-blog-page">
-							{% for image in blogs %}
 								<div class="single-blog-img">
-									<img src="{{image.image.url}}" alt="" />
+									<img src="{{blog.image.url}}" alt="" />
 								</div>
-							{% endfor %}
-							{% for blog in blogs %}
 								<div class="padding30">
 									<div class="blog-text">
 										<div class="post-title">
@@ -126,7 +123,6 @@
 										</form>
 									</div>
 								</div>
-							{% endfor %}
 						</div>
 						<!-- single post end -->
 					</div>
@@ -236,15 +232,15 @@
 							{% for related in blogs %}
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/4.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="{% url 'single-blog' pk=related.id  %}"><img src="{% static 'img/blog/4.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">{{related.title}}</a></h4>
+											<h4><a href="{% url 'single-blog' pk=related.id %}">{{related.title}}</a></h4>
 											<span>By : <a href="#">{{related.author}}</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>{{related.description}}</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> {{related.created_at}}</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="{% url 'single-blog' pk=related.id  %}">read more</a>
 										</div>
 									</div>
 								</div>

@@ -4,6 +4,12 @@ from django.contrib import admin
 
 from product.models import Category, Product, ProductImages, ProductReviews, ProductVersion, PropertyName, PropertyValues, Brand
 
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImages
+    extra = 5
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'parent_cat' )
@@ -70,6 +76,7 @@ class ProductVersionAdmin(admin.ModelAdmin):
     list_display = ('title','old_price', 'new_price','quantity', 'description', 'is_main' )
     list_filter = ('title','old_price','new_price' )
     search_fields = ('name', )
+    inlines = [ProductImageInline]
     # fieldsets = [
     #     ('Standard info', {
     #         'fields': ('title','old_price','new_price','product','description','is_main','quantity', 'property'),
@@ -117,3 +124,5 @@ class BrandAdmin(admin.ModelAdmin):
     ]
 
 # admin.site.register([Category,])
+
+

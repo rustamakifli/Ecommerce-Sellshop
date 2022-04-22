@@ -73,15 +73,18 @@ class ProductVersion(models.Model):
 
 class ProductImages(models.Model):
     product_version = models.ForeignKey(ProductVersion, related_name='product_image', on_delete=models.CASCADE, default=1)
-    image = models.ImageField(upload_to='story_images/')
-    is_main = models.BooleanField()
+    image = models.ImageField(upload_to='story_images/',  null = True , blank = True)
+    is_main = models.BooleanField('main pic', default=False)
+    image_title = models.CharField('Image title' , max_length=100 , null=True)
+    
+    def __str__(self):
+        return str(self.image_title)
+        #  + ' ' + self.product_version.title + ' ' + self.product_version.new_price
 
     class Meta:
-        verbose_name = 'Product images'
+        verbose_name = 'Product image'
         verbose_name_plural = 'Product images'
 
-    # def __str__(self):
-    #     return self.image
 
 class ProductReviews(AbsrtactModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_review', on_delete=models.CASCADE, default=1)
