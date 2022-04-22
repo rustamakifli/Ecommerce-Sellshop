@@ -6,33 +6,36 @@ from django.contrib.auth.decorators import login_required
 from user.forms import AddresForm, RegisterForm,LoginForm
 
 def login_register(request):
-    reg_form = RegisterForm()
-    login_form = LoginForm()
-    next_page = request.GET.get('next','/')
-    if request.method == 'POST':
-        if request.POST.get('submit') == 'login':
-            login_form = LoginForm(data=request.POST)
-            if login_form.is_valid():
-                user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
-                if user is not None:
-                    django_login(request, user)
-                    messages.add_message(request, messages.SUCCESS, 'You signed in!')
-                    return redirect(next_page)        
-                else:
-                    messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
-        elif request.POST.get('submit') == 'register':
-            reg_form = RegisterForm(data=request.POST)
-            if reg_form.is_valid():
-                user = reg_form.save()
-                user.set_password(reg_form.cleaned_data['password'])
-                user.save()
-                return redirect('/')
-    context = {
-        'reg_form': reg_form,
-        'login_form':login_form,
-    }
-    return render(request, 'login-register.html', context)
-
+    if not request.user.is_authenticated:
+        reg_form = RegisterForm()
+        login_form = LoginForm()
+        next_page = request.GET.get('next','/')
+        if request.method == 'POST':
+            if request.POST.get('submit') == 'login':
+                login_form = LoginForm(data=request.POST)
+                if login_form.is_valid():
+                    user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
+                    if user is not None:
+                        django_login(request, user)
+                        messages.add_message(request, messages.SUCCESS, 'You signed in!')
+                        return redirect(next_page)        
+                    else:
+                        messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
+            elif request.POST.get('submit') == 'register':
+                reg_form = RegisterForm(data=request.POST)
+                if reg_form.is_valid():
+                    user = reg_form.save()
+                    user.set_password(reg_form.cleaned_data['password'])
+                    user.save()
+                    return redirect('/')
+        context = {
+                'reg_form': reg_form,
+                'login_form':login_form,
+            }
+        return render(request, 'login-register.html', context)
+    else:
+        
+        return redirect('/')
 
 @login_required
 def account(request):
