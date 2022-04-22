@@ -68,6 +68,9 @@ class ProductView(DetailView,CreateView):
     def get_object(self):
         return ProductVersion.objects.filter(id=self.kwargs['pk']).first()
 
+    def get_success_url(self):
+        productid = self.kwargs['pk']
+        return reverse_lazy('single_product', kwargs = {'pk':productid})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
