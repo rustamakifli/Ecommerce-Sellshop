@@ -136,20 +136,23 @@
 						</div>
 						<div class="brands-select clearfix">
 							<ul>
-								<li>
-									<a href="#">Offset</a>
-									<a href="#">Ecko Untid</a>
-									<a href="#">Addidas</a>
-									<a href="#">Custo</a>
-									<a href="#">Guccies</a>
-								</li>
-								<li>
-									<a href="#">Unlimited</a>
-									<a href="#">Shoes</a>
-									<a href="#">Watch</a>
-									<a href="#">Color Full</a>
-									<a href="#">Best choice</a>
-								</li>
+								{% for brand in brands %}
+									<li>
+										<a href="#">{{brand}}</a>
+										<!-- <a href="#">Ecko Untid</a> -->
+										<!-- <a href="#">Addidas</a>
+										<a href="#">Custo</a>
+										<a href="#">Guccies</a> -->
+									</li>
+							
+									<!-- <li>
+										<a href="#">Unlimited</a>
+										<a href="#">Shoes</a>
+										<a href="#">Watch</a>
+										<a href="#">Color Full</a>
+										<a href="#">Best choice</a>
+									</li> -->
+								{% endfor %}
 							</ul>
 						</div>
 					</div>
@@ -179,7 +182,7 @@
 										</ul>
 									</li>
 									<li class="sort-by floatright">
-										Showing 1-9 of 89 Results
+										Showing {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} Results
 									</li>
 								</ul>
 							</div>
@@ -225,8 +228,8 @@
 							<div class="tab-pane fade active in" id="list">
 								<div class="col-xs-12">
 									{% for product in products %}
-									<div class="single-list-view">										
-										<div class="row">											
+									<div class="single-list-view">
+										<div class="row">
 											<div class="col-xs-12 col-md-4">
 												<div class="list-img">
 													<div class="product-img">
@@ -264,7 +267,7 @@
 													</div>
 												</div>
 											</div>
-										</div>								
+										</div>
 									</div>
 									{% endfor %}
 
@@ -276,16 +279,21 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="pagnation-ul">
-							<ul class="clearfix">
-								<li><a href="#"><i class="mdi mdi-menu-left"></i></a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">10</a></li>
-								<li><a href="#"><i class="mdi mdi-menu-right"></i></a></li>
+							<ul>
+								{% if page_obj.has_previous %}
+								<li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+								{% endif %}
+
+								{% for page in page_obj.paginator.page_range %}
+								{% if page is page_obj.number %}
+								<li class="active"><span>{{ page }}</span></li>
+								{% else %}
+								<li><a href="?page={{page}}">{{ page }}</a></li>
+								{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+								<li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>

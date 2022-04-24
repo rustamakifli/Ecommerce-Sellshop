@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from product.models import Category, ProductVersion, ProductReviews
+from product.models import Brand, Category, ProductVersion, ProductReviews
 from .forms import ProductReviewsForm
 from django.http import Http404
 from django.contrib import messages
@@ -22,11 +22,21 @@ class ProductListView(ListView):
     template_name = 'product-list.html'
     model = ProductVersion
     context_object_name = 'products'
+    paginate_by = 4
     # ordering = ('created_at', )
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.request.GET.get('category_id') 
+        if category_id:
+            queryset = queryset.filter(category__id=category_id)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        context['brands'] = Brand.objects.all()
+
         return context
 
 def single_product(request, id=1):
@@ -75,7 +85,6 @@ class ProductView(DetailView,CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['related_products'] = ProductVersion.objects.all()
-
         context['review_form'] = ProductReviewsForm(data=self.request.POST)
         context['reviews'] = ProductReviews.objects.all()
         context['product'] = self.get_object()

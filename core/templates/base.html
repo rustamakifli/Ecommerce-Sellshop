@@ -75,6 +75,7 @@
 										<a href="#"><i class="mdi mdi-settings"></i></a>
 										<ul>
 											{% if user.is_authenticated %}
+												<li><a href="{% url 'logout' %}">Logout</a></li>
 												<li><a href="{% url 'account' %}">My account</a></li>
 												<li><a href="{% url 'cart' %}">My cart</a></li>
 												<li><a href="{% url 'checkout' %}">Check out</a></li>
@@ -156,7 +157,6 @@
 											<ul class="dropdown">
 												<li><a href="#">Blog Style One</a></li>
 												<li><a href="#">Blog Style Two</a></li>
-												<li><a href="{% url 'single-blog' %}">Single Blog</a></li>
 											</ul>
 										</li>
 										<li><a href="{% url 'about' %}">About</a></li>
@@ -217,7 +217,6 @@
 												<ul>
 													<li><a href="#">Blog Style One</a></li>
 													<li><a href="#">Blog Style Two</a></li>
-													<li><a href="{% url 'single-blog' %}">Single Blog</a></li>
 												</ul>
 											</li>
 											<li><a href="{% url 'about' %}' %}">About</a></li>
@@ -378,16 +377,16 @@
 									<div class="footer-menu">
 										<ul>
 											{% if user.is_authenticated %}
-												<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
+												<li><a href="{% url 'logout' %}"><i class="mdi mdi-menu-right"></i>Logout</a></li>
+												<li><a href="{% url 'account' %}"><i class="mdi mdi-menu-right"></i>My Account</a></li>
 												<li><a href="{% url 'cart' %}"><i class="mdi mdi-menu-right"></i>My Cart</a></li>
 												<li><a href="{% url 'checkout' %}"><i class="mdi mdi-menu-right"></i>Check out</a></li>
-
+											{% else %}																							
+												<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>Sign In</a></li>
+												<li><a href="#"><i class="mdi mdi-menu-right"></i>Track My Orde</a></li>
 											{% endif %}
-											
 											<li><a href="{% url 'wishlist' %}"><i class="mdi mdi-menu-right"></i>My Wishlist</a></li>
-											
-											<li><a href="{% url 'login' %}"><i class="mdi mdi-menu-right"></i>Sign In</a></li>
-											<li><a href="#"><i class="mdi mdi-menu-right"></i>Track My Orde</a></li>
+
 										</ul>
 									</div>
 								</div>

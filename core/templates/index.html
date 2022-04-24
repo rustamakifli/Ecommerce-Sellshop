@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load static %}
+{% load custom_tags %}
 {% block content %} 
         <!-- slider-section-start -->
         <div class="main-slider-one main-slider-two slider-area">
@@ -90,6 +91,9 @@
 					<ul class="load-list load-list-one">
 						<li>
 							<div class="row text-center">
+								{% featured_product 0 4 as featured %}
+								{% if featured %}
+								{% for product in featured %}
 								<div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
 										<div class="product-img">
@@ -104,13 +108,15 @@
 											</div>
 										</div>
 										<div class="product-dsc">
-											<p><a href="#">men’s Black t-shirt</a></p>
-											<span>$65.20</span>
+											<p><a href="#">{{product.title}}</a></p>
+											<span>${{product.new_price}}</span>
 										</div>
 									</div>
 								</div>
+								{% endfor %}
+								{% endif %}
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
 										<div class="product-img">
 											<div class="pro-type sell">
@@ -128,9 +134,9 @@
 											<span>$57.00</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 									<div class="single-product">
 										<div class="product-img">
 											<div class="pro-type">
@@ -148,9 +154,9 @@
 											<span>$56.00</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 									<div class="single-product">
 										<div class="product-img">
 											<a href="#"><img src="{% static 'img/products/19.jpg' %}" alt="Product Title" /></a>
@@ -165,11 +171,11 @@
 											<span>$96.20</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
 							</div>
 						</li>
-						<li>
+						<!-- <li>
 							<div class="row text-center">
 								<div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
@@ -191,7 +197,7 @@
 									</div>
 								</div>
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
 										<div class="product-img">
 											<a href="#"><img src="{% static 'img/products/21.jpg' %}" alt="Product Title" /></a>
@@ -206,9 +212,9 @@
 											<span>$57.00</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 									<div class="single-product">
 										<div class="product-img">
 											<div class="pro-type">
@@ -226,9 +232,9 @@
 											<span>$67.00</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
-								<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
+								<!-- <div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 									<div class="single-product">
 										<div class="product-img">
 											<a href="#"><img src="{% static 'img/products/23.jpg' %}" alt="Product Title" /></a>
@@ -243,12 +249,12 @@
 											<span>$77.00</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- single product end -->
 							</div>
 						</li>
 					</ul>
-					<button id="load-more-one">Load More</button>
+					<!-- <button id="load-more-one">Load More</button> --> 
 				</div>
 			</div>
 		</section>
@@ -1090,45 +1096,49 @@
 					<ul class="load-list load-list-blog">
 						<li>
 							<div class="row">
+								{% get_categories 0 3 -1 as blogs %}
+								{% for blog in blogs %}
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/1.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="{% url 'single-blog' pk=blog.id %}"><img src="{{ blog.image.url }}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">Fashion style fine arts drawing</a></h4>
-											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
-											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
+											<h4><a href="{% url 'single-blog' pk=blog.id %}"> {{ blog.title }} {{ blog.id }}</a></h4>
+											<span>By : <a href="#">{{blog.author}}</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
+											<p>{{ blog.description }}</p>
 										</div>
 										<div class="date-read clearfix">
-											<a href="#"><i class="mdi mdi-clock"></i> jun 25, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#"><i class="mdi mdi-clock"></i>{{ blog.created_at | date:"F d, Y"  }}</a>
+											<a href="{% url 'single-blog' pk=blog.id %}">read more</a>
 										</div>
 									</div>
 								</div>
-								<div class="col-sm-4">
+								{% endfor %}
+
+								<!-- <div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/2.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="#"><img src="{% static 'img/blog/2.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">women’s Fashion style 2016</a></h4>
+											<h4><a href="#">women’s Fashion style 2016</a></h4>
 											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> jun 15, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#">read more</a>
 										</div>
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/3.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="#"><img src="{% static 'img/blog/3.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">women’s winter Fashion style</a></h4>
+											<h4><a href="#">women’s winter Fashion style</a></h4>
 											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> jun 22, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#">read more</a>
 										</div>
 									</div>
 								</div>
@@ -1138,50 +1148,50 @@
 							<div class="row">
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/4.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="#"><img src="{% static 'img/blog/4.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">women’s winter Fashion style</a></h4>
+											<h4><a href="#">women’s winter Fashion style</a></h4>
 											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> jun 22, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#">read more</a>
 										</div>
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/5.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="#"><img src="{% static 'img/blog/5.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">Fashion style fine arts drawing</a></h4>
+											<h4><a href="#">Fashion style fine arts drawing</a></h4>
 											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> jun 25, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#">read more</a>
 										</div>
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="l-blog-text">
-										<div class="banner"><a href="{% url 'single-blog' %}"><img src="{% static 'img/blog/6.jpg' %}" alt="" /></a></div>
+										<div class="banner"><a href="#"><img src="{% static 'img/blog/6.jpg' %}" alt="" /></a></div>
 										<div class="s-blog-text">
-											<h4><a href="{% url 'single-blog' %}">women’s Fashion style 2016</a></h4>
+											<h4><a href="#">women’s Fashion style 2016</a></h4>
 											<span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
 											<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
 										</div>
 										<div class="date-read clearfix">
 											<a href="#"><i class="mdi mdi-clock"></i> jun 15, 2016</a>
-											<a href="{% url 'single-blog' %}">read more</a>
+											<a href="#">read more</a>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</li>
 					</ul>
-					<button id="load-more-blog">Load More</button>
+					<!-- <button id="load-more-blog">Load More</button> -->
 				</div>
 			</div>
 		</section>

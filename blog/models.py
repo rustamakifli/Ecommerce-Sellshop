@@ -36,6 +36,7 @@ class Blog(AbsrtactModel):
 
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Blog'
         verbose_name_plural = 'Blogs'
 
