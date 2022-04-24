@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from .forms import ContactForm, SubscribeForm
 from django.http import Http404
 from django.contrib import messages
-
+from blog.views import BlogListView
 
 def about(request):
     return render(request,'about.html')

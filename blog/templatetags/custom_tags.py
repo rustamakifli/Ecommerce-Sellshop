@@ -1,6 +1,7 @@
 
 from django.template import Library
 from blog.models import Blog
+from product.models import ProductVersion
 
 register = Library()
 
@@ -14,3 +15,7 @@ def get_categories(offset, limit, order):
 @register.simple_tag
 def related_categories(offset,limit):
     return Blog.objects.all().order_by('category')[offset:limit]
+
+@register.simple_tag
+def featured_product(offset,limit):
+    return ProductVersion.objects.filter(featured=True).order_by('-featured')[offset:limit]

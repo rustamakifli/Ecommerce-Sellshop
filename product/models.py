@@ -62,6 +62,8 @@ class ProductVersion(models.Model):
     new_price = models.DecimalField(decimal_places = 2 ,max_digits=6)
     quantity = models.IntegerField(null=True,blank=True)
     description = models.TextField()
+    featured = models.BooleanField(default=False)
+
     is_main = models.BooleanField()
 
     class Meta:
@@ -70,6 +72,9 @@ class ProductVersion(models.Model):
 
     def __str__(self):
         return self.title
+
+    def is_featured(self):
+        return self.featured
 
 class ProductImages(models.Model):
     product_version = models.ForeignKey(ProductVersion, related_name='product_image', on_delete=models.CASCADE, default=1)

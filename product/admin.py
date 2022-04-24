@@ -112,10 +112,10 @@ class ProductReviewsAdmin(admin.ModelAdmin):
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('title', 'product', )
     list_filter = ('title','product',)
-    search_fields = ('title', )
+    search_fields = ('title', 'product',)
     fieldsets = [
         ('Standard info', {
-            'fields': ('title',  ),
+            'fields': ('title', 'product', ),
             'classes': ('collapse',)
         }),
         # ('Other', {
