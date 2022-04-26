@@ -3,7 +3,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from user.forms import AddresForm, RegisterForm,LoginForm
+from user.forms import AddresForm, RegisterForm, LoginForm, CustomPasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 
 def login_register(request):
     if not request.user.is_authenticated:
@@ -55,3 +57,13 @@ def account(request):
 def logout(request):
     django_logout(request)
     return redirect('/')
+
+class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'changepassword.html'
+    success_url = reverse_lazy('login')
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Ugurla sifreniz deyisdi')
+        return super().get_success_url()
+
