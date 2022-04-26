@@ -2,7 +2,7 @@ import email
 from django import forms
 from user.models import BillingAddress
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.forms import PasswordChangeForm
 
 USER = get_user_model()
 
@@ -106,3 +106,17 @@ class LoginForm(forms.Form):
         'class': 'form-control',
         'placeholder': 'Password'
     }))
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label=("Old password"),
+                                   widget=forms.PasswordInput(attrs={
+                                        'class': 'form-control',
+                                        'placeholder': 'Old Password'
+                                    }))
+    new_password1 = forms.CharField(label=("New password"),
+                                    widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                'placeholder': 'New Password'}))
+    new_password2 = forms.CharField(label=("New password confirmation"),
+                                    widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                'placeholder': 'Confirm Password'}))
