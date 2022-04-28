@@ -2,10 +2,49 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib import messages
+from django.views.generic import View,CreateView
 from django.contrib.auth.decorators import login_required
-from user.forms import AddresForm, RegisterForm, LoginForm, CustomPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth import get_user_model
+from requests import request
+from user.forms import AddresForm, RegisterForm,LoginForm,CustomPasswordChangeForm
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
+from user.utils import account_activation_token
+
+from user.tasks import send_email_confirmation
+
+from user.forms import (RegisterForm, ResetPasswordForm, 
+        LoginForm,
+        CustomSetPasswordForm
+        )
+
+USER = get_user_model()
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'forgot-password.html'
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('login')
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.SUCCESS, 'Sizin yeni sifreniz teyin edildi')
+        return super().get_success_url()
+   
+
+
+class ResetPasswordView(PasswordResetView):
+    template_name = 'forgot-password.html'
+    form_class = ResetPasswordForm
+    email_template_name = 'email/reset-password-mail.html'
+    success_url = reverse_lazy('login')
+
+    def get_success_url(self):
+        return super().get_success_url()    
+
+ 
+
 
 def login_register(request):
     if not request.user.is_authenticated:
@@ -13,10 +52,11 @@ def login_register(request):
         login_form = LoginForm()
         next_page = request.GET.get('next','/')
         if request.method == 'POST':
+            print(request.POST)
             if request.POST.get('submit') == 'login':
                 login_form = LoginForm(data=request.POST)
                 if login_form.is_valid():
-                    user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
+                    user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
                     if user is not None:
                         django_login(request, user)
                         messages.add_message(request, messages.SUCCESS, 'You signed in!')
@@ -29,7 +69,7 @@ def login_register(request):
                     user = reg_form.save()
                     user.set_password(reg_form.cleaned_data['password'])
                     user.save()
-                    return redirect('/')
+                    return redirect('login')
         context = {
                 'reg_form': reg_form,
                 'login_form':login_form,
@@ -38,6 +78,41 @@ def login_register(request):
     else:
         
         return redirect('/')
+
+class UserLoginView(LoginView):
+    form_class = LoginForm
+    template_name = 'login-register.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['login_form'] = LoginForm()
+
+        return context
+
+
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = 'login-register.html'
+    success_url = reverse_lazy('login')
+    context_object_name = 'reg_form'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.instance
+        form.instance.set_password(form.cleaned_data['password'])
+        user.is_active = False
+        user.save()
+        current_site = self.request.META['HTTP_HOST']
+        send_email_confirmation(user, current_site)
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reg_form'] = RegisterForm()
+
+        return context
 
 @login_required
 def account(request):
@@ -51,6 +126,27 @@ def account(request):
         'form':form
     }
     return render(request,'my-account.html',context)
+
+class Activate(View):
+    def get(self, request, *args, **kwargs):
+        uidb64 = kwargs.get('uidb64')
+        token = kwargs.get('token')
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = USER.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, USER.DoesNotExist):
+            user = None
+        if user.is_active:
+            messages.add_message(request, messages.SUCCESS, 'EMail has been confirm')
+            return redirect(reverse_lazy('login'))
+        elif user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'Email confirmed')
+            return redirect(reverse_lazy('login'))
+        else:
+            messages.add_message(request, messages.SUCCESS, 'Email didnot confirm')
+            return redirect(reverse_lazy('/'))
 
 
 @login_required
