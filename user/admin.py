@@ -9,7 +9,7 @@ from user.models import BillingAddress
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'bio', 'image')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'birthdate', 'sex', 'bio', 'image')}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),

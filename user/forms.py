@@ -50,8 +50,6 @@ class AddresForm(forms.ModelForm):
                 'rows': 2
             }),
             'reference': forms.TextInput()
-            
-
         }
 
 class RegisterForm(forms.ModelForm):
@@ -59,34 +57,55 @@ class RegisterForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Confirm Password'
             }))
-    phone_number = forms.CharField(widget=forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Phone Number'
-            }))
 
     class Meta:
         model = USER
         fields = (
             'username',
+            "first_name",
+            "last_name",
             'email',
             'phone_number',
             'password',
-            'confirm_password'
+            'confirm_password',
+            'birthdate',
+            'sex',
         )
 
         widgets = {
             'username': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Name here'
+                'placeholder': 'Username here'
+            }),
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name here'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name here'
             }),
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Email Address'
             }),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Phone Number'
+            }),
             'password': forms.PasswordInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Password'
             }),
+            'sex': forms.Select(attrs={
+                'placeholder':'MR or MRs', 
+                'class': 'form-control', 
+            }),
+            'birthdate': forms.DateInput(attrs={
+                'placeholder':'Birth Date', 
+                'class': 'form-control',
+                'type': 'date',                                                                 
+            })
         }
 
     def clean(self):
@@ -94,6 +113,42 @@ class RegisterForm(forms.ModelForm):
         if data['password'] != data['confirm_password']:
             raise forms.ValidationError("Please make sure your passwords match")
         return super().clean()
+
+
+class UpdatePersonalInfoForm(forms.ModelForm):
+    class Meta:
+        model = USER
+        fields = (
+            "first_name",
+            "last_name",
+            'email',
+            'birthdate',
+            'sex',
+        )
+        
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name here'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name here'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email Address'
+            }),
+            'birthdate': forms.DateInput(attrs={
+                'placeholder':'Birth Date', 
+                'class': 'form-control',
+                'type': 'date',                                                                 
+            }),
+            'sex': forms.Select(attrs={
+                'placeholder':'MR or MRs', 
+                'class': 'form-control', 
+            }),
+        }
 
 
 class LoginForm(forms.Form):
@@ -120,3 +175,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     new_password2 = forms.CharField(label=("New password confirmation"),
                                     widget=forms.PasswordInput(attrs={'class': 'form-control',
                                 'placeholder': 'Confirm Password'}))
+
+
+

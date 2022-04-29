@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from user.forms import AddresForm, RegisterForm, LoginForm, CustomPasswordChangeForm
+from user.forms import AddresForm, RegisterForm, UpdatePersonalInfoForm, LoginForm, CustomPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 
@@ -29,7 +29,7 @@ def login_register(request):
                     user = reg_form.save()
                     user.set_password(reg_form.cleaned_data['password'])
                     user.save()
-                    return redirect('/')
+                    return redirect('login')
         context = {
                 'reg_form': reg_form,
                 'login_form':login_form,
@@ -41,16 +41,30 @@ def login_register(request):
 
 @login_required
 def account(request):
-    form = AddresForm()
+    form_acc = AddresForm()
+    form_pers_info = UpdatePersonalInfoForm()
     if request.method == 'POST':
-        form = AddresForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect(reverse_lazy('account'))
+        if request.POST.get('submit') == 'address':
+            form_acc = AddresForm(data=request.POST)
+            if form_acc.is_valid():
+                form_acc.save()
+            return redirect(reverse_lazy('account'))
+        elif request.POST.get('submit') == 'personal_info_submit':
+            form_pers_info = UpdatePersonalInfoForm(data=request.POST)
+            if form_pers_info.is_valid():
+                request.user.first_name = request.POST.get('first_name')
+                request.user.last_name = request.POST.get('last_name')
+                request.user.email = request.POST.get('email')
+                request.user.birthdate = request.POST.get('birthdate')
+                request.user.sex = request.POST.get('sex')
+                request.user.save()
+                return redirect(reverse_lazy('account'))
     context = {
-        'form':form
+        'form_acc':form_acc,
+        'form_pers_info':form_pers_info,
     }
-    return render(request,'my-account.html',context)
+    return render(request,'my-account.html', context)
+    
 
 
 @login_required
