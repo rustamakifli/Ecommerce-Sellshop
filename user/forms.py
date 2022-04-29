@@ -117,6 +117,43 @@ class RegisterForm(forms.ModelForm):
         return super().clean()
 
 
+class UpdatePersonalInfoForm(forms.ModelForm):
+    class Meta:
+        model = USER
+        fields = (
+            "first_name",
+            "last_name",
+            'email',
+            'birthdate',
+            'sex',
+        )
+        
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'First Name here'
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Last Name here'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email Address'
+            }),
+            'birthdate': forms.DateInput(attrs={
+                'placeholder':'Birth Date', 
+                'class': 'form-control',
+                'type': 'date',                                                                 
+            }),
+            'sex': forms.Select(attrs={
+                'placeholder':'MR or MRs', 
+                'class': 'form-control', 
+            }),
+        }
+
+
+
 class LoginForm(AuthenticationForm):
     class Meta:
         model = USER
