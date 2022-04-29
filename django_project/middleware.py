@@ -1,0 +1,33 @@
+from django.utils.deprecation import MiddlewareMixin
+from django.http import HttpResponseForbidden
+from django.conf import settings
+import logging
+
+logging.basicConfig(level=logging.INFO,format="%(asctime)s:%(levelname)s:%(message)s")
+
+class LogginMiddleware(MiddlewareMixin):
+    
+    def process_request(self,request):
+        logging.info("Request Method : "+str(request.META["REQUEST_METHOD"]))
+        logging.info("URL Requested : "+str(request.path))
+        logging.info("Request Body Contents : "+str(request.body))
+        logging.info("Content Length : "+str(request.META["CONTENT_LENGTH"]))
+        logging.info("Client IP Address : "+str(request.META["REMOTE_ADDR"]))
+        logging.info("Host Name of CLient : "+str(request.META["REMOTE_HOST"]))
+        logging.info("Host Name of the Server : "+str(request.META["SERVER_NAME"]))
+        logging.info("Port of the Server : "+str(request.META["SERVER_PORT"]))
+        return None
+
+    
+
+
+class BlockIPMiddleware(MiddlewareMixin):
+    BLACKLIST =[
+        '192.168.88.49',
+    ]
+
+    def process_view(self, request, *args, **kwargs):
+        # if request.user.is_teacher
+        # print(request.META['REMOTE_ADDR'] )
+        if request.META['REMOTE_ADDR'] in self.BLACKLIST:
+            return HttpResponseForbidden()

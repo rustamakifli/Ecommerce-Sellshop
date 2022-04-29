@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
+from django.urls import reverse_lazy
+
 
 User = get_user_model()
 
@@ -31,14 +33,20 @@ class Blog(AbsrtactModel):
     description = models.CharField(max_length=255)
     content = RichTextField()
     author = models.CharField(max_length=50,default=None)
+    slug = models.SlugField(max_length=70, editable=False, db_index=True) 
     # like_count = models.IntegerField(null=True,blank=True,default=0)
     # comment_count = models.IntegerField(null=True,blank=True,default=0)
 
+    def get_absolute_url(self):
+        return reverse_lazy('single_blog', kwargs={
+            'slug': self.slug
+        })
 
     class Meta:
         ordering = ['-created_at']
         verbose_name = 'Blog'
         verbose_name_plural = 'Blogs'
+
 
     def __str__(self):
         return self.title
