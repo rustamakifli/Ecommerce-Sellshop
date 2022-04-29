@@ -45,35 +45,34 @@
 												<div class="custom-input">
 													<form action="" method="POST">
 														{% csrf_token %}
-
-														{{ form.non_field_errors }}
+														{{ form_acc.non_field_errors }}
 														<div class="row">
 															<div class="col-md-6">
-																{{form.first_name}}
+																{{form_acc.first_name}}
 															</div>
 															<div class="col-md-6">
-																{{form.last_name}}
+																{{form_acc.last_name}}
 															</div>
 														</div>
-														{{form.email}}
+														{{form_acc.email}}
 														<div class="custom-select">
-															{{form.country}}
+															{{form_acc.country}}
 														</div>
-														{{form.address}}
+														{{form_acc.address}}
 														<div class="custom-select">
-															{{form.town}}
+															{{form_acc.town}}
 														</div>
 														<p class="red-color">** You must register at least one phone number.</p>
-														{{form.mobile_phone}}
+														{{form_acc.mobile_phone}}
 														<div class="custom-mess">
-															{{form.information}}
+															{{form_acc.information}}
 														</div>
 														<label>Please assign an address title for future reference.<sup>*</sup></label>
 														<div class="input-text">
-															{{form.reference}}
+															{{form_acc.reference}}
 														</div>
 														<div class="submit-text">
-															<button type="submit">Save</button>
+															<button type="submit" value='address'>Save</button>
 														</div>
 													</form>
 												</div>
@@ -127,140 +126,20 @@
 													<h5>Your personal information</h5>
 													<p>Please be sure to update your personal information if it has changed</p>
 												</div>
-												<div class="mr-mrs">
-													<label class="social-label">
-														<sup>*</sup> Social title
-													</label>
-													<label>
-														<input type="radio" value="forever" name="rememberme"/>
-														Mr.
-													</label>
-													<label>
-														<input type="radio" value="forever" name="rememberme"/>
-														Msr.
-													</label>
-												</div>
 												<div class="custom-input">
-													<form action="mail.php" method="post">
-														<input type="text" name="name" placeholder="Your Full Name" />
-														<input type="text" name="email" placeholder="Email Address" />
-														<div class="row">
-															<div class="col-xs-12">
-															<label>Date of Birth</label>
-																<div class="row">
-																	<div class="col-sm-4">
-																		<div class="custom-select">
-																			<select class="form-control">
-																				<option>1</option>
-																				<option>2</option>
-																				<option>3</option>
-																				<option>4</option>
-																				<option>5</option>
-																				<option>6</option>
-																				<option>7</option>
-																				<option>8</option>
-																				<option>9</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																				<option>13</option>
-																				<option>14</option>
-																				<option>15</option>
-																				<option>16</option>
-																				<option>17</option>
-																				<option>18</option>
-																				<option>19</option>
-																				<option>20</option>
-																				<option>21</option>
-																				<option>22</option>
-																				<option>23</option>
-																				<option>24</option>
-																				<option>25</option>
-																				<option>26</option>
-																				<option>27</option>
-																				<option>28</option>
-																				<option>29</option>
-																				<option>30</option>
-																			</select>
-																		</div>
-																	</div>
-																	<div class="col-sm-4">
-																		<div class="custom-select">
-																			<select class="form-control">
-																				<option>January</option>
-																				<option>February </option>
-																				<option>March </option>
-																				<option>April </option>
-																				<option>May </option>
-																				<option>June </option>
-																				<option>July </option>
-																				<option>August </option>
-																				<option>September </option>
-																				<option>October </option>
-																				<option>November </option>
-																				<option>December </option>
-																			</select>
-																		</div>
-																	</div>
-																	<div class="col-sm-4">
-																		<div class="custom-select">
-																			<select class="form-control">
-																				<option>1990</option>
-																				<option>1991</option>
-																				<option>1992</option>
-																				<option>1993</option>
-																				<option>1994</option>
-																				<option>1995</option>
-																				<option>1996</option>
-																				<option>1997</option>
-																				<option>1998</option>
-																				<option>1999</option>
-																				<option>2000</option>
-																				<option>2001</option>
-																				<option>2002</option>
-																				<option>2003</option>
-																				<option>2004</option>
-																				<option>2005</option>
-																				<option>2006</option>
-																				<option>2007</option>
-																				<option>2008</option>
-																				<option>2009</option>
-																				<option>2010</option>
-																				<option>2011</option>
-																				<option>2012</option>
-																				<option>2013</option>
-																				<option>2014</option>
-																				<option>2016</option>
-																				<option>2016</option>
-																				<option>2017</option>
-																				<option>2018</option>
-																				<option>2019</option>
-																				<option>2020</option>
-																				<option>2021</option>
-																				<option>2022</option>
-																			</div>
-																			<div id="collapse2" class="paypal-dsc panel-collapse collapse">
-																				<div class="prayment-dsc">
-																					<div class="bulling-title">
-																						<h5>Order history</h5>
-																					</div>
-																					<p>Here are the orders you've placed since your account was created.</p>
-																					<span>You have not placed any orders.</span>
-																				</div>
-																			</div>
-																		</li>
-																		<li class="panel panelimg">
-																			<div class="account-title" data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">
-																				<label>on>2020</option>
-																			</select>
-																		</div>
-																	</div>
-																</div>
-															</div>
+													<form action="" method="post">
+														{% csrf_token %}
+														{{ form_pers_info.non_field_errors }}
+														{% for field in form_pers_info %}
+														<div class="form-group">
+															{{field}}
+															<ul>
+															{% for error in field.errors %}
+																<li>{{error}}</li>
+															{% endfor %}
+															</ul>
 														</div>
-														<input type="password" placeholder="Current Password" name="password" value="" />
-														<input type="password" placeholder="New Password" name="password" value="" />
-														<input type="password" placeholder="Confirmation" name="password" value="" />
+														{% endfor %}
 														<div class="row">
 															<div class="col-xs-12">
 																<div class="sing-checkbox">
@@ -276,7 +155,12 @@
 															</div>
 														</div>
 														<div class="submit-text text-left">
-															<button type="submit" value="submit form">Save</button>
+															<button type="submit" name='submit' value="personal_info_submit">Save</button>
+														</div>
+														<div class="submit-text text-left">
+															<button type="submit" value="">
+																<a href="{% url 'password_change' %}">Click to change Password</a> </button>
+																{{ user.first_name }}
 														</div>
 													</form>
 												</div>

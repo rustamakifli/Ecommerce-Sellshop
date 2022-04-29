@@ -8,13 +8,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth import get_user_model
 from requests import request
-from user.forms import AddresForm, RegisterForm,LoginForm,CustomPasswordChangeForm
+from user.forms import AddresForm, RegisterForm,UpdatePersonalInfoForm,LoginForm,CustomPasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from user.utils import account_activation_token
 
 from user.tasks import send_email_confirmation
+
 
 from user.forms import (RegisterForm, ResetPasswordForm, 
         LoginForm,
@@ -116,16 +117,29 @@ class RegisterView(CreateView):
 
 @login_required
 def account(request):
-    form = AddresForm()
+    form_acc = AddresForm()
+    form_pers_info = UpdatePersonalInfoForm()
     if request.method == 'POST':
-        form = AddresForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect(reverse_lazy('account'))
+        if request.POST.get('submit') == 'address':
+            form_acc = AddresForm(data=request.POST)
+            if form_acc.is_valid():
+                form_acc.save()
+            return redirect(reverse_lazy('account'))
+        elif request.POST.get('submit') == 'personal_info_submit':
+            form_pers_info = UpdatePersonalInfoForm(data=request.POST)
+            if form_pers_info.is_valid():
+                request.user.first_name = request.POST.get('first_name')
+                request.user.last_name = request.POST.get('last_name')
+                request.user.email = request.POST.get('email')
+                request.user.birthdate = request.POST.get('birthdate')
+                request.user.sex = request.POST.get('sex')
+                request.user.save()
+                return redirect(reverse_lazy('account'))
     context = {
-        'form':form
+        'form_acc':form_acc,
+        'form_pers_info':form_pers_info,
     }
-    return render(request,'my-account.html',context)
+    return render(request,'my-account.html', context)
 
 class Activate(View):
     def get(self, request, *args, **kwargs):
