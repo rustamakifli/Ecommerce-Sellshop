@@ -3,11 +3,18 @@ from django.http import HttpResponseForbidden
 from django.conf import settings
 import logging
 
-logging.basicConfig(level=logging.INFO,format="%(asctime)s:%(levelname)s:%(message)s")
+
 
 class LogginMiddleware(MiddlewareMixin):
-    
+
     def process_request(self,request):
+
+        root_logger= logging.getLogger()
+        root_logger.setLevel(logging.INFO) # or whatever
+        handler = logging.FileHandler('test.log', 'w', 'utf-8') # or whatever
+        handler.setFormatter(logging.Formatter('%(name)s %(message)s')) # or whatever
+        root_logger.addHandler(handler)
+
         logging.info("Request Method : "+str(request.META["REQUEST_METHOD"]))
         logging.info("URL Requested : "+str(request.path))
         logging.info("Request Body Contents : "+str(request.body))
@@ -15,11 +22,10 @@ class LogginMiddleware(MiddlewareMixin):
         logging.info("Client IP Address : "+str(request.META["REMOTE_ADDR"]))
         logging.info("Host Name of CLient : "+str(request.META["REMOTE_HOST"]))
         logging.info("Host Name of the Server : "+str(request.META["SERVER_NAME"]))
-        logging.info("Port of the Server : "+str(request.META["SERVER_PORT"]))
+        logging.info("Port of the Server : "+str(request.META["SERVER_PORT"]))       
         return None
 
-    
-
+  
 
 class BlockIPMiddleware(MiddlewareMixin):
     BLACKLIST =[
