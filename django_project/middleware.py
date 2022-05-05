@@ -33,7 +33,7 @@ class BlockIPMiddleware(MiddlewareMixin):
     ]
 
     def process_view(self, request, *args, **kwargs):
-        # if request.user.is_teacher
         # print(request.META['REMOTE_ADDR'] )
+
         if request.META['REMOTE_ADDR'] in self.BLACKLIST:
             return HttpResponseForbidden()
