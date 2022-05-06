@@ -1,23 +1,28 @@
+from unicodedata import category
 from django.contrib import admin
 
 # Register your models here.
 
-from product.models import Category, Product, ProductImages, ProductReviews, ProductVersion, PropertyName, PropertyValues, Brand
-
+from product.models import (Category, Product, 
+                        ProductImages, ProductReviews, 
+                        ProductVersion, PropertyName,
+                         PropertyValues, Brand)
+from modeltranslation.admin import TranslationAdmin
+from product.models import Category
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImages
     extra = 5
 
 
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'parent_cat' )
+# @admin.register(Category)
+class CategoryAdmin(TranslationAdmin):
+    list_display = ('title', 'parent_cat',)
     list_filter = ('title', )
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title',  'parent_cat'),
+            'fields': ('title',  'parent_cat',),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -25,6 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
         # }),
     ]
 
+admin.site.register(Category, CategoryAdmin)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
