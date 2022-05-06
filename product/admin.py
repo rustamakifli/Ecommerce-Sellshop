@@ -40,7 +40,7 @@ class ProductAdmin(admin.ModelAdmin):
         #     'fields': ('tags', )
         # }),
     ]
-
+ 
 @admin.register(PropertyName)
 class PropertyNameAdmin(admin.ModelAdmin):
     list_display = ('name', 'category',  )
