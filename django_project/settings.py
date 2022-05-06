@@ -160,17 +160,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en'
 
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale')
-]
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
     ('en', _('English')),
     ('az', _('Azerbaijan')),
-  
+
 ]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
 
 JAZZMIN_SETTINGS = {
     "language_chooser": True,
