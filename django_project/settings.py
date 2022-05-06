@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,13 +27,15 @@ SECRET_KEY = 'django-insecure-&v@(o85_dsxio#5f-qr*r5k^)1e4irnx0id&ldr+9$#u29!vi!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 AUTH_USER_MODEL = 'user.User'
 # Application definition
 
 INSTALLED_APPS = [
-   
+    'modeltranslation',
     'ckeditor',
     'jazzmin',
     'django.contrib.admin',
@@ -56,9 +60,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_project.middleware.BlockIPMiddleware',
+    'django_project.middleware.LogginMiddleware'
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -153,7 +160,27 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('az', _('Azerbaijan')),
+
+]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+
+JAZZMIN_SETTINGS = {
+    "language_chooser": True,
+}
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
 
 TIME_ZONE = 'UTC'
 
@@ -244,3 +271,11 @@ JAZZMIN_SETTINGS = {
         "auth.group": "vertical_tabs",
     },
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rustamakifli2003@gmail.com'
+EMAIL_HOST_PASSWORD = 'aprmqfrghbkxxpnq'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+

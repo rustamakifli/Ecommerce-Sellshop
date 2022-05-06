@@ -2099,6 +2099,18 @@ select:focus{outline:none!important;border-color:transparent;border:0;}
     padding: 0 10px;
 	font-size:16px;
 }
+/* language button */
+.language-btn{
+	/* position: absolute; */
+    top:25%;
+    background-color:#0a0a23;
+    color: #fff;
+    border:none; 
+    border-radius:10px; 
+    padding:7px;
+    min-height:15px; 
+    min-width: 60px; 
+}
 /*====================================================================
 							[ END ]
 ======================================================================*/

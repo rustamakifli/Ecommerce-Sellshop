@@ -22,17 +22,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
-]
-urlpatterns += i18n_patterns(path("admin/", admin.site.urls))
-
-urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('social_django.urls', namespace='social')), 
-    path('', include('product.urls')),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += i18n_patterns(
+    path('', include('core.urls')), 
     path('', include('user.urls')),
+    path('', include('product.urls')),
     path('', include('blog.urls')),
     path('', include('shop.urls')),
     path('', include('cards.urls')),
-    path('', include('core.urls')),    
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+)

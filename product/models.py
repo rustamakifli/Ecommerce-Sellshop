@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+
 
 User = get_user_model()
 
@@ -13,8 +15,8 @@ class Category(models.Model):
     title = models.CharField(max_length=50)
     
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
     
     def __str__(self):
         return self.title

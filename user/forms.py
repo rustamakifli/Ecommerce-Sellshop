@@ -1,10 +1,31 @@
-import email
 from django import forms
 from user.models import BillingAddress
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UsernameField, PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from django.utils.translation import gettext, gettext_lazy as _
 
 USER = get_user_model()
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+                                    widget=forms.PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'New Password'
+            }))
+    new_password2 = forms.CharField(
+                                    widget=forms.PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Confirm New Password'
+            }))
+
+
+class ResetPasswordForm(PasswordResetForm):
+    email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email'
+            }), max_length=254)
+    
 
 class AddresForm(forms.ModelForm):
     
@@ -151,12 +172,17 @@ class UpdatePersonalInfoForm(forms.ModelForm):
         }
 
 
-class LoginForm(forms.Form):
 
-    email = forms.CharField(widget=forms.EmailInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Email Address'
-    }))
+class LoginForm(AuthenticationForm):
+    class Meta:
+        model = USER
+        fields = (
+            'username',
+            'password',
+        )
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 
+    'class': 'form-control',
+        'placeholder': 'Email Address'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control',
         'placeholder': 'Password'

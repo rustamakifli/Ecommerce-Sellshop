@@ -18,7 +18,7 @@ class SingleBlogDetailView(DetailView, CreateView):
         return context
 
     def get_object(self):
-        return Blog.objects.filter(id=self.kwargs['pk']).first()
+        return Blog.objects.filter(slug=self.kwargs['slug']).first()
 
 
 # def single_blog(request):
