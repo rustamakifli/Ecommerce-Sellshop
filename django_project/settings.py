@@ -99,7 +99,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 WSGI_APPLICATION = 'django_project.wsgi.application'
 
 LOGIN_URL = 'user/login/'
-
+ 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
