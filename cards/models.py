@@ -4,7 +4,7 @@ from product.models import ProductVersion
 User = get_user_model()
 
 
-class AbsrtactModel(models.Model):
+class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -12,13 +12,13 @@ class AbsrtactModel(models.Model):
         abstract = True
 
 
-class Wishlist(AbsrtactModel):
-    user = models.ForeignKey(User, related_name='user_wishlist', on_delete=models.CASCADE, default=1)
-    product_version = models.ForeignKey(ProductVersion, related_name='product_version_wishlist', on_delete=models.CASCADE, default=1)
+class Wishlist(AbstractModel):
+    user = models.ForeignKey(User, related_name='wishlists', on_delete=models.CASCADE, default=1)
+    product_version = models.ForeignKey(ProductVersion, related_name='wishlists', on_delete=models.CASCADE, default=1)
     
     class Meta:
         verbose_name = 'Wishlist'
         verbose_name_plural = 'Wishlists'
 
-    def __str__(self):
-        return self.user
+    # def __str__(self):
+    #     return self.user
