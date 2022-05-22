@@ -1,10 +1,10 @@
 from django import forms
-from product.models import ProductReviews
+from product.models import ProductReview
 
 
 class ProductReviewsForm(forms.ModelForm):
     class Meta:
-        model = ProductReviews
+        model = ProductReview
         fields = (
             'name',
             'email',

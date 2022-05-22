@@ -245,7 +245,7 @@
 											</div>
 											<div class="col-xs-12 col-md-8">
 												<div class="list-text">
-													<a href="{% url 'single_product' pk=product.id %}">
+													<a href="{% product.get_absolute_url %}">
 														<h3>{{product.title}}</h3>
 													</a>
 													<span>{{product.product.info}}</span>

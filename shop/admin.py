@@ -2,9 +2,9 @@ from django.contrib import admin
 
 # Register your models here.
 
-from shop.models import Basket,BasketItems,Order
+from shop.models import Basket, BasketItem, Order
 
-@admin.register(BasketItems)
+@admin.register(BasketItem)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ('basket', 'price', 'count','product_version', )
     list_filter = ('basket','product_version',)

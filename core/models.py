@@ -1,11 +1,11 @@
 from django.db import models
 
-class AbsrtactModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+class AbstractModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Contact(AbsrtactModel):
+class Contact(AbstractModel):
     name = models.CharField(max_length=255)
     email = models.EmailField(max_length=40)
     message = models.TextField()
@@ -18,12 +18,12 @@ class Contact(AbsrtactModel):
         return self.name
 
 
-class Subscribe(AbsrtactModel):
+class Subscriber(AbstractModel):
     email = models.EmailField(max_length=40)
 
     class Meta:
-        verbose_name = 'Subscribe'
-        verbose_name_plural = 'Subscribes'
+        verbose_name = 'Subscriber'
+        verbose_name_plural = 'Subscribers'
 
     def __str__(self):
         return self.email

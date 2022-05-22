@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductVersion, ProductReviews
+from product.models import Brand, Category, ProductVersion, ProductReview
 from .forms import ProductReviewsForm
 from django.http import Http404
 from django.contrib import messages
@@ -43,7 +43,7 @@ def single_product(request, id=1):
     review_form = ProductReviewsForm()
     relatedproducts = ProductVersion.objects.all()
     singleproduct = ProductVersion.objects.get(id=id)
-    product_reviews = ProductReviews.objects.all()
+    product_reviews = ProductReview.objects.all()
     product_colors = singleproduct.property.filter(property_name__name='color')
     product_sizes =  singleproduct.property.filter(property_name__name='size')
     if request.method == 'POST':
@@ -65,7 +65,7 @@ def single_product(request, id=1):
 
 
 class ProductView(DetailView,CreateView):
-    model = ProductReviews
+    model = ProductReview
     template_name = 'single-product.html'
     form_class = ProductReviewsForm
     # success_url = reverse_lazy('product')
@@ -86,7 +86,7 @@ class ProductView(DetailView,CreateView):
         context = super().get_context_data(**kwargs)
         context['related_products'] = ProductVersion.objects.all()
         context['review_form'] = ProductReviewsForm(data=self.request.POST)
-        context['reviews'] = ProductReviews.objects.all()
+        context['reviews'] = ProductReview.objects.all()
         context['product'] = self.get_object()
         context['colors'] = self.get_object().property.filter(property_name__name='color')
         context['sizes'] = self.get_object().property.filter(property_name__name='size')

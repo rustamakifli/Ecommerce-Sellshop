@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from blog.models import Blog, BlogReviews, BlogCategory, BlogComment
+from blog.models import Blog, BlogReview, BlogCategory, BlogComment
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
@@ -50,4 +50,4 @@ class BlogCommentAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register([ BlogReviews,])
+admin.site.register([ BlogReview,])

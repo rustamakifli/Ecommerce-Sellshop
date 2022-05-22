@@ -53,7 +53,6 @@ def login_register(request):
         login_form = LoginForm()
         next_page = request.GET.get('next','/')
         if request.method == 'POST':
-            print(request.POST)
             if request.POST.get('submit') == 'login':
                 login_form = LoginForm(data=request.POST)
                 if login_form.is_valid():
@@ -77,7 +76,6 @@ def login_register(request):
             }
         return render(request, 'login-register.html', context)
     else:
-        
         return redirect('/')
 
 class UserLoginView(LoginView):

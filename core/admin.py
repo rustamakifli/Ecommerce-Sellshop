@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Contact, Subscribe
+from core.models import Contact, Subscriber
 
 # Register your models here.
 
@@ -11,7 +11,7 @@ class ContactAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', )
 
 
-@admin.register(Subscribe)
+@admin.register(Subscriber)
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('email', 'created_at')
     list_filter = ('email', )

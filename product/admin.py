@@ -1,21 +1,21 @@
-from unicodedata import category
 from django.contrib import admin
 
 # Register your models here.
 
-from product.models import (Category, Product, 
-                        ProductImages, ProductReviews, 
-                        ProductVersion, PropertyName,
-                         PropertyValues, Brand)
+from product.models import (
+    Category, Product, ProductImage, ProductReview, ProductVersion, 
+    PropertyName, PropertyValue, Brand
+    )
 from modeltranslation.admin import TranslationAdmin
 from product.models import Category
 
+
 class ProductImageInline(admin.TabularInline):
-    model = ProductImages
+    model = ProductImage
     extra = 5
 
 
-# @admin.register(Category)
+@admin.register(Category)
 class CategoryAdmin(TranslationAdmin):
     list_display = ('title', 'parent_cat',)
     list_filter = ('title', )
@@ -25,12 +25,8 @@ class CategoryAdmin(TranslationAdmin):
             'fields': ('title',  'parent_cat',),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
 
-admin.site.register(Category, CategoryAdmin)
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -42,11 +38,9 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('title', 'category','info' ),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
  
+
 @admin.register(PropertyName)
 class PropertyNameAdmin(admin.ModelAdmin):
     list_display = ('name', 'category',  )
@@ -57,12 +51,10 @@ class PropertyNameAdmin(admin.ModelAdmin):
             'fields': ('name', 'category', ),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
 
-@admin.register(PropertyValues)
+
+@admin.register(PropertyValue)
 class PropertyValuesAdmin(admin.ModelAdmin):
     list_display = ('name', 'property_name', )
     list_filter = ('property_name', )
@@ -72,10 +64,8 @@ class PropertyValuesAdmin(admin.ModelAdmin):
             'fields': ('property_name','name',  ),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
+
 
 @admin.register(ProductVersion)
 class ProductVersionAdmin(admin.ModelAdmin):
@@ -83,17 +73,9 @@ class ProductVersionAdmin(admin.ModelAdmin):
     list_filter = ('title','old_price','new_price' )
     search_fields = ('name', )
     inlines = [ProductImageInline]
-    # fieldsets = [
-    #     ('Standard info', {
-    #         'fields': ('title','old_price','new_price','product','description','is_main','quantity', 'property'),
-    #         'classes': ('collapse',)
-    #     }),
-    #     ('Other', {
-    #         'fields': ('tags', )
-    #     }),
-    # ]
 
-@admin.register(ProductImages)
+
+@admin.register(ProductImage)
 class ProductImagesAdmin(admin.ModelAdmin):
     list_display = ('image', 'product_version','is_main' )
     list_filter = ('product_version',)
@@ -103,16 +85,15 @@ class ProductImagesAdmin(admin.ModelAdmin):
             'fields': ('product_version','image', 'is_main' ),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
 
-@admin.register(ProductReviews)
+
+@admin.register(ProductReview)
 class ProductReviewsAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'review')
     list_filter = ('name', 'email',)
     search_fields = ('name', 'email', )
+
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
@@ -124,11 +105,8 @@ class BrandAdmin(admin.ModelAdmin):
             'fields': ('title', 'product', ),
             'classes': ('collapse',)
         }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
     ]
 
-# admin.site.register([Category,])
+
 
 
