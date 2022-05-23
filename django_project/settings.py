@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_project.middleware.ForceDefaultLanguageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -168,7 +169,7 @@ LANGUAGES = [
 
 ]
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),

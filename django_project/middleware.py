@@ -1,6 +1,5 @@
 from django.utils.deprecation import MiddlewareMixin
 from django.http import HttpResponseForbidden
-from django.conf import settings
 import logging
 
 
@@ -37,3 +36,10 @@ class BlockIPMiddleware(MiddlewareMixin):
 
         if request.META['REMOTE_ADDR'] in self.BLACKLIST:
             return HttpResponseForbidden()
+
+
+class ForceDefaultLanguageMiddleware(MiddlewareMixin):
+    
+    def process_request(self, request):
+        if "HTTP_ACCEPT_LANGUAGE" in request.META:
+            del request.META["HTTP_ACCEPT_LANGUAGE"]
