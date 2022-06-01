@@ -66,7 +66,7 @@ class ProductVersion(models.Model):
     description = models.TextField()
     featured = models.BooleanField(default=False)
 
-    is_main = models.BooleanField()
+    is_main = models.BooleanField(null=True,blank=True)
 
     class Meta:
         verbose_name = 'Product version'

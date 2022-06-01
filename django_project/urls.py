@@ -23,6 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path('admin/', admin.site.urls),
+    path("api/", include('product.api.urls')),
+    path("api/users/", include('user.api.urls')),
     path('', include('social_django.urls', namespace='social')), 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
