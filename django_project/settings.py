@@ -45,12 +45,14 @@ INSTALLED_APPS = [
     'social_django',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'core',
     'user',
     'blog',
     'shop',
     'product',
     'cards',
+    
    
 ]
 
