@@ -1,34 +1,33 @@
-from requests import Response
 from rest_framework.views import APIView
-from product.api import serializers
+import django_filters.rest_framework
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT
+)
+
+from django.http import Http404
+from rest_framework import filters
+from product.api.serializers import ProductCreateSerializer,ProductReadSerializer
 from product.models import ProductVersion
 
-class ProductListAPI(APIView):
+class CustomListCreateAPIView(ListCreateAPIView):
 
-    def get(self, request, *args, **kwargs):
-        products = ProductVersion.objects.all()
-        serializer = serializers.ProductVersionSerializer( products, many = True, context={'request': request})
-        print(serializer.data)
-        return Response(data=serializer.data)
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.request.method)
+
+class ProductListCreateApi(CustomListCreateAPIView):
+    queryset = ProductVersion.objects.all()
+    filter_backends = (filters.SearchFilter, django_filters.rest_framework.DjangoFilterBackend,  filters.OrderingFilter)
+    # filter_fields = ('category')
+    serializer_classes = {
+        'GET': ProductReadSerializer,
+        'POST': ProductCreateSerializer
+    }
 
 
-# class ProductListView(ListView):
-#     template_name = 'product-list.html'
-#     model = ProductVersion
-#     context_object_name = 'products'
-#     paginate_by = 4
-#     # ordering = ('created_at', )
-
-#     def get_queryset(self):
-#         queryset = super().get_queryset()
-#         category_id = self.request.GET.get('category_id') 
-#         if category_id:
-#             queryset = queryset.filter(category__id=category_id)
-#         return queryset
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['categories'] = Category.objects.all()
-#         context['brands'] = Brand.objects.all()
-
-#         return context
+class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = ProductVersion.objects.all()
+    serializer_class = ProductCreateSerializer

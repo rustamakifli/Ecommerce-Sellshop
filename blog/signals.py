@@ -12,10 +12,10 @@ from slugify import slugify
 
 @receiver(post_save, sender=Blog)
 def story_object_creation(sender, instance, created, **kwargs):
-    print(created)
+    # print(created)
     old_slug = instance.slug
     new_slug = f"{slugify(instance.title)}-{instance.id}"
     if old_slug != new_slug:
         instance.slug = new_slug
         instance.save()
-        print('isledi')
+        # print('isledi')

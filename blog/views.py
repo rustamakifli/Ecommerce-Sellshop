@@ -1,5 +1,3 @@
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
 from blog.forms import BlogCommentForm
 from blog.models import BlogCategory,Blog
 from django.views.generic import DetailView, CreateView, ListView
@@ -60,7 +58,6 @@ class BlogListView(ListView):
         if category_id:
             queryset = queryset.filter(category__id=category_id)
         return queryset
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

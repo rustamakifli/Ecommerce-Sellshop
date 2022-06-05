@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
     'modeltranslation',
     'ckeditor',
     'jazzmin',
+    'rest_framework',
+    'rest_framework_simplejwt',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,11 +55,15 @@ INSTALLED_APPS = [
     'shop',
     'product',
     'cards',
+<<<<<<< HEAD
     
    
+=======
+>>>>>>> e9ef27e48b136a4aa2a7a48fe6e0701cb3a67e9c
 ]
 
 MIDDLEWARE = [
+    'django_project.middleware.ForceDefaultLanguageMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,6 +77,22 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_project.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'TOKEN_OBTAIN_SERIALIZER': "user.api.serializers.CustomTokenObtainPairSerializer",
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+
+    'JTI_CLAIM': 'jti',
+}
 
 TEMPLATES = [
     {
@@ -170,7 +193,7 @@ LANGUAGES = [
 
 ]
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'az'
+MODELTRANSLATION_DEFAULT_LANGUAGE = LANGUAGE_CODE
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),

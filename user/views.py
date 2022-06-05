@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.contrib.auth import logout as django_logout
 from django.contrib import messages
 from django.views.generic import View,CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth import get_user_model
-from requests import request
 from user.forms import AddresForm, RegisterForm,UpdatePersonalInfoForm,LoginForm,CustomPasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.utils.encoding import force_str
@@ -44,39 +43,37 @@ class ResetPasswordView(PasswordResetView):
     def get_success_url(self):
         return super().get_success_url()    
 
- 
 
-
-def login_register(request):
-    if not request.user.is_authenticated:
-        reg_form = RegisterForm()
-        login_form = LoginForm()
-        next_page = request.GET.get('next','/')
-        if request.method == 'POST':
-            if request.POST.get('submit') == 'login':
-                login_form = LoginForm(data=request.POST)
-                if login_form.is_valid():
-                    user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
-                    if user is not None:
-                        django_login(request, user)
-                        messages.add_message(request, messages.SUCCESS, 'You signed in!')
-                        return redirect(next_page)        
-                    else:
-                        messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
-            elif request.POST.get('submit') == 'register':
-                reg_form = RegisterForm(data=request.POST)
-                if reg_form.is_valid():
-                    user = reg_form.save()
-                    user.set_password(reg_form.cleaned_data['password'])
-                    user.save()
-                    return redirect('login')
-        context = {
-                'reg_form': reg_form,
-                'login_form':login_form,
-            }
-        return render(request, 'login-register.html', context)
-    else:
-        return redirect('/')
+# def login_register(request):
+#     if not request.user.is_authenticated:
+#         reg_form = RegisterForm()
+#         login_form = LoginForm()
+#         next_page = request.GET.get('next','/')
+#         if request.method == 'POST':
+#             if request.POST.get('submit') == 'login':
+#                 login_form = LoginForm(data=request.POST)
+#                 if login_form.is_valid():
+#                     user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
+#                     if user is not None:
+#                         django_login(request, user)
+#                         messages.add_message(request, messages.SUCCESS, 'You signed in!')
+#                         return redirect(next_page)        
+#                     else:
+#                         messages.add_message(request, messages.ERROR, 'Email or password is wrong!')
+#             elif request.POST.get('submit') == 'register':
+#                 reg_form = RegisterForm(data=request.POST)
+#                 if reg_form.is_valid():
+#                     user = reg_form.save()
+#                     user.set_password(reg_form.cleaned_data['password'])
+#                     user.save()
+#                     return redirect('login')
+#         context = {
+#                 'reg_form': reg_form,
+#                 'login_form':login_form,
+#             }
+#         return render(request, 'login-register.html', context)
+#     else:
+#         return redirect('/')
 
 class UserLoginView(LoginView):
     form_class = LoginForm
@@ -85,9 +82,15 @@ class UserLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['reg_form'] = RegisterForm()
         context['login_form'] = LoginForm()
 
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("index")
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
 
 
@@ -112,6 +115,11 @@ class RegisterView(CreateView):
         context['reg_form'] = RegisterForm()
 
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("index")
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
 @login_required
 def account(request):

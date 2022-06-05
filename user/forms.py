@@ -24,7 +24,7 @@ class ResetPasswordForm(PasswordResetForm):
     email = forms.EmailField(label=_("Email"), widget=forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Email'
-            }), max_length=254)
+            }), max_length=255)
     
 
 class AddresForm(forms.ModelForm):
