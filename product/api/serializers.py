@@ -1,13 +1,13 @@
 from unicodedata import category
 from rest_framework import serializers
-from product.models import ProductVersion,Product,Category,ProductImages,PropertyName,PropertyValues
+from product.models import ProductVersion,Product,Category,ProductImage,PropertyName,PropertyValue
 from collections import OrderedDict
 
 
 class PropertyValueSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PropertyValues
+        model = PropertyValue
         fields = (
             'name',
 
@@ -47,7 +47,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model = ProductImages
+        model = ProductImage
         fields = (
             'image',
             

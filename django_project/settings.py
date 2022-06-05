@@ -48,18 +48,12 @@ INSTALLED_APPS = [
     'social_django',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'core',
     'user',
     'blog',
     'shop',
     'product',
     'cards',
-<<<<<<< HEAD
-    
-   
-=======
->>>>>>> e9ef27e48b136a4aa2a7a48fe6e0701cb3a67e9c
 ]
 
 MIDDLEWARE = [
