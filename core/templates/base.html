@@ -329,7 +329,13 @@
 						<div class="col-sm-6">
 							<div class="newsletter newsletter2">
 								<h3>{% trans 'newsletter' %}</h3>
-								<form action="{% url 'subscribe' %}" role="form" class="contact-form" method="POST" name="subscribe">
+								<form action="#" class="subscribe-form" method="post">
+									<input type="text" name="email" placeholder="Enter your email..."/>
+									<input type="submit" name = "email" value="subscribe"/>
+								</form>
+
+								{% comment %}
+								<form action="{% url 'subscribe' %}" role="form" class="subscribe-form" method="POST" name="subscribe">
 										{% csrf_token %}
 										{{ subscribe_form.non_field_errors }}
 										
@@ -337,6 +343,7 @@
 										<br>
 									<input type="submit" value="subscribe"/>
 								</form>
+								{% endcomment %}
 							</div>
 							<div class="social-icons">
 								<a href="#"><i class="mdi mdi-facebook"></i></a>
@@ -497,6 +504,8 @@
         <!-- footer section end -->
         
 		<!-- all js here -->
+		<!-- custom js file -->
+        <script src="{% static 'js/scripts.js' %}"></script>
 		<!-- jquery latest version -->
         <script src="{% static 'js/vendor/jquery-1.12.3.min.js' %}"></script>
 		<!-- bootstrap js -->
