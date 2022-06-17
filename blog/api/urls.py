@@ -13,5 +13,4 @@ urlpatterns = [
 
    # bu endpointler test meqsedi ile yazilmisdir. Daha sonra silinecek. Ehtiyac yoxdur.
    path('blog-comments/', api_views.BlogCommentListCreateAPIView.as_view(), name='blog-comments'),
-   path('authors/', api_views.AuthorListAPIView.as_view(), name='author-list'),
 ]
