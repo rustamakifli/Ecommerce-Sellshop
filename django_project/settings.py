@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'jazzmin',
     'rest_framework',
+    'django_extensions',
     'rest_framework_simplejwt',
     'django.contrib.admin',
     'django.contrib.auth',
