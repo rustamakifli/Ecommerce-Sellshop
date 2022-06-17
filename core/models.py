@@ -19,7 +19,8 @@ class Contact(AbstractModel):
 
 
 class Subscriber(AbstractModel):
-    email = models.EmailField(max_length=40)
+    email = models.EmailField("Email", unique = True, max_length=40)
+    is_active = models.BooleanField("Is active", default=True)
 
     class Meta:
         verbose_name = 'Subscriber'

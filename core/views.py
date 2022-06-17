@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .forms import ContactForm, SubscribeForm
+from .forms import ContactForm  #SubscribeForm
 from django.contrib import messages
 from django.views.generic import CreateView
 
@@ -57,13 +57,13 @@ class ContactView(CreateView):
 #         }
 #     return render(request,'index.html', context)
 
-class SubscribeView(CreateView):
-    template_name = 'index.html'
-    form_class = SubscribeForm
-    success_url = reverse_lazy('index')
+# class SubscribeView(CreateView):
+#     template_name = 'index.html'
+#     form_class = SubscribeForm
+#     success_url = reverse_lazy('index')
 
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        messages.add_message(self.request, messages.SUCCESS, 'Email qeyde alindi!')
-        return result
+#     def form_valid(self, form):
+#         result = super().form_valid(form)
+#         messages.add_message(self.request, messages.SUCCESS, 'Email qeyde alindi!')
+#         return result
