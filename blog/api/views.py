@@ -1,9 +1,15 @@
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
+from user.models import User
 
 
-from blog.api.serializers import BlogSerializer, BlogCommentSerializer, BlogCategorySerializer, BlogReviewSerializer
+from blog.api.serializers import BlogSerializer, BlogCommentSerializer, BlogCategorySerializer, BlogReviewSerializer, AuthorSerializer
 from blog.models import BlogCategory, Blog, BlogReview, BlogComment
+
+
+class AuthorListAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = AuthorSerializer
 
 
 class BlogCategoryListCreateAPIView(generics.ListCreateAPIView):
@@ -26,15 +32,15 @@ class BlogDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BlogSerializer
 
 
-class BlogCommentCreateAPIView(generics.CreateAPIView):
+class BlogCommentListCreateAPIView(generics.ListCreateAPIView):
     queryset = BlogComment.objects.all()
     serializer_class = BlogCommentSerializer
 
-    
     def perform_create(self, serializer):
         # path('blogs/<int:blog_pk>/create-comment', api_views.YorumCreateAPIView.as_view(), name='blog-create-comment'),
         blog_pk = self.kwargs.get('blog_pk')
-        blog = get_object_or_404(Blog, id=blog_pk)
+        blog = get_object_or_404(Blog, pk=blog_pk)
+        print(blog)
         serializer.save(blog=blog)
 
 
