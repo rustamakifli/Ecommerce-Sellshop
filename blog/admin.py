@@ -7,12 +7,12 @@ from blog.models import Blog, BlogReview, BlogCategory, BlogComment
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'author','description', 'created_at')
+    list_display = ('title', 'category','description', 'created_at')
     list_filter = ('category__title', 'created_at', )
     search_fields = ('title', )
     fieldsets = [
         ('Standard info', {
-            'fields': ('title', 'category','author','image','description','content', ),
+            'fields': ('title', 'category','image','description','content', ),
             'classes': ('collapse',)
         }),
         # ('Other', {
@@ -36,12 +36,11 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):
-    list_display = ( 'name', 'email','created_at')
-    list_filter = ( 'name','created_at', )
-    search_fields = ('comment','name' )
+    list_filter = ( 'user','created_at', )
+    search_fields = ('comment','user' )
     fieldsets = [
         ('Standard info', {
-            'fields': ('blog','name', 'email','comment'),
+            'fields': ('blog','user', 'comment'),
             'classes': ('collapse',)
         }),
         # ('Other', {

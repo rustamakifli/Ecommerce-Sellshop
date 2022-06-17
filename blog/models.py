@@ -27,15 +27,13 @@ class BlogCategory(models.Model):
         return self.title
 
 class Blog(AbstractModel):
+    author = models.ForeignKey(User, related_name='blog_author', on_delete=models.CASCADE, default=1)
     category = models.ForeignKey(BlogCategory, related_name='blog_category', on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=250, db_index=True)
     image = models.ImageField(upload_to='blog_images')
     description = models.CharField(max_length=255)
     content = RichTextField()
-    author = models.CharField(max_length=50,default=None)
     slug = models.SlugField(max_length=70, editable=False, db_index=True) 
-    # like_count = models.IntegerField(null=True,blank=True,default=0)
-    # comment_count = models.IntegerField(null=True,blank=True,default=0)
 
     def get_absolute_url(self):
         return reverse_lazy('single_blog', kwargs={
@@ -68,8 +66,6 @@ class BlogComment(AbstractModel):
     blog = models.ForeignKey(Blog, related_name='blog_comments', on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, related_name='blog_comments', on_delete=models.CASCADE, default=1)
     comment = models.TextField()
-    name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=40)
 
     class Meta:
         verbose_name = 'Blog comment'
