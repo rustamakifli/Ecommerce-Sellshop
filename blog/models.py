@@ -59,4 +59,4 @@ class BlogComment(AbstractModel):
         verbose_name_plural = 'Blog comments'
 
     def __str__(self):
-        return self.comment
+        return f'{self.comment} - {self.blog} ({self.user})' 

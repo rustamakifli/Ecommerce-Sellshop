@@ -4,9 +4,10 @@ from blog.models import BlogCategory, Blog, BlogComment
 
 class BlogCommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
+    blog = serializers.ReadOnlyField(source='blog.title')
     class Meta:
+        fields = '__all__'
         model = BlogComment
-        exclude = ['blog']
         read_only_fields = ['id', 'user', 'created_at', 'updated_at']
 
 

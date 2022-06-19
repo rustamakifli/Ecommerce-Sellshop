@@ -185,7 +185,7 @@
 												<li><a href="{% url 'error404' %}">404 page</a></li>
 											</ul>
 										</li>
-										<li><a href="{% url 'blog' %}">{% trans 'Blog' %}</a>
+										<li><a href="{% url 'blogpage' %}">{% trans 'Blog' %}</a>
 											<ul class="dropdown">
 												<li><a href="#">Blog Style One</a></li>
 												<li><a href="#">Blog Style Two</a></li>
@@ -245,9 +245,9 @@
 													<li><a href="{% url 'error404' %}">404 page</a></li>
 												</ul>
 											</li>
-											<li><a href="{% url 'blog' %}">{% trans 'Blog' %}</a>
+											<li><p>Blog</p>
 												<ul>
-													<li><a href="#">Blog Style One</a></li>
+													<li><a href="#">Blog Style sds</a></li>
 													<li><a href="#">Blog Style Two</a></li>
 												</ul>
 											</li>
@@ -528,5 +528,7 @@
         <script src="{% static 'js/plugins.js' %}"></script>
 		<!-- main js -->
         <script src="{% static 'js/main.js' %}"></script>
+		<!-- fetch js -->
+        <script src="{% static 'js/fetch.js' %}"></script>
     </body>
 </html>
