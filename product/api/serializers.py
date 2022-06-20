@@ -1,16 +1,14 @@
 from unicodedata import category
 from rest_framework import serializers
-from product.models import ProductVersion,Product,Category,ProductImages,PropertyName,PropertyValues
+from product.models import ProductVersion,Product,Category,ProductImage,PropertyName,PropertyValue
 from collections import OrderedDict
-
 
 class PropertyValueSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PropertyValues
+        model = PropertyValue
         fields = (
             'name',
-
         )
 
 
@@ -45,26 +43,28 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductImageSerializer(serializers.ModelSerializer):
 
-
+    image = serializers.ImageField(max_length=None, use_url=True)
     class Meta:
-        model = ProductImages
+        model = ProductImage
         fields = (
             'image',
-            
+            'is_main',
         )
+
+    # def get_image_url(self, obj):
+    #     return obj.image.url
 
 class ProductReadSerializer(serializers.ModelSerializer):
 
     product = ProductSerializer()
-    product_image = ProductImageSerializer()
+    product_images = ProductImageSerializer(many=True)
     property = PropertyValueSerializer()
     
     class Meta:
         model = ProductVersion
         fields = (
-            
             'product',
-            'product_image',
+            'product_images',
             'title',
             'property',
             'old_price',    

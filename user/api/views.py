@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class UserProfileAPIView(RetrieveAPIView):
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

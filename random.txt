@@ -1,0 +1,43 @@
+{% for product in products %}
+									<div class="single-list-view">
+										<div class="row">
+											<div class="col-xs-12 col-md-4">
+												<div class="list-img">
+													<div class="product-img">
+														<div class="pro-type sell">
+															<span>sell</span>
+														</div>
+														{% for image in product.product_image.all %}
+														<a href="#"><img src="{{image.image.url}}"
+																alt="Product Title" /></a>
+														{% endfor %}
+													</div>
+												</div>
+											</div>
+											<div class="col-xs-12 col-md-8">
+												<div class="list-text">
+													<a href="{{ product.get_absolute_url }}">
+														<h3>{{product.title}}</h3>
+													</a>
+													<span>{{product.product.info}}</span>
+													<div class="ratting floatright">
+														<p>( 20 Rating )</p>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star"></i>
+														<i class="mdi mdi-star-half"></i>
+														<i class="mdi mdi-star-outline"></i>
+													</div>
+													<h5><del>${{product.old_price}}</del> ${{product.new_price}}</h5>
+													<p>{{product.description}}</p>
+													<div class="list-btn">
+														<a data-product={{product.id}} data-action="add" class="update-cart" href="#">add to cart</a>
+														<a href="#">wishlist</a>
+														<a href="#" data-toggle="modal"
+															data-target="#quick-view">zoom</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									{% endfor %}

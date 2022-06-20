@@ -1,4 +1,3 @@
-import imp
 from django.urls import path
 from product.api.views import ProductListCreateApi,ProductRetrieveUpdateDestroyAPIView
 

@@ -1,8 +1,7 @@
-from itertools import product
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from product.models import ProductVersion,Product
+from product.models import ProductVersion
 from product.api.serializers import ProductReadSerializer,ProductCreateSerializer
 from rest_framework.status import ( 
     HTTP_200_OK, 

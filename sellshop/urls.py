@@ -1,4 +1,4 @@
-"""django_project URL Configuration
+"""sellshop URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -24,6 +24,7 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path('admin/', admin.site.urls),
     path("api/", include('product.api.urls')),
+    path("api/", include('order.api.urls')),
     path("api/users/", include('user.api.urls')),
     path('', include('social_django.urls', namespace='social')), 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -33,6 +34,5 @@ urlpatterns += i18n_patterns(
     path('', include('user.urls')),
     path('', include('product.urls')),
     path('', include('blog.urls')),
-    path('', include('shop.urls')),
-    path('', include('cards.urls')),
+    path('', include('order.urls')),
 )
