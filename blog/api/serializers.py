@@ -18,7 +18,6 @@ class BlogSerializer(serializers.ModelSerializer):
         view_name='blog-comments',
     )
     author = serializers.StringRelatedField(read_only=True)
-    category = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Blog
         fields = '__all__'
@@ -31,6 +30,7 @@ class BlogCategorySerializer(serializers.ModelSerializer):
         read_only=True,
         view_name='blog-detail',
     )
+    parent_cat = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = BlogCategory
         fields = '__all__'
