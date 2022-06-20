@@ -4,7 +4,7 @@ from django.db.models import fields
 from rest_framework import serializers
 
 from order.models import Order, OrderItem
-from product.api.serializers import ProductReadSerializer
+from product.api.serializers import ProductSerializer
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -16,10 +16,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_products(self, obj):
         qs = obj.product.all()
-        return ProductReadSerializer(qs, many=True).data
+        return ProductSerializer(qs, many=True).data
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductReadSerializer() 
+    product = ProductSerializer() 
     is_ordered = serializers.SerializerMethodField()
     coupon_discount = serializers.SerializerMethodField()
 

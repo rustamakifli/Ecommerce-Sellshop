@@ -1,93 +1,53 @@
-from unicodedata import category
 from rest_framework import serializers
-from product.models import ProductVersion,Product,Category,ProductImage,PropertyName,PropertyValue
-from collections import OrderedDict
+from product.models import (
+    Category, Product, ProductVersion, PropertyName, PropertyValue, ProductImage, ProductReview, Brand
+    )
 
-class PropertyValueSerializer(serializers.ModelSerializer):
 
+class ProductVersionSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+    product = serializers.ReadOnlyField(source='product.title')
     class Meta:
-        model = PropertyValue
-        fields = (
-            'name',
-        )
-
-
-class CategorySerializer(serializers.ModelSerializer):
-
-
-    class Meta:
-        model = Category
-        fields = (
-            'id',
-            'parent_cat',
-            'title',
-        )
-
-    def to_representation(self, instance):
-        result = super(CategorySerializer, self).to_representation(instance)
-        return OrderedDict([(key, result[key]) for key in result if result[key] is not None])
+        fields = '__all__'
+        model = ProductVersion
+        read_only_fields = ['id', 'user', 'created_at', 'updated_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    
-    category = CategorySerializer()
-
+    product_versions = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='product-version-list',
+    )
     class Meta:
         model = Product
-        fields = (
-            'id', 
-            'category',
-            'title',
-            'info',
-        )
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
-class ProductImageSerializer(serializers.ModelSerializer):
 
-    image = serializers.ImageField(max_length=None, use_url=True)
+class CategorySerializer(serializers.ModelSerializer):
+    category_products = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='product-detail',
+    )
+    parent_cat = serializers.StringRelatedField(read_only=True)
     class Meta:
-        model = ProductImage
-        fields = (
-            'image',
-            'is_main',
-        )
-
-    # def get_image_url(self, obj):
-    #     return obj.image.url
-
-class ProductReadSerializer(serializers.ModelSerializer):
-
-    product = ProductSerializer()
-    product_images = ProductImageSerializer(many=True)
-    property = PropertyValueSerializer()
-    
-    class Meta:
-        model = ProductVersion
-        fields = (
-            'product',
-            'product_images',
-            'title',
-            'property',
-            'old_price',    
-            'new_price',
-            'quantity',
-            'description',
-        )
+        model = Category
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
-    def to_representation(self, instance):
-        result = super(ProductReadSerializer, self).to_representation(instance)
-        return OrderedDict([(key, result[key]) for key in result if result[key] is not None])
 
-   
-class ProductCreateSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = ProductVersion
-        fields = (
-            'product',
-            'title',
-            'old_price',    
-            'new_price',
-            'quantity',
-            'description',
-        )
+
+
+
+
+
+
+
+
+
+
+
