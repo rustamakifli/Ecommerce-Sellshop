@@ -7,7 +7,7 @@ from blog.models import BlogCategory, Blog, BlogComment
 
 
 class BlogCategoryListCreateAPIView(generics.ListCreateAPIView):
-    queryset = BlogCategory.objects.all().order_by('id')
+    queryset = BlogCategory.objects.all()
     serializer_class = BlogCategorySerializer
 
 
@@ -17,8 +17,9 @@ class BlogCategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPI
 
 
 class BlogListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Blog.objects.all().order_by('id')
+    queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+
 
 
 class BlogDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -30,13 +31,30 @@ class BlogCommentListCreateAPIView(generics.ListCreateAPIView):
     queryset = BlogComment.objects.all()
     serializer_class = BlogCommentSerializer
 
+    # path('blogs/<int:blog_pk>/comments', api_views.BlogCommentListCreateAPIView.as_view(), name='blog-comment'),
+
     def perform_create(self, serializer):
-        # path('blogs/<int:blog_pk>/create-comment', api_views.YorumCreateAPIView.as_view(), name='blog-create-comment'),
         blog_pk = self.kwargs.get('blog_pk')
         blog = get_object_or_404(Blog, pk=blog_pk)
         serializer.save(blog=blog)
+
+    def get_queryset(self):
+        blog = self.kwargs.get('blog_pk')
+        return super().get_queryset().filter(blog=blog)
 
 
 class BlogCommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = BlogComment.objects.all()
     serializer_class = BlogCommentSerializer  
+
+
+from django.shortcuts import render
+
+
+def blogpage(request):
+    return render(request, template_name = 'blog.html')
+
+
+def singleblogpage(request):
+    return render(request, template_name = 'single-blog.html')
+

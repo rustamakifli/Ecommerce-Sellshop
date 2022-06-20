@@ -5,6 +5,7 @@ from blog.models import Blog, BlogCategory, BlogComment
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
+    readonly_fields = ['author',]
     list_display = ('title', 'category', 'created_at',)
     list_filter = ('category__title', 'created_at', )
     search_fields = ('title', )
@@ -16,6 +17,7 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):
+    readonly_fields = ['user',]
     list_filter = ( 'user','created_at', )
     search_fields = ('blog',)
 
