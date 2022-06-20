@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'rest_framework',
     "corsheaders",
+    'django_extensions',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'django.contrib.admin',
@@ -80,9 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-   
-   
-    
+    'DATETIME_FORMAT': '%B %d, %Y',
 }
 
 SIMPLE_JWT = {
