@@ -50,6 +50,7 @@ class Blog(AbstractModel):
 
 
 class BlogComment(AbstractModel):
+    parent_comment = models.ForeignKey('self', related_name='child_comments', on_delete=models.CASCADE, null=True, blank=True, default="",)
     blog = models.ForeignKey(Blog, related_name='blog_comments', on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, related_name='user_blog_comments', on_delete=models.CASCADE, default=1)
     comment = models.TextField()
@@ -60,3 +61,12 @@ class BlogComment(AbstractModel):
 
     def __str__(self):
         return f'{self.comment} - {self.blog} ({self.user})' 
+
+    def children(self):
+        return BlogComment.objects.filter(parent_comment=self)
+
+    @property
+    def is_parent(self):
+        if self.parent_comment is not None:
+            return False
+        return True

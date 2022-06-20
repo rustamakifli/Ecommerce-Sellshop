@@ -8,6 +8,7 @@
 //     3. list related blogs in blog detail page;
 //     4. list latest blogs in home page;
 //     5. get data from comment form in blog detail page;
+//     6. list comments in blog detail page;
 	
 // -----------------------------------------------------------------------------------*/
 
@@ -67,7 +68,7 @@ document.addEventListener("DOMContentLoaded",  function(){
 document.addEventListener("DOMContentLoaded",  function(){
     let blogSection = document.getElementById('blog-detail')
     async function renderBlogDetail(){
-        let response = await fetch(urlForBlogs + 2, {
+        let response = await fetch(urlForBlogs + singleBlogID, {
             headers: {
                 'Content-Type': 'application/json',
                 },
@@ -201,11 +202,13 @@ document.addEventListener("DOMContentLoaded",  function(){
 
 
 (function() {
-    let form = document.querySelector('blogcommentform');
-    form.addEventListener('submit', async (event) => {
+    let form = document.querySelector('.blogcommentform');
+    form.addEventListener('click', async (event) => {
+        console.log("sadss")
         event.preventDefault();
+
         let postData = {
-            "email": form.email.value 
+            "comment": form.comment.value 
         }
         let response = await fetch('http://127.0.0.1:8000/api/blogs/3/comments', {
              headers: {
@@ -214,15 +217,8 @@ document.addEventListener("DOMContentLoaded",  function(){
              method: "POST",
              body: JSON.stringify(postData)
         });
-         let responseData = await response.json();
-         console.log('BACK END RESPONSE AS JSON: ', responseData);
-         if(response.ok){
-             alert('Ugurla subscribe oldunuz')
-         }else{
-             alert(responseData.email);
-         }
- 
- 
+        let responseData = await response.json();
+        alert(responseData) 
     });
  
  })(); 
