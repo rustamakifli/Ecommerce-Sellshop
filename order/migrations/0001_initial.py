@@ -14,6 +14,23 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Order',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('date_ordered', models.DateTimeField(auto_now_add=True)),
+                ('complete', models.BooleanField(default=False)),
+                ('transaction_id', models.CharField(max_length=100, null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='OrderItem',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('quantity', models.IntegerField(blank=True, default=0, null=True)),
+                ('date_added', models.DateTimeField(auto_now_add=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Wishlist',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

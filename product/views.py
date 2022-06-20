@@ -1,12 +1,14 @@
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductVersion, ProductReview
+from product.models import Brand, Category, ProductVersion, ProductReview,Product
 from .forms import ProductReviewsForm
-from django.http import Http404
+from django.http import Http404,JsonResponse
 from django.contrib import messages
 from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
-
+import json
+from order.models import *
 
 def product(request):
     category_list = Category.objects.all()
@@ -23,6 +25,7 @@ class ProductListView(ListView):
     model = ProductVersion
     context_object_name = 'products'
     paginate_by = 4
+
     # ordering = ('created_at', )
 
     def get_queryset(self):
@@ -93,3 +96,26 @@ class ProductView(DetailView,CreateView):
     
 
         return context
+
+def updateItem(request):
+        data = json.loads(request.body)
+        productId = data['productId']
+        action = data['action']
+        print('Action:', action)
+        print('Product:', productId)
+        customer = request.user
+        product = ProductVersion.objects.get(id=productId)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action == 'remove':
+            orderItem.quantity = (orderItem.quantity - 1)
+
+        orderItem.save()
+
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+
+        return JsonResponse("item was added",safe=False )
