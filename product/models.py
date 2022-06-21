@@ -103,6 +103,7 @@ class ProductImage(models.Model):
 
 class ProductReview(AbsrtactModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_review', on_delete=models.CASCADE, default=1)
+    # name ve email silmek lazimdir artiqdir.
     name = models.CharField(max_length=30)
     email = models.EmailField()
     review = models.TextField()

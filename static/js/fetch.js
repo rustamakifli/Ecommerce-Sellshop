@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded",  function(){
 (function() {
     let form = document.querySelector('.blogcommentform');
     form.addEventListener('click', async (event) => {
-        console.log("sadss")
+        console.log("test")
         event.preventDefault();
 
         let postData = {

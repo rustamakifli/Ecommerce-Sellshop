@@ -1,33 +1,103 @@
-from rest_framework.views import APIView
-import django_filters.rest_framework
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from rest_framework.response import Response
-from rest_framework.status import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT
-)
+from rest_framework import generics
+from rest_framework.generics import get_object_or_404
 
-from django.http import Http404
-from rest_framework import filters
-from product.api.serializers import ProductCreateSerializer,ProductReadSerializer
-from product.models import ProductVersion
+from product.api.serializers import (
+    CategorySerializer, ProductSerializer, ProductVersionSerializer,
+    PropertyNameSerializer, PropertyValueSerializer, ProductImageSerializer,
+    ProductReviewSerializer, BrandSerializer,)
 
-class CustomListCreateAPIView(ListCreateAPIView):
+from product.models import (
+    Category, Product, ProductVersion, PropertyName,
+    PropertyValue, ProductImage, ProductReview, Brand,
+    )
 
-    def get_serializer_class(self):
-        return self.serializer_classes.get(self.request.method)
 
-class ProductListCreateApi(CustomListCreateAPIView):
+class BrandListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+
+class BrandDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+
+class ProductReviewListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ProductReview.objects.all()
+    serializer_class = ProductReviewSerializer
+
+
+class ProductReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductReview.objects.all()
+    serializer_class = ProductReviewSerializer
+
+
+class ProductImageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+
+    # path('product-versions/<int:product_version_pk>/images', api_views.ProductImageListCreateAPIView.as_view(), name='product-version-images'),
+
+    def perform_create(self, serializer):
+        product_version_pk = self.kwargs.get('product_version_pk')
+        product_version = get_object_or_404(ProductVersion, pk=product_version_pk)
+        serializer.save(product_version=product_version)
+
+    def get_queryset(self):
+        product_version = self.kwargs.get('product_version_pk')
+        return super().get_queryset().filter(product_version=product_version)
+
+
+class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+
+
+class PropertyValueListCreateAPIView(generics.ListCreateAPIView):
+    queryset = PropertyValue.objects.all()
+    serializer_class = PropertyValueSerializer
+
+
+class PropertyValueDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PropertyValue.objects.all()
+    serializer_class = PropertyValueSerializer
+
+
+class PropertyNameListCreateAPIView(generics.ListCreateAPIView):
+    queryset = PropertyName.objects.all()
+    serializer_class = PropertyNameSerializer
+
+
+class PropertyNameDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PropertyName.objects.all()
+    serializer_class = PropertyNameSerializer
+
+
+class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
     queryset = ProductVersion.objects.all()
-    filter_backends = (filters.SearchFilter, django_filters.rest_framework.DjangoFilterBackend,  filters.OrderingFilter)
-    # filter_fields = ('category')
-    serializer_classes = {
-        'GET': ProductReadSerializer,
-        'POST': ProductCreateSerializer
-    }
+    serializer_class = ProductVersionSerializer
 
 
-class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class ProductVersionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductVersion.objects.all()
-    serializer_class = ProductCreateSerializer
+    serializer_class = ProductVersionSerializer
+
+
+class ProductListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class CategoryListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

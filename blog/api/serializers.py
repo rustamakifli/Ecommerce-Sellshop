@@ -15,7 +15,7 @@ class BlogSerializer(serializers.ModelSerializer):
     blog_comments = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name='blog-comments',
+        view_name='blog-detail',
     )
     author = serializers.StringRelatedField(read_only=True)
     class Meta:
