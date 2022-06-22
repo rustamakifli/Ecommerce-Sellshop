@@ -90,9 +90,9 @@ class ProductImagesAdmin(admin.ModelAdmin):
 
 @admin.register(ProductReview)
 class ProductReviewsAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'review')
-    list_filter = ('name', 'email',)
-    search_fields = ('name', 'email', )
+    list_display = ('user',)
+    list_filter = ('user',)
+    search_fields = ('review', 'user', )
 
 
 @admin.register(Brand)

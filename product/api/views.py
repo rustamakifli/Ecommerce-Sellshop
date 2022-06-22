@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 
 from product.api.serializers import (
@@ -77,6 +78,19 @@ class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
     queryset = ProductVersion.objects.all()
     serializer_class = ProductVersionSerializer
 
+    # get filtered data
+    # http://127.0.0.1:8000/api/product-versions/?is_main=True&featured=False
+    def get(self, request, *args, **kwargs):
+        queryset = ProductVersion.objects.all()
+        featured = request.GET.get('featured')
+        is_main = request.GET.get('is_main')
+        if featured:
+            queryset = queryset.filter(featured=featured)
+        if is_main:
+            queryset = queryset.filter(is_main=is_main)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class ProductVersionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductVersion.objects.all()
@@ -101,3 +115,15 @@ class CategoryListCreateAPIView(generics.ListCreateAPIView):
 class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+
+from django.shortcuts import render
+
+
+def product(request):
+    return render(request, template_name = 'product-list.html')
+
+
+def single_product(request):
+    return render(request, template_name = 'single-product.html')
