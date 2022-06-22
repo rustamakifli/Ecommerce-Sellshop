@@ -3,6 +3,10 @@ from product.api import views as api_views
 
 
 urlpatterns = [
+    # bu endpointler sadece click etdikde template-e catmaq ucun yaradilmisdir.
+    path('product/',api_views.product, name='product'),
+    path('single_product/', api_views.single_product, name='single_product'),
+
     path('categories/', api_views.CategoryListCreateAPIView.as_view(), name="category-list"),
     path('categories/<int:pk>', api_views.CategoryDetailAPIView.as_view(), name="category-detail"),
 
@@ -12,6 +16,7 @@ urlpatterns = [
     path('product-versions/', api_views.ProductVersionListCreateAPIView.as_view(), name="product-version-list"),
     path('product-versions/<int:pk>', api_views.ProductVersionDetailAPIView.as_view(), name="product-version-detail"),
     path('product-versions/<int:product_version_pk>/images', api_views.ProductImageListCreateAPIView.as_view(), name='product-version-images'),
+    path('product-versions/<int:product_version_pk>/reviews', api_views.ProductReviewListCreateAPIView.as_view(), name='product-version-images'),
 
     path('property-names/', api_views.PropertyNameListCreateAPIView.as_view(), name="property-name-list"),
     path('property-names/<int:pk>', api_views.PropertyNameDetailAPIView.as_view(), name="property-name-detail"),

@@ -1,8 +1,8 @@
-from itertools import product
 from rest_framework import serializers
 from product.models import (
     Category, Product, ProductVersion, PropertyName, PropertyValue, ProductImage, ProductReview, Brand
     )
+
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,6 +14,9 @@ class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductReview
         fields = '__all__'
+        read_only_fields = ['id', 'user', 'created_at', 'updated_at']
+    
+
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -31,13 +34,16 @@ class PropertyValueSerializer(serializers.ModelSerializer):
 
 
 class PropertyNameSerializer(serializers.ModelSerializer):
+    property_values = PropertyValueSerializer(many=True)
     class Meta:
         model = PropertyName
         fields = '__all__'
 
 
 class ProductVersionSerializer(serializers.ModelSerializer):
+    product_reviews = ProductReviewSerializer(many=True)
     product_images = ProductImageSerializer(read_only=True,)
+    property = PropertyValueSerializer(many=True)
     # serializers.HyperlinkedRelatedField(
     #     many=True,
     #     read_only=True,
@@ -49,7 +55,7 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = ProductVersion
-        read_only_fields = ['id', 'user', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'user', 'created_at', 'product_reviews', 'property', 'updated_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -65,16 +71,26 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    category_products = serializers.HyperlinkedRelatedField(
+    category_product = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
         view_name='product-detail',
     )
-    parent_cat = serializers.StringRelatedField(read_only=True)
+    parent_cat = serializers.SerializerMethodField()
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = [
+        "id",
+        "title",
+        "category_product",
+        "parent_cat",
+        ]
         read_only_fields = ['id', 'title_en','title_az', 'created_at', 'updated_at']
+
+    def get_parent_cat(self,obj):
+        if obj.parent_cat:
+            return obj.parent_cat.title
+        return "None"
 
 
 
