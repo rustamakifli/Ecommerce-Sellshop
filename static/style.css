@@ -864,7 +864,7 @@ header.header-one {
 .s-blog-text > h4 {
     margin-bottom: 5px;
 }
-.date-read ,.barnd-bg,.brand-logo,.newsletter input,.service-text i,.s-blog-text,.large-img,.tab-menu li a, .tab-menu li a:hover  {
+.date-read ,.barnd-bg,.brand-logo,.newsletter input,.newsletter button,.service-text i,.s-blog-text,.large-img,.tab-menu li a, .tab-menu li a:hover  {
     background: #fff none repeat scroll 0 0;
 }
 .s-blog-text span a:hover, .s-blog-text h4 a:hover {
@@ -935,7 +935,7 @@ footer ,.latest-blog,.single-products,.service-text,.coming-product.coming-produ
     text-align: center;
     width: 50px;
 }
-.newsletter input ,.footer-two .newsletter textarea,.custom-mess textarea {
+.newsletter input ,.newsletter button,.footer-two .newsletter textarea,.custom-mess textarea {
     border: 0 none;
     color: #999;
     font-weight: 500;
@@ -943,7 +943,7 @@ footer ,.latest-blog,.single-products,.service-text,.coming-product.coming-produ
     padding: 0 20px;
     width: 350px;
 }
-.newsletter input[type="submit"] {
+.newsletter button[type="submit"],.newsletter input[type="submit"] {
     color: #666;
     font-weight: 400;
     margin-left: 7px;
@@ -957,10 +957,10 @@ footer ,.latest-blog,.single-products,.service-text,.coming-product.coming-produ
     padding: 5px 0;
     text-align: right;
 }
-.newsletter input[type="submit"],.social-icons a {
+.newsletter button[type="submit"],.newsletter input[type="submit"],.social-icons a {
     transition: all 0.3s ease 0s;
 }
-.newsletter input[type="submit"]:hover,.social-icons a:hover ,.footer-two .social-icons a:hover,.error-content > a:hover,.list-btn > a:hover,.submit-text > button:hover,.submit-text a:hover,.products-two .wrapper button:hover {
+.newsletter button[type="submit"]:hover,.newsletter input[type="submit"]:hover,.social-icons a:hover ,.footer-two .social-icons a:hover,.error-content > a:hover,.list-btn > a:hover,.submit-text > button:hover,.submit-text a:hover,.products-two .wrapper button:hover {
     background: #fe5858 none repeat scroll 0 0;
     color: #fff;
 }
@@ -1172,7 +1172,7 @@ footer ,.latest-blog,.single-products,.service-text,.coming-product.coming-produ
 	margin-bottom: 10px;
 	width: 100%;
 }
-.footer-two .newsletter input[type="submit"] {
+.footer-two .newsletter button[type="submit"],.newsletter input[type="submit"] {
   margin-left: 0px;
 }
 .footer-two .newsletter form {display: block;}
