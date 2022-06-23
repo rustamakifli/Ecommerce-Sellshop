@@ -4,8 +4,7 @@ from core.models import Subscriber
 
 
 
-class SubscriberSerializer(serializers.ModelSerializer):
-
+class SubscriberSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Subscriber
         fields = (

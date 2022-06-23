@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class AbstractModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -19,7 +20,7 @@ class Contact(AbstractModel):
 
 
 class Subscriber(AbstractModel):
-    email = models.EmailField("Email", unique = True, max_length=40)
+    email = models.EmailField(_("Email"), unique = True, max_length=40)
     is_active = models.BooleanField("Is active", default=True)
 
     class Meta:
