@@ -4,13 +4,25 @@ from rest_framework.generics import get_object_or_404
 
 from product.api.serializers import (
     CategorySerializer, ProductSerializer, ProductVersionSerializer,
-    PropertyNameSerializer, PropertyValueSerializer, ProductImageSerializer,
+    TagSerializer, ColorSerializer, SizeSerializer, ProductImageSerializer,
     ProductReviewSerializer, BrandSerializer,)
 
-from product.models import (
-    Category, Product, ProductVersion, PropertyName,
-    PropertyValue, ProductImage, ProductReview, Brand,
-    )
+from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
+
+
+class TagListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+
+class ColorListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Color.objects.all()
+    serializer_class = ColorSerializer
+
+
+class SizeListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Size.objects.all()
+    serializer_class = SizeSerializer
 
 
 class BrandListCreateAPIView(generics.ListCreateAPIView):
@@ -38,7 +50,6 @@ class ProductImageListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductImageSerializer
 
     # path('product-versions/<int:product_version_pk>/images', api_views.ProductImageListCreateAPIView.as_view(), name='product-version-images'),
-
     def perform_create(self, serializer):
         product_version_pk = self.kwargs.get('product_version_pk')
         product_version = get_object_or_404(ProductVersion, pk=product_version_pk)
@@ -54,36 +65,22 @@ class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductImageSerializer
 
 
-class PropertyValueListCreateAPIView(generics.ListCreateAPIView):
-    queryset = PropertyValue.objects.all()
-    serializer_class = PropertyValueSerializer
-
-
-class PropertyValueDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PropertyValue.objects.all()
-    serializer_class = PropertyValueSerializer
-
-
-class PropertyNameListCreateAPIView(generics.ListCreateAPIView):
-    queryset = PropertyName.objects.all()
-    serializer_class = PropertyNameSerializer
-
-
-class PropertyNameDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = PropertyName.objects.all()
-    serializer_class = PropertyNameSerializer
-
-
 class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
     queryset = ProductVersion.objects.all()
     serializer_class = ProductVersionSerializer
 
     # get filtered data
-    # http://127.0.0.1:8000/api/product-versions/?is_main=True&featured=False
+    # http://127.0.0.1:8000/api/product-versions/?tags=1&is_main=False&featured=True
     def get(self, request, *args, **kwargs):
-        queryset = ProductVersion.objects.all()
+        queryset = ProductVersion.objects.filter(quantity__gt=0)
         featured = request.GET.get('featured')
         is_main = request.GET.get('is_main')
+        product = request.GET.get('product') 
+        tags = request.GET.get('tags')
+        if product:
+            queryset = queryset.filter(product__id=product) 
+        if tags:
+            queryset = queryset.filter(tags__id=tags) 
         if featured:
             queryset = queryset.filter(featured=featured)
         if is_main:
@@ -117,9 +114,7 @@ class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 
-
 from django.shortcuts import render
-
 
 def product(request):
     return render(request, template_name = 'product-list.html')

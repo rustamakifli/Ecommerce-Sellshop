@@ -1,13 +1,10 @@
 from django.contrib import admin
-
-# Register your models here.
-
-from product.models import (
-    Category, Product, ProductImage, ProductReview, ProductVersion, 
-    PropertyName, PropertyValue, Brand
-    )
 from modeltranslation.admin import TranslationAdmin
-from product.models import Category
+from csv import *
+
+from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
+myModels = [Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview]
+admin.site.register(myModels)
 
 
 class ProductImageInline(admin.TabularInline):
@@ -15,7 +12,12 @@ class ProductImageInline(admin.TabularInline):
     extra = 5
 
 
-@admin.register(Category)
+class ProductVersionAdmin(TranslationAdmin):
+    list_filter = ('title', 'tags', )
+    search_fields = ('tags', )
+    inlines = [ProductImageInline]
+
+
 class CategoryAdmin(TranslationAdmin):
     list_display = ('title', 'parent_cat',)
     list_filter = ('title', )
@@ -28,9 +30,8 @@ class CategoryAdmin(TranslationAdmin):
     ]
 
 
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'info', )
+class ProductAdmin(TranslationAdmin):
+    list_display = ('title', 'category', 'info', 'brand',)
     list_filter = ('category__title', )
     search_fields = ('title', )
     fieldsets = [
@@ -39,44 +40,9 @@ class ProductAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     ]
- 
-
-@admin.register(PropertyName)
-class PropertyNameAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category',  )
-    list_filter = ('category__title','name' )
-    search_fields = ('name', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('name', 'category', ),
-            'classes': ('collapse',)
-        }),
-    ]
 
 
-@admin.register(PropertyValue)
-class PropertyValuesAdmin(admin.ModelAdmin):
-    list_display = ('name', 'property_name', )
-    list_filter = ('property_name', )
-    search_fields = ('name', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('property_name','name',  ),
-            'classes': ('collapse',)
-        }),
-    ]
-
-
-@admin.register(ProductVersion)
-class ProductVersionAdmin(admin.ModelAdmin):
-    list_display = ('title','old_price', 'new_price','quantity', 'description', 'is_main' )
-    list_filter = ('title','old_price','new_price' )
-    search_fields = ('name', )
-    inlines = [ProductImageInline]
-
-
-@admin.register(ProductImage)
-class ProductImagesAdmin(admin.ModelAdmin):
+class ProductImagesAdmin(TranslationAdmin):
     list_display = ('image', 'product_version','is_main' )
     list_filter = ('product_version',)
     search_fields = ('product_version','image' )
@@ -88,25 +54,37 @@ class ProductImagesAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(ProductReview)
-class ProductReviewsAdmin(admin.ModelAdmin):
-    list_display = ('user',)
-    list_filter = ('user',)
-    search_fields = ('review', 'user', )
+class ProductReviewsAdmin(TranslationAdmin):
+    list_filter = ('user', 'rating',)
+    search_fields = ('review', 'user', 'rating',)
+    readonly_fields = ["user",]
 
 
-@admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
-    list_display = ('title', 'product', )
-    list_filter = ('title','product',)
-    search_fields = ('title', 'product',)
+class BrandAdmin(TranslationAdmin):
+    list_display = ('title',)
+    list_filter = ('title',)
+    search_fields = ('title',)
     fieldsets = [
         ('Standard info', {
-            'fields': ('title', 'product', ),
+            'fields': ('title',),
             'classes': ('collapse',)
         }),
     ]
 
 
+class TagAdmin(TranslationAdmin):
+    list_display = ('title', )
+    list_filter = ('title',)
+    search_fields = ('title',)
 
 
+class ColorAdmin(TranslationAdmin):
+    list_display = ('title', )
+    list_filter = ('title',)
+    search_fields = ('title',)
+
+
+class SizeAdmin(TranslationAdmin):
+    list_display = ('title', )
+    list_filter = ('title',)
+    search_fields = ('title',)

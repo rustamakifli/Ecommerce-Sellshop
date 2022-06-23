@@ -18,11 +18,9 @@ urlpatterns = [
     path('product-versions/<int:product_version_pk>/images', api_views.ProductImageListCreateAPIView.as_view(), name='product-version-images'),
     path('product-versions/<int:product_version_pk>/reviews', api_views.ProductReviewListCreateAPIView.as_view(), name='product-version-images'),
 
-    path('property-names/', api_views.PropertyNameListCreateAPIView.as_view(), name="property-name-list"),
-    path('property-names/<int:pk>', api_views.PropertyNameDetailAPIView.as_view(), name="property-name-detail"),
-
-    path('property-values/', api_views.PropertyValueListCreateAPIView.as_view(), name="property-value-list"),
-    path('property-values/<int:pk>', api_views.PropertyValueDetailAPIView.as_view(), name="property-value-detail"),
+    path('colors/', api_views.ColorListCreateAPIView.as_view(), name="color-list"),
+    path('sizes/', api_views.SizeListCreateAPIView.as_view(), name="size-list"),
+    path('tags/', api_views.TagListCreateAPIView.as_view(), name="tag-list"),
 
     path('product-images/<int:pk>', api_views.ProductImageDetailAPIView.as_view(), name="product-image-detail"),
 
