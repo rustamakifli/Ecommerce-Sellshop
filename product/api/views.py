@@ -70,7 +70,7 @@ class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductVersionSerializer
 
     # get filtered data
-    # http://127.0.0.1:8000/api/product-versions/?tags=1&is_main=False&featured=True
+    # http://127.0.0.1:8000/api/product-versions/?tags={}
     def get(self, request, *args, **kwargs):
         queryset = ProductVersion.objects.filter(quantity__gt=0)
         featured = request.GET.get('featured')
