@@ -56,13 +56,5 @@ class BlogCommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BlogCommentSerializer  
 
 
-from django.shortcuts import render
 
-
-def blogpage(request):
-    return render(request, template_name = 'blog.html')
-
-
-def singleblogpage(request):
-    return render(request, template_name = 'single-blog.html')
 

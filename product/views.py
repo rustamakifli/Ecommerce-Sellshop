@@ -1,3 +1,17 @@
+from django.shortcuts import render
+
+def product(request):
+    return render(request, template_name = 'product-list.html')
+
+
+def single_product(request):
+    return render(request, template_name = 'single-product.html')
+
+
+
+
+# fetch ile yazildiqdan sonra asagidakilarin hamisi commente alinacaq.
+
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy

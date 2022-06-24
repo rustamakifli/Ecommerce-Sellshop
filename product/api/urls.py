@@ -1,12 +1,9 @@
 from django.urls import path
 from product.api import views as api_views
+from product import views as template_views
 
 
 urlpatterns = [
-    # bu endpointler sadece click etdikde template-e catmaq ucun yaradilmisdir.
-    path('product/',api_views.product, name='product'),
-    path('single_product/', api_views.single_product, name='single_product'),
-
     path('categories/', api_views.CategoryListCreateAPIView.as_view(), name="category-list"),
     path('categories/<int:pk>', api_views.CategoryDetailAPIView.as_view(), name="category-detail"),
 
@@ -29,4 +26,10 @@ urlpatterns = [
 
     path('brands/', api_views.BrandListCreateAPIView.as_view(), name="brand-list"),
     path('brands/<int:pk>', api_views.BrandDetailAPIView.as_view(), name="brand-detail"),
+]
+
+urlpatterns += [
+    # bu endpointler sadece click etdikde template-e catmaq ucun yaradilmisdir.
+    path('product/',template_views.product, name='product'),
+    path('single_product/', template_views.single_product, name='single_product'),
 ]

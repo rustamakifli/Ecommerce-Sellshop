@@ -58,12 +58,14 @@
 								</div>
 								<div class="quick-thumb">
 									<ul class="product-slider">
+										{% comment %}
 										{% for image in product.product_image.all %}
 										<li><a data-toggle="tab" href="#sin-1"> <img src="{{image.image.url}}" alt="quick view" /> </a></li>
 										<li class="active"><a data-toggle="tab" href="#sin-2"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
 										<li><a data-toggle="tab" href="#sin-3"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
 										<li><a data-toggle="tab" href="#sin-4"> <img src="{{image.image.url}}" alt="small image" /> </a></li>
 										{% endfor %}
+										{% endcomment %}
 									</ul>
 								</div>
 							</div>
@@ -71,6 +73,7 @@
 						<div class="col-xs-12 col-sm-7 col-md-8">
 							<div class="quick-right">
 								<div class="list-text">
+									{% comment %}
 									<h3>{{product.title}}</h3>
 									<span>Summer men’s fashion</span>
 									<div class="ratting floatright">
@@ -126,6 +129,7 @@
 											</form>
 										</div>
 									</div>
+									{% endcomment %}
 									<div class="list-btn">
 										<a href="#">add to cart</a>
 										<a href="#">wishlist</a>
@@ -162,6 +166,7 @@
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a neque libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam erat mi, rutrum at sollicitudin rhoncus, ultricies posuere erat. Duis convallis, arcu nec aliquam consequat, purus felis vehicula felis, a dapibus enim lorem nec augue.</p>
 								</div>
 								<div class="info-reviews review-text tab-pane fade in active" id="reviews">
+									{% comment %}
 									{% for review in reviews %}
 										<div class="about-author col-12">
 											<div class="autohr-text">
@@ -181,6 +186,7 @@
 											</div>
 										</div>
 									{% endfor %}
+									{% endcomment %}
 									<hr />
 									<div class="about-author">
 										<div class="autohr-text">
@@ -266,6 +272,7 @@
 									</div>
 									<div class="custom-input">
 										<form action="" method="post">
+											{% comment %}
 											{% csrf_token %}
 											{{ review_form.non_field_errors }}
 											<div class="row">
@@ -290,6 +297,7 @@
 													</div>
 												</div>
 											</div>
+											{% endcomment %}
 										</form>
 									</div>
 								</div>
@@ -315,6 +323,7 @@
 					</div>
 				</div>
 				<div class="row text-center">
+					{% comment %}
 					{% for product in related_products %}
 					<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 						<div class="single-product">
@@ -333,6 +342,7 @@
 						</div>
 					</div>
 					{% endfor %}
+					{% endcomment %}
 					<!-- single product end -->
 				</div>
 			</div>

@@ -65,6 +65,7 @@
 							<h5 class="floatright"><a href="#">All</a></h5>
 						</div>
 						<div class="categories left-right-p">
+							{% comment %}
 							{% for category in categories %}
 							{% if category.parent_cat is null %}
 							<ul id="accordion" class="panel-group clearfix">
@@ -89,6 +90,7 @@
 							</ul>
 							{% endif %}
 							{% endfor %}
+							{% endcomment %}
 						</div>
 					</div>
 					<div class="s-side-text">
@@ -137,6 +139,7 @@
 						</div>
 						<div class="brands-select clearfix">
 							<ul>
+								{% comment %}
 								{% for brand in brands %}
 									<li>
 										<a href="#">{{brand}}</a>
@@ -154,6 +157,7 @@
 										<a href="#">Best choice</a>
 									</li> -->
 								{% endfor %}
+								{% endcomment %}
 							</ul>
 						</div>
 					</div>
@@ -183,7 +187,9 @@
 										</ul>
 									</li>
 									<li class="sort-by floatright">
+										{% comment %}
 										Showing {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} Results
+										{% endcomment %}
 									</li>
 								</ul>
 							</div>
@@ -193,6 +199,7 @@
 						<div class="tab-content grid-content">
 							<div class="tab-pane fade in text-center" id="grid">
 								<div class="col-xs-12 col-sm-6 col-md-4">
+									{% comment %}
 									{% for product in products %}
 									<div class="single-product">
 										<div class="product-img">
@@ -222,12 +229,13 @@
 										</div>
 									</div>
 									{% endfor %}
-
+									{% endcomment %}
 								</div>
 							</div>
 							<!-- single product end -->
 							<div class="tab-pane fade active in" id="list">
 								<div class="col-xs-12">
+									{% comment %}
 									{% for product in products %}
 									<div class="single-list-view">
 										<div class="row">
@@ -271,7 +279,7 @@
 										</div>
 									</div>
 									{% endfor %}
-
+									{% endcomment %}
 								</div>
 							</div>
 						</div>
@@ -281,6 +289,7 @@
 					<div class="col-sm-12">
 						<div class="pagnation-ul">
 							<ul>
+								{% comment %}
 								{% if page_obj.has_previous %}
 								<li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
 								{% endif %}
@@ -295,6 +304,7 @@
 								{% if page_obj.has_next %}
 								<li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
 								{% endif %}
+								{% endcomment %}
 							</ul>
 						</div>
 					</div>

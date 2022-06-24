@@ -1,3 +1,4 @@
+from dataclasses import fields
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from csv import *
@@ -13,8 +14,8 @@ class ProductImageInline(admin.TabularInline):
 
 
 class ProductVersionAdmin(TranslationAdmin):
-    list_filter = ('title', 'tags', )
-    search_fields = ('tags', )
+    list_filter = ('color', 'size' )
+    exclude = ('title',)
     inlines = [ProductImageInline]
 
 
@@ -31,7 +32,7 @@ class CategoryAdmin(TranslationAdmin):
 
 
 class ProductAdmin(TranslationAdmin):
-    list_display = ('title', 'category', 'info', 'brand',)
+    list_display = ('title', 'category', 'description', 'brand',)
     list_filter = ('category__title', )
     search_fields = ('title', )
     fieldsets = [

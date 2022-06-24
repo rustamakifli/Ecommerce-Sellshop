@@ -114,11 +114,3 @@ class CategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 
-from django.shortcuts import render
-
-def product(request):
-    return render(request, template_name = 'product-list.html')
-
-
-def single_product(request):
-    return render(request, template_name = 'single-product.html')
