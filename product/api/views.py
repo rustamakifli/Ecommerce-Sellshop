@@ -70,19 +70,12 @@ class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ProductVersionSerializer
 
     # get filtered data
-    # http://127.0.0.1:8000/api/product-versions/?tags={}
     def get(self, request, *args, **kwargs):
         queryset = ProductVersion.objects.filter(quantity__gt=0)
-        featured = request.GET.get('featured')
         is_main = request.GET.get('is_main')
         product = request.GET.get('product') 
-        tags = request.GET.get('tags')
         if product:
             queryset = queryset.filter(product__id=product) 
-        if tags:
-            queryset = queryset.filter(tags__id=tags) 
-        if featured:
-            queryset = queryset.filter(featured=featured)
         if is_main:
             queryset = queryset.filter(is_main=is_main)
         serializer = self.get_serializer(queryset, many=True)
@@ -98,6 +91,17 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    # get filtered data
+    def get(self, request, *args, **kwargs):
+        queryset = Product.objects.all()
+        featured = request.GET.get('featured')
+        tags = request.GET.get('tags')
+        if tags:
+            queryset = queryset.filter(tags__id=tags) 
+        if featured:
+            queryset = queryset.filter(featured=featured)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()

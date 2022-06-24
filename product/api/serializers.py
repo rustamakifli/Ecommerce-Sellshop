@@ -41,9 +41,10 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductVersionSerializer(serializers.ModelSerializer):
     product_reviews = ProductReviewSerializer(many=True, required=False)
-    tags = TagSerializer(many=True, required=False)
     images = serializers.SerializerMethodField()
     user = serializers.StringRelatedField(read_only=True)
+    color = serializers.StringRelatedField(read_only=True)
+    size = serializers.StringRelatedField(read_only=True)
 
     def get_images(self, product_version):
        return ProductImageSerializer(product_version.product_images.all(), many=True).data
@@ -55,6 +56,7 @@ class ProductVersionSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True, required=False)
     product_versions = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
