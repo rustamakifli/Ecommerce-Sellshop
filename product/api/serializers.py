@@ -51,7 +51,7 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = ProductVersion
-        read_only_fields = ['id', 'user', 'created_at', 'product_reviews', 'updated_at']
+        read_only_fields = ['id', 'user', 'created_at', 'title', 'product_reviews', 'updated_at']
 
 
 class ProductSerializer(serializers.ModelSerializer):

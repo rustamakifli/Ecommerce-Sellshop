@@ -30,24 +30,6 @@ class Brand(models.Model):
         return self.title
 
 
-class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='category_products', on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
-    info = models.TextField()
-    brand = models.ForeignKey(Brand, related_name='brand_products', on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
-
-    def __str__(self):
-        return self.title
-
-    @property
-    def main_version(self):
-        return self.product_versions.filter(is_main=True).first()
-
-
 class Tag(models.Model):
     title = models.CharField(max_length=100, db_index=True)
 
@@ -81,22 +63,17 @@ class Size(models.Model):
         return self.title
 
 
-class ProductVersion(models.Model):
-    product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, default="", null=True, blank=True)
-    title = models.CharField(max_length=50, db_index=True)
+class Product(models.Model):
+    category = models.ForeignKey(Category, related_name='category_products', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, related_name='brand_products', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
-    colors = models.ManyToManyField(Color, blank=True)
-    sizes = models.ManyToManyField(Size, blank=True)
-    old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
-    new_price = models.DecimalField(decimal_places = 2, max_digits=6)
-    quantity = models.IntegerField(null=True, blank=True)
+    title = models.CharField(max_length=100, db_index=True)
     description = models.TextField(null=True, blank=True)
     featured = models.BooleanField(default=False)
-    is_main = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = 'Product version'
-        verbose_name_plural = 'Product versions'
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
 
     def __str__(self):
         return self.title
@@ -104,10 +81,34 @@ class ProductVersion(models.Model):
     def is_featured(self):
         return self.featured
 
-    def get_absolute_url(self):
-        return reverse_lazy('single_product', kwargs={
-            'pk': self.id
-        })
+    @property
+    def main_version(self):
+        return self.product_versions.filter(is_main=True).first()
+
+
+class ProductVersion(models.Model):
+    title = models.CharField(max_length=100, db_index=True,)
+    product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, default=1, blank=True)
+    color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default=1)
+    size = models.ForeignKey(Size, related_name='same_size_product_versions', on_delete=models.CASCADE, null=True, blank=True)
+    old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
+    new_price = models.DecimalField(decimal_places = 2, max_digits=6)
+    quantity = models.PositiveIntegerField(default=0)
+    is_main = models.BooleanField(default=False)
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        if not self.quantity:
+            self.title = f'{self.product.title} (Out of Stock)'
+        else:
+            self.title = self.product.title
+
+    class Meta:
+        verbose_name = 'Product version'
+        verbose_name_plural = 'Product versions'
+
+    def __str__(self):
+        return self.title
 
 
 class ProductImage(models.Model):
