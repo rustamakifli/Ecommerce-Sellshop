@@ -5,7 +5,9 @@ def blogpage(request):
     return render(request, template_name = 'blog.html')
 
 
-def singleblogpage(request):
+def singleblogpage(request,id):
+    context={}
+    
     return render(request, template_name = 'single-blog.html')
 
 

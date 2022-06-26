@@ -16,5 +16,5 @@ urlpatterns = [
 urlpatterns += [
    # bu endpointler sadece click etdikde template-e catmaq ucun yaradilmisdir.
    path('blogpage',template_views.blogpage, name="blogpage"),  
-   path('singleblogpage',template_views.singleblogpage, name="singleblogpage"),  
+   path('singleblogpage/<int:id>/',template_views.singleblogpage, name="singleblogpage"),  
 ]

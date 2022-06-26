@@ -4,19 +4,41 @@ from modeltranslation.admin import TranslationAdmin
 from csv import *
 
 from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
-myModels = [Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview]
+myModels = [Category, Brand, Tag, Color, Size, ProductReview]
 admin.site.register(myModels)
+from nested_admin import NestedModelAdmin, NestedTabularInline
 
 
-class ProductImageInline(admin.TabularInline):
+class ProductImageInline(NestedTabularInline):
     model = ProductImage
     extra = 5
 
 
-class ProductVersionAdmin(TranslationAdmin):
+class ProductVersionInline(NestedTabularInline):
+    model = ProductVersion
+    extra = 0
+    inlines = [ProductImageInline,]
+
     list_filter = ('color', 'size' )
     exclude = ('title',)
-    inlines = [ProductImageInline]
+
+
+class ProductAdmin(NestedModelAdmin):
+    inlines = [ProductVersionInline,]
+
+    # list_display = ('title', 'category', 'brand', 'description',)
+    # list_filter = ('category__title', )
+    # search_fields = ('title', )
+    # fieldsets = [
+    #     ('Standard info', {
+    #         'fields': ('title', 'category','info' ),
+    #         'classes': ('collapse',)
+    #     }),
+    # ]
+
+
+
+admin.site.register(Product, ProductAdmin)
 
 
 class CategoryAdmin(TranslationAdmin):
@@ -26,18 +48,6 @@ class CategoryAdmin(TranslationAdmin):
     fieldsets = [
         ('Standard info', {
             'fields': ('title',  'parent_cat',),
-            'classes': ('collapse',)
-        }),
-    ]
-
-
-class ProductAdmin(TranslationAdmin):
-    list_display = ('title', 'category', 'description', 'brand',)
-    list_filter = ('category__title', )
-    search_fields = ('title', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('title', 'category','info' ),
             'classes': ('collapse',)
         }),
     ]
