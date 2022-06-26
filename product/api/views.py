@@ -1,3 +1,4 @@
+from unicodedata import category
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
@@ -74,6 +75,12 @@ class ProductVersionListCreateAPIView(generics.ListCreateAPIView):
         queryset = ProductVersion.objects.filter(quantity__gt=0)
         is_main = request.GET.get('is_main')
         product = request.GET.get('product') 
+        color = request.GET.get('color')
+        size = request.GET.get('size')
+        if color:
+            queryset = queryset.filter(color__id=color) 
+        if size:
+            queryset = queryset.filter(size__id=size) 
         if product:
             queryset = queryset.filter(product__id=product) 
         if is_main:
@@ -96,6 +103,12 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         queryset = Product.objects.all()
         featured = request.GET.get('featured')
         tags = request.GET.get('tags')
+        category = request.GET.get('category')
+        brand = request.GET.get('brand')
+        if category:
+            queryset = queryset.filter(category__id=category)
+        if brand:
+            queryset = queryset.filter(brand__id=brand) 
         if tags:
             queryset = queryset.filter(tags__id=tags) 
         if featured:

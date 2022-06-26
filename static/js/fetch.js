@@ -12,7 +12,7 @@
 	
 // -----------------------------------------------------------------------------------*/
 
-let urlForBlogs = 'http://127.0.0.1:8000/api/blogs/';
+let urlForBlogs = 'http://127.0.0.1:8000/blogs/';
 let singleBlogID = '';
 
 
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                     </div>
                     <div class="date-read clearfix">
                         <a href="#"><i class="mdi mdi-clock"></i> ${blog.created_at}</a>
-                        <a href="http://127.0.0.1:8000/api/singleblogpage">read more</a>
+                        <a href="http://127.0.0.1:8000/singleblogpage/">read more</a>
                         <p style="display: none;">${blog.id}</p>
                     </div>
                 </div>
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         }
     }
     renderBloglist();
-});
+}); 
 
 
 
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                     </div>
                     <div class="date-read clearfix">
                         <a href="#"><i class="mdi mdi-clock"></i> ${blog.created_at}</a>
-                        <a href="http://127.0.0.1:8000/api/singleblogpage">read more</a>
+                        <a href="http://127.0.0.1:8000/singleblogpage">read more</a>
                         <p style="display: none;">${blog.id}</p>
                     </div>
                 </div>
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                 </div>
                 <div class="date-read clearfix">
                     <a href="#"><i class="mdi mdi-clock"></i>${blog.created_at}</a>
-                    <a href="http://127.0.0.1:8000/api/singleblogpage">read more</a>
+                    <a href="http://127.0.0.1:8000/singleblogpage">read more</a>
                 </div>
             </div>
         </div>
@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         let postData = {
             "comment": form.comment.value 
         }
-        let response = await fetch('http://127.0.0.1:8000/api/blogs/3/comments', {
+        let response = await fetch('http://127.0.0.1:8000/blogs/3/comments', {
              headers: {
                  'Content-Type': 'application/json',
                  },

@@ -43,8 +43,8 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     product_reviews = ProductReviewSerializer(many=True, required=False)
     images = serializers.SerializerMethodField()
     user = serializers.StringRelatedField(read_only=True)
-    color = serializers.StringRelatedField(read_only=True)
-    size = serializers.StringRelatedField(read_only=True)
+    color = ColorSerializer
+    size = SizeSerializer
 
     def get_images(self, product_version):
        return ProductImageSerializer(product_version.product_images.all(), many=True).data
