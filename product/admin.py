@@ -16,7 +16,7 @@ class ProductImageInline(NestedTabularInline):
 
 class ProductVersionInline(NestedTabularInline):
     model = ProductVersion
-    extra = 0
+    extra = 3
     inlines = [ProductImageInline,]
 
     list_filter = ('color', 'size' )
@@ -25,18 +25,6 @@ class ProductVersionInline(NestedTabularInline):
 
 class ProductAdmin(NestedModelAdmin):
     inlines = [ProductVersionInline,]
-
-    # list_display = ('title', 'category', 'brand', 'description',)
-    # list_filter = ('category__title', )
-    # search_fields = ('title', )
-    # fieldsets = [
-    #     ('Standard info', {
-    #         'fields': ('title', 'category','info' ),
-    #         'classes': ('collapse',)
-    #     }),
-    # ]
-
-
 
 admin.site.register(Product, ProductAdmin)
 

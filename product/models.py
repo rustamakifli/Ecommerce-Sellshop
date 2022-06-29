@@ -99,9 +99,12 @@ class ProductVersion(models.Model):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if not self.quantity:
-            self.title = f'{self.product.title} (Out of Stock)'
+            self.title = f'{self.product.title} {self.color} (Out of Stock)'
         else:
-            self.title = self.product.title
+            self.title = f'{self.product.title} {self.color}'
+
+    def get_absolute_url(self):
+        return f"/products/{self.title}/"
 
     class Meta:
         verbose_name = 'Product version'
@@ -109,6 +112,14 @@ class ProductVersion(models.Model):
 
     def __str__(self):
         return self.title
+
+    def main_image(self):
+        return self.product_images.all().order_by('is_main').first()
+
+    def other_images(self):
+        return self.product_images.all().exclude('is_main')
+
+
 
 
 class ProductImage(models.Model):
@@ -123,6 +134,8 @@ class ProductImage(models.Model):
         verbose_name = 'Product image'
         verbose_name_plural = 'Product images'
 
+    
+
 
 class ProductReview(models.Model):
     CHOICES = (
@@ -134,7 +147,7 @@ class ProductReview(models.Model):
     )
 
     product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, default="")
-    user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, default="")
+    user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, default="1")
     review = models.TextField()
     rating = models.IntegerField(choices=CHOICES, default=5)
 

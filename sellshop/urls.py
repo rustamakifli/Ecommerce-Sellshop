@@ -24,8 +24,8 @@ urlpatterns = [
     path("i18n/", include("django.conf.urls.i18n")),
     path('admin/', admin.site.urls),
     path('baton/', include('baton.urls')),
-    path('', include('blog.api.urls')),
-    path('', include("product.api.urls")),
+    path('api/', include('blog.api.urls')),
+    path('api/', include("product.api.urls")),
     path('', include("core.api.urls")),
     path('', include('order.api.urls')),
     path("api/users/", include('user.api.urls')),
@@ -35,7 +35,9 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('', include('core.urls')), 
     path('', include('user.urls')),
-    path('', include('order.urls')),
+    path('', include('order.urls')),\
+    path('', include('blog.urls')),
+    path('', include("product.urls")),
 )
 
 

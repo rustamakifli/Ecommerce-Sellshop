@@ -1,6 +1,5 @@
 from django.urls import path
 from blog.api import views as api_views
-from blog import views as template_views
 
 urlpatterns = [
    path('blogs/', api_views.BlogListCreateAPIView.as_view(), name='blog-list' ),
@@ -11,10 +10,4 @@ urlpatterns = [
    path('blog-categories/<int:pk>', api_views.BlogCategoryRetrieveUpdateDestroyAPIView.as_view(), name='blog-categories-detail'),
 
    path('blog-comments/<int:pk>', api_views.BlogCommentDetailAPIView.as_view(), name='blog-comment-detail'),
-]
-
-urlpatterns += [
-   # bu endpointler sadece click etdikde template-e catmaq ucun yaradilmisdir.
-   path('blogpage',template_views.blogpage, name="blogpage"),  
-   path('singleblogpage/<int:id>/',template_views.singleblogpage, name="singleblogpage"),  
 ]

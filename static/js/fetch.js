@@ -12,7 +12,7 @@
 	
 // -----------------------------------------------------------------------------------*/
 
-let urlForBlogs = 'http://127.0.0.1:8000/blogs/';
+let urlForBlogs = '/api/blogs/';
 let singleBlogID = '';
 
 
@@ -45,8 +45,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                     </div>
                     <div class="date-read clearfix">
                         <a href="#"><i class="mdi mdi-clock"></i> ${blog.created_at}</a>
-                        <a href="http://127.0.0.1:8000/singleblogpage/">read more</a>
-                        <p style="display: none;">${blog.id}</p>
+                        <a href="${blog.link}">read more</a>
                     </div>
                 </div>
             </div>

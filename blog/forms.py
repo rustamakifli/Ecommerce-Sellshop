@@ -7,8 +7,6 @@ class BlogCommentForm(forms.ModelForm):
     class Meta:
         model = BlogComment
         fields = (
-            'name',
-            'email',
             'comment',
         )
         widgets = {

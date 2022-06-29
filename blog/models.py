@@ -35,10 +35,12 @@ class Blog(AbstractModel):
     content = models.TextField()
     slug = models.SlugField(max_length=70, editable=False, db_index=True) 
 
-    def get_absolute_url(self):
-        return reverse_lazy('single_blog', kwargs={
-            'slug': self.slug
-        })
+
+    # def get_absolute_url(self):
+    #     return reverse_lazy('single_blog', kwargs={
+    #         'slug': self.slug
+    #     })
+
 
     class Meta:
         ordering = ['-created_at']
