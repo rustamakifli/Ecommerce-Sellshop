@@ -1512,7 +1512,7 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
     border-color: transparent;
     color: #fff;
 }
-.color-select {padding: 20px 30px;}
+.color-select {padding: 20px 15px;}
 .color-select span {
     display: block;
     float: left;
@@ -1521,13 +1521,13 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
     width: 19px;
 	cursor:pointer;
 }
-.color-select span:nth-child(1) {background: #ffa07a none repeat scroll 0 0;}
+/* .color-select span:nth-child(1) {background: #ffa07a none repeat scroll 0 0;}
 .color-select span:nth-child(2) {background: #00eeee none repeat scroll 0 0;}
 .color-select span:nth-child(3) {background: #ff7f24 none repeat scroll 0 0;}
 .color-select span:nth-child(4) {background: #fe5858 none repeat scroll 0 0;}
 .color-select span:nth-child(5) {background: #e9967a none repeat scroll 0 0;}
 .color-select span:nth-child(6) {background: #00b2ee none repeat scroll 0 0;}
-.color-select span:nth-child(7) {background: #1874cd none repeat scroll 0 0;}
+.color-select span:nth-child(7) {background: #1874cd none repeat scroll 0 0;} */
 .color-select span.outline {
     outline: 1px solid #fe5858;
     outline-offset: 2px;

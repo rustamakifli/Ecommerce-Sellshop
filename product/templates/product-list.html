@@ -97,11 +97,28 @@
 						<div class="sidebar-title">
 							<h4>price</h4>
 						</div>
-						<div class="range-slider clearfix">
-							<form action="#" method="get">
-								<label><span>You range</span> <input type="text" id="amount" readonly /></label>
-								<div id="slider-range"></div>
-							</form>
+						<div >
+							<p>En kicik mehsulun qiymeti: {{ min_price }}</p>
+							<p>En boyuk mehsulun qiymeti: {{ max_price }}</p>
+							<!-- <div class="priceSlider">
+								<p>En kicik mehsulun qiymeti: {{ min_price }}</p>
+								<p>En boyuk mehsulun qiymeti: {{ max_price }}</p>
+								<div class="min-max">
+								 <div class="min">
+									 <label>Min</label><span id="min-value"></span>
+								 </div>
+								 <div class="max">
+									 <label>Max</label><span id="max-value"></span>
+								 </div>     
+								</div> 
+									
+								<div class="min-max-range">
+								<input type="range" min="{{ min_price }}" max="{{ max_price }}" value="{{ min_price }}" class="range" id="min">
+								<input type="range" min="5001" max="{{ max_price }}" value="8000" class="range" id="max">      
+								</div>    
+									
+								<div style="clear: both;"></div>    
+								</div>  -->
 						</div>
 					</div>
 					<div class="s-side-text">
@@ -110,11 +127,13 @@
 							<h5 class="floatright"><a href="#">All</a></h5>
 						</div>
 						<div class="size-select clearfix">
-							<a href="#">m</a>
-							<a href="#">s</a>
-							<a href="#">l</a>
-							<a href="#">sl</a>
-							<a href="#">xl</a>
+							{% for size in sizes %}
+							<a href="{% url 'product' %}?size_id={{size.id}}" >{{ size.title }}</a>
+							<!-- <a href="{% url 'product' %}?size_id={{size.id}}">s</a>
+							<a href="{% url 'product' %}?size_id={{size.id}}">l</a>
+							<a href="{% url 'product' %}?size_id={{size.id}}">sl</a>
+							<a href="{% url 'product' %}?size_id={{size.id}}">xl</a> -->
+							{% endfor %}
 						</div>
 					</div>
 					<div class="s-side-text">
@@ -122,9 +141,21 @@
 							<h4 class="floatleft">color</h4>
 							<h5 class="floatright"><a href="#">All</a></h5>
 						</div>
-						<ol>  
-						{% for color in colors %}
-							<li><a href="{% url 'product' %}?color_id={{color.id}}"><span>{{color.title}}</span></a></li>
+                        <div class="color-select clearfix">
+                            <form method="GET" style="display: flex;">
+                                {% for color in colors %}
+                                <a href="{% url 'product' %}?color_id={{color.id}}"style="margin-right: 11.58px;" name="color" color="{{ color }}" ><span
+                                    {% if color.title in request.get_full_path %}
+                                    	class="outline"
+                                    {% endif %}
+									onmouseover="style.background='orange'"
+									onmouseout="style.background='{{color}}'" 
+                                    style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
+									
+                                </a>
+                                {% endfor %}
+                            </form>
+                        </div>
 						<!-- <div class="color-select clearfix">
 							<span></span>
 							<span></span>
@@ -133,9 +164,8 @@
 							<span></span>
 							<span></span>
 							<span></span>
+							
 						</div> -->
-						{% endfor %}
-						</ol> 
 					</div>
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
@@ -273,6 +303,7 @@
 													</div>
 													<h5><del>${{product.old_price}}</del> ${{product.new_price}}</h5>
 													<p>color test => {{product.color}}</p>
+													<p>size test => {{product.size}}</p>
 													<div class="list-btn">
 														<a href="#">add to cart</a>
 														<a href="#">wishlist</a>
@@ -489,5 +520,23 @@
 		</div>
 	</div>
 </div>
+<!-- <script>
+	var minSlider = document.getElementById('min');
+	var maxSlider = document.getElementById('max');
+	
+	var outputMin = document.getElementById('min-value');
+	var outputMax = document.getElementById('max-value');
+	
+	outputMin.innerHTML = minSlider.value;
+	outputMax.innerHTML = maxSlider.value;
+	
+	minSlider.oninput = function(){
+	 outputMin.innerHTML=this.value;    
+	}
+	
+	maxSlider.oninput = function(){
+	 outputMax.innerHTML=this.value;    
+	}
+</script> -->
 <!-- quick view end -->
 {% endblock %}

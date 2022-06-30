@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductVersion, ProductReview,Product, Color, Size
+from product.models import Brand, Category, ProductVersion, ProductReview, Product, Color, Size
 from .forms import ProductReviewsForm
 from django.http import Http404,JsonResponse
 from django.contrib import messages
@@ -8,6 +8,7 @@ from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
 import json
 from order.models import *
+from django.db.models import Max, Min
 
 # def product(request):
 #     category_list = Category.objects.all()
@@ -18,6 +19,9 @@ from order.models import *
 #     }
 #     return render(request,'product-list.html', context)
 
+# filter by price
+min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
+max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
 
 class ProductListView(ListView):
     template_name = 'product-list.html'
@@ -30,14 +34,24 @@ class ProductListView(ListView):
         category_id = self.request.GET.get('category_id') 
         brand_id = self.request.GET.get('brand_id') 
         color_id = self.request.GET.get('color_id') 
+        size_id = self.request.GET.get('size_id') 
+        max_price = self.request.GET.get('max_price') 
+        min_price = self.request.GET.get('min_price') 
         if category_id:
+            # not work
             queryset = queryset.filter(category__id=category_id)
         if brand_id:
+            # not work
             queryset = queryset.filter(brand__id=brand_id)
         if color_id:
             queryset = queryset.filter(color__id=color_id)
+        if size_id:
+            queryset = queryset.filter(size__id=size_id)
+        if min_price:
+            queryset = queryset.filter(new_price__gte=min_price)
+        if max_price:
+            queryset = queryset.filter(new_price__lte=max_price)
         return queryset
-
 
 
     def get_context_data(self, **kwargs):
@@ -45,7 +59,10 @@ class ProductListView(ListView):
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()
-
+        context['sizes'] = Size.objects.all()
+        context['min_price'] = float(min_price.get('new_price__min'))
+        context['max_price'] = float(max_price.get('new_price__max')
+)
         return context
 
 # def single_product(request, id=1):
