@@ -105,7 +105,7 @@ class ProductVersion(models.Model):
             self.title = f'{self.product.title} {self.color}'
 
     def get_absolute_url(self):
-        return f"/products/{self.title}/"
+        return f"/products/{self.id}/"
 
     class Meta:
         verbose_name = 'Product version'
@@ -147,14 +147,17 @@ class ProductReview(models.Model):
         (5, '*****'),
     )
 
-    product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, default="")
+    product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, default="1", null=True)
     user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, default="1")
     review = models.TextField()
     rating = models.IntegerField(choices=CHOICES, default=5)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Product review'
         verbose_name_plural = 'Product reviews'
+
 
     def __str__(self):
         return f"{self.review}-{self.rating}-{self.user.username}"

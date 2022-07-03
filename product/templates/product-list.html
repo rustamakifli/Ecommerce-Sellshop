@@ -73,7 +73,7 @@
 									<div data-toggle="collapse" data-parent="#accordion"
 										data-target="#collapse{{category.id}}">
 										<div class="medium-a">
-											<a href="{% url 'product' %}?category_id={{category.id}}"> {{category.title}} <span>{{category.product_count}}</span></a>
+											<a href="{% url 'product' %}?{{request.GET.urlencode}}&category_id={{category.id}}"> {{category.title}} <span>{{category.product_count}}</span></a>
 										</div>
 									</div>
 									<div class=" panel-collapse collapse " id="collapse{{category.id}}">
@@ -128,7 +128,7 @@
 						</div>
 						<div class="size-select clearfix">
 							{% for size in sizes %}
-							<a href="{% url 'product' %}?size_id={{size.id}}" >{{ size.title }}</a>
+							<a href="{% url 'product' %}?{{request.GET.urlencode}}&size_id={{size.id}}" >{{ size.title }}</a>
 							<!-- <a href="{% url 'product' %}?size_id={{size.id}}">s</a>
 							<a href="{% url 'product' %}?size_id={{size.id}}">l</a>
 							<a href="{% url 'product' %}?size_id={{size.id}}">sl</a>
@@ -144,7 +144,7 @@
                         <div class="color-select clearfix">
                             <form method="GET" style="display: flex;">
                                 {% for color in colors %}
-                                <a href="{% url 'product' %}?color_id={{color.id}}"style="margin-right: 11.58px;" name="color" color="{{ color }}" ><span
+                                <a href="{% url 'product' %}?{{request.GET.urlencode}}&color_id={{color.id}}"style="margin-right: 11.58px;" name="color" color="{{ color }}" ><span
                                     {% if color.title in request.get_full_path %}
                                     	class="outline"
                                     {% endif %}

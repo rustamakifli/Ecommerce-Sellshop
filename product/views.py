@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductVersion, ProductReview, Product, Color, Size
+from product.models import Brand, Category, ProductImage, ProductVersion, ProductReview, Product, Color, Size, ProductImage, Tag
 from .forms import ProductReviewsForm
 from django.http import Http404,JsonResponse
 from django.contrib import messages
@@ -8,7 +8,7 @@ from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
 import json
 from order.models import *
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Count
 
 # def product(request):
 #     category_list = Category.objects.all()
@@ -33,16 +33,17 @@ class ProductListView(ListView):
         queryset = super().get_queryset()
         category_id = self.request.GET.get('category_id') 
         brand_id = self.request.GET.get('brand_id') 
+        tag_id = self.request.GET.get('tag_id') 
         color_id = self.request.GET.get('color_id') 
         size_id = self.request.GET.get('size_id') 
         max_price = self.request.GET.get('max_price') 
         min_price = self.request.GET.get('min_price') 
         if category_id:
-            # not work
-            queryset = queryset.filter(category__id=category_id)
+            queryset = queryset.filter(product__category__id=category_id)
         if brand_id:
-            # not work
-            queryset = queryset.filter(brand__id=brand_id)
+            queryset = queryset.filter(product__brand__id=brand_id)
+        if tag_id:
+            queryset = queryset.filter(product__tag__id=tag_id)
         if color_id:
             queryset = queryset.filter(color__id=color_id)
         if size_id:
@@ -91,15 +92,19 @@ class ProductListView(ListView):
 
 
 class ProductView(DetailView,CreateView):
-    model = ProductReview
+    model = ProductVersion
     template_name = 'single-product.html'
+    context_object_name = 'product'
     form_class = ProductReviewsForm
-    # success_url = reverse_lazy('product')
+    success_url = reverse_lazy('product')
 
     def form_valid(self, form):
-        result = super().form_valid(form)
-        messages.add_message(self.request, messages.SUCCESS, 'Mesajiniz qeyde alindi!')
-        return result
+        form.instance.product_version_id = self.kwargs['pk']
+        form.instance.user = self.request.user
+        star = self.request.POST.get("star_value",None)
+        form.instance.rating = star
+        return super().form_valid(form)
+
 
     def get_object(self):
         return ProductVersion.objects.filter(id=self.kwargs['pk']).first()
@@ -110,35 +115,20 @@ class ProductView(DetailView,CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['related_products'] = ProductVersion.objects.all()
-        context['review_form'] = ProductReviewsForm(data=self.request.POST)
-        context['reviews'] = ProductReview.objects.all()
-        context['product'] = self.get_object()
-        context['colors'] = self.get_object().property.filter(property_name__name='color')
-        context['sizes'] = self.get_object().property.filter(property_name__name='size')
-    
+        single_product = self.get_object()
+        parent_product = single_product.product
 
+        context['related_products'] = ProductVersion.objects.filter(
+            product__category=ProductVersion.objects.get(pk=self.kwargs.get('pk')).product.category).exclude(pk=self.kwargs.get('pk'))[0:3]
+        context['review_form'] = ProductReviewsForm(
+            data=self.request.POST)
+        context['reviews'] = ProductReview.objects.filter(
+            product_version_id=self.kwargs.get('pk')).all()
+        context['images'] = ProductImage.objects.filter(
+            product_version=self.kwargs.get('pk'))[0:4]
+        context['product_versions_query'] = ProductVersion.objects.filter(
+            product__id=parent_product.id)
+        context['product_version_tags'] = Tag.objects.filter(
+            product__id=parent_product.id
+        )
         return context
-
-def updateItem(request):
-        data = json.loads(request.body)
-        productId = data['productId']
-        action = data['action']
-        print('Action:', action)
-        print('Product:', productId)
-        customer = request.user
-        product = ProductVersion.objects.get(id=productId)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
-        if action == 'add':
-            orderItem.quantity = (orderItem.quantity + 1)
-        elif action == 'remove':
-            orderItem.quantity = (orderItem.quantity - 1)
-
-        orderItem.save()
-
-        if orderItem.quantity <= 0:
-            orderItem.delete()
-
-        return JsonResponse("item was added",safe=False )
