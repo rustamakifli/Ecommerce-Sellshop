@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from order.models import OrderItem,Order
+# from order.models import Basket,BasketItem
 import json
 from product.models import ProductVersion
 from django.http import JsonResponse

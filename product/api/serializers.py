@@ -39,20 +39,6 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProductVersionSerializer(serializers.ModelSerializer):
-    product_reviews = ProductReviewSerializer(many=True, required=False)
-    tags = TagSerializer(many=True, required=False)
-    images = serializers.SerializerMethodField()
-    user = serializers.StringRelatedField(read_only=True)
-
-    def get_images(self, product_version):
-       return ProductImageSerializer(product_version.product_images.all(), many=True).data
-       
-    class Meta:
-        fields = '__all__'
-        model = ProductVersion
-        read_only_fields = ['id', 'user', 'created_at', 'product_reviews', 'updated_at']
-
 
 class ProductSerializer(serializers.ModelSerializer):
     product_versions = serializers.HyperlinkedRelatedField(
@@ -65,6 +51,20 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['id', 'created_at', 'updated_at']
 
+class ProductVersionSerializer(serializers.ModelSerializer):
+    product_reviews = ProductReviewSerializer(many=True, required=False)
+    tags = TagSerializer(many=True, required=False)
+    images = serializers.SerializerMethodField()
+    user = serializers.StringRelatedField(read_only=True)
+    product = ProductSerializer
+
+    def get_images(self, product_version):
+       return ProductImageSerializer(product_version.product_images.all(), many=True).data
+       
+    class Meta:
+        fields = '__all__'
+        model = ProductVersion
+        read_only_fields = ['id', 'user', 'created_at', 'product_reviews', 'updated_at']
 
 class CategorySerializer(serializers.ModelSerializer):
     category_products = serializers.HyperlinkedRelatedField(

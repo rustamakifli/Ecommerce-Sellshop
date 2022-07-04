@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-
+from sellshop.utils.abstract_models import AbstrasctModel
 
 User = get_user_model()
 
@@ -30,7 +30,7 @@ class Brand(models.Model):
         return self.title
 
 
-class Product(models.Model):
+class Product(AbstrasctModel):
     category = models.ForeignKey(Category, related_name='category_products', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     info = models.TextField()
@@ -60,7 +60,9 @@ class Tag(models.Model):
 
 
 class Color(models.Model):
-    title = models.CharField(max_length=20, unique=True)
+    title = models.CharField(verbose_name="Title",
+                             max_length=30, help_text="Max 30 char.") 
+    hex_code = models.CharField(verbose_name="Hex Code", max_length=6, default="ffffff")
 
     class Meta:
         verbose_name = 'Color'
@@ -71,8 +73,8 @@ class Color(models.Model):
 
 
 class Size(models.Model):
-    title = models.CharField(max_length=20, unique=True)
-
+    title = models.CharField(verbose_name="Title",
+                             max_length=30, help_text="Max 30 char.")
     class Meta:
         verbose_name = 'Size'
         verbose_name_plural = 'Sizes'
@@ -81,7 +83,7 @@ class Size(models.Model):
         return self.title
 
 
-class ProductVersion(models.Model):
+class ProductVersion(AbstrasctModel):
     product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, default="", null=True, blank=True)
     title = models.CharField(max_length=50, db_index=True)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -89,7 +91,7 @@ class ProductVersion(models.Model):
     sizes = models.ManyToManyField(Size, blank=True)
     old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
     new_price = models.DecimalField(decimal_places = 2, max_digits=6)
-    quantity = models.IntegerField(null=True, blank=True)
+    quantity = models.PositiveIntegerField('Quantity')
     description = models.TextField(null=True, blank=True)
     featured = models.BooleanField(default=False)
     is_main = models.BooleanField(default=False)
@@ -101,6 +103,11 @@ class ProductVersion(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def main_version(self):
+        return self.versions.filter(is_main=True).first()
+
+
     def is_featured(self):
         return self.featured
 
@@ -110,7 +117,7 @@ class ProductVersion(models.Model):
         })
 
 
-class ProductImage(models.Model):
+class ProductImage(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default=1)
     image = models.FileField(upload_to='product_images',  null = True , blank = True)
     is_main = models.BooleanField('Main picture', default=False)
@@ -123,7 +130,7 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Product images'
 
 
-class ProductReview(models.Model):
+class ProductReview(AbstrasctModel):
     CHOICES = (
         (1, '*'),
         (2, '**'),

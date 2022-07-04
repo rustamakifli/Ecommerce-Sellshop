@@ -1,27 +1,60 @@
-from rest_framework import permissions,status
-from order.models import Order,OrderItem
-from order.api.serializers import OrderSerializer,OrderItemSerializer
-from rest_framework.views import APIView
+from urllib import request
 from rest_framework.response import Response
+from order.api.serializers import BasketSerializer, BasketReadItemSerializer, BasketCreateItemSerializer
+from django.contrib.auth import get_user_model
+# from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+# import django_filters.rest_framework
+# from rest_framework import filters
+from rest_framework.status import ( 
+    HTTP_200_OK, 
+    HTTP_201_CREATED, 
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
+)
+from django.http import Http404
+from order.models import *
 
 
-class OrderView(APIView):
-    serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        obj = Order.objects.get(user=request.user.customer)
-        serializer = self.serializer_class(obj)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+User = get_user_model()
 
 
-class OrderItemView(APIView):
-    serializer_class = OrderItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class CustomListCreateAPIView(ListCreateAPIView):
 
-    def get(self, request, *args, **kwargs):
-        Order.objects.get_or_create(user=request.user.customer, is_ordered=False)
-        obj = OrderItem.objects.filter(
-            cart=Order.objects.get(user=request.user.customer, is_ordered=False)).order_by('created_at')
-        serializer = self.serializer_class(obj, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_serializer_class(self):
+        return self.serializer_classes.get(self.request.method)
+
+
+class BasketViewAPI(ListCreateAPIView):
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+
+
+class BasketItemViewAPI(CustomListCreateAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = BasketItem.objects.all()
+    serializer_classes = {
+        'POST': BasketCreateItemSerializer,
+        'GET': BasketReadItemSerializer
+    }
+
+
+    def get_queryset(self):
+        user = self.request.user
+        return super().get_queryset().filter(basket__author=user).exclude(basket__status = True).order_by('-created_at')
+
+
+class BasketItemRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticated, )
+    queryset = BasketItem.objects.all()
+    
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return BasketReadItemSerializer
+        else:
+            return BasketCreateItemSerializer
+
+
+

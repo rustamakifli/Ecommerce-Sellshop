@@ -89,8 +89,8 @@ class UserLoginView(LoginView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("index")
-        return super(RegisterView, self).dispatch(request, *args, **kwargs)
+            return redirect('/')
+        return super().dispatch(request, *args, **kwargs)
 
 
 

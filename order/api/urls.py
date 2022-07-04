@@ -1,7 +1,9 @@
-from . import views
-from django.urls import path, include
+from django.urls import path
+from pyparsing import delimited_list
+from order.api import views
 
 urlpatterns = [
-    path('cart/', views.OrderView.as_view(), name='card'),
-    path('cart-item/', views.OrderItemView.as_view(), name='cart_item'),
+    path('carts/', views.BasketViewAPI.as_view(), ),
+    path('cartitems/', views.BasketItemViewAPI.as_view(), ),
+    path('cartitems/<int:pk>/', views.BasketItemRetrieveUpdateDestroyAPIView.as_view(),)
 ]

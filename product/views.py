@@ -1,13 +1,15 @@
 from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductVersion, ProductReview,Product
+from product.models import Brand, Category, ProductVersion, ProductReview,Product,ProductImage,Color,Size
 from .forms import ProductReviewsForm
 from django.http import Http404,JsonResponse
 from django.contrib import messages
 from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
 import json
+from django.template.defaulttags import register
+
 from order.models import *
 
 def product(request):
@@ -39,8 +41,11 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
-
+        context['colors'] = Color.objects.all()
+        context['sizes'] = Size.objects.all()
+        # context['products'] = ProductVersion.objects.all()
         return context
+
 
 def single_product(request, id=1):
     review_form = ProductReviewsForm()
@@ -68,9 +73,10 @@ def single_product(request, id=1):
 
 
 class ProductView(DetailView,CreateView):
-    model = ProductReview
+    model = ProductVersion
     template_name = 'single-product.html'
     form_class = ProductReviewsForm
+    context_object_name = 'detailed'
     # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
@@ -91,31 +97,17 @@ class ProductView(DetailView,CreateView):
         context['review_form'] = ProductReviewsForm(data=self.request.POST)
         context['reviews'] = ProductReview.objects.all()
         context['product'] = self.get_object()
-        context['colors'] = self.get_object().property.filter(property_name__name='color')
-        context['sizes'] = self.get_object().property.filter(property_name__name='size')
+        # context['products'] = ProductVersion.objects.get(quantity=6)
+        # context['colors'] = self.get_object().property.filter(property_name__name='color')
+        # context['sizes'] = self.get_object().property.filter(property_name__name='size')
     
 
         return context
 
-def updateItem(request):
-        data = json.loads(request.body)
-        productId = data['productId']
-        action = data['action']
-        print('Action:', action)
-        print('Product:', productId)
-        customer = request.user
-        product = ProductVersion.objects.get(id=productId)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+    
+    @register.filter
+    def get_range(value):
+        if value < 6:
+            return range(1, value+1)
+        return range(1, 6)
 
-        if action == 'add':
-            orderItem.quantity = (orderItem.quantity + 1)
-        elif action == 'remove':
-            orderItem.quantity = (orderItem.quantity - 1)
-
-        orderItem.save()
-
-        if orderItem.quantity <= 0:
-            orderItem.delete()
-
-        return JsonResponse("item was added",safe=False )
