@@ -26,9 +26,21 @@ class BlogCategory(models.Model):
         return self.title
 
 
+class BlogBrand(models.Model):
+    title = models.CharField(max_length=50, db_index=True)
+
+    class Meta:
+        verbose_name = 'Blog brand'
+        verbose_name_plural = 'Blog brands'
+
+    def __str__(self):
+        return self.title
+
+
 class Blog(AbstractModel):
     author = models.ForeignKey(User, related_name='author_blogs', on_delete=models.CASCADE, default=1)
     category = models.ForeignKey(BlogCategory, related_name='category_blogs', on_delete=models.CASCADE, default=1)
+    brand = models.ForeignKey(BlogBrand, related_name='brand_blogs', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, db_index=True)
     image = models.ImageField(upload_to='blog_images')
     description = models.CharField(max_length=255)
@@ -36,10 +48,10 @@ class Blog(AbstractModel):
     slug = models.SlugField(max_length=70, editable=False, db_index=True) 
 
 
-    # def get_absolute_url(self):
-    #     return reverse_lazy('single_blog', kwargs={
-    #         'slug': self.slug
-    #     })
+    def get_absolute_url(self):
+        return reverse_lazy('blog_detail', kwargs={
+            'slug': self.slug
+        })
 
 
     class Meta:
@@ -72,3 +84,4 @@ class BlogComment(AbstractModel):
         if self.parent_comment is not None:
             return False
         return True
+
