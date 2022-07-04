@@ -1,7 +1,11 @@
 from re import search
 from django.contrib import admin
 
-from blog.models import Blog, BlogCategory, BlogComment
+from blog.models import Blog, BlogCategory, BlogComment, BlogBrand
+
+@admin.register(BlogBrand)
+class BlogBrandAdmin(admin.ModelAdmin):
+    search_fields = ('title', )
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
@@ -20,4 +24,5 @@ class BlogCommentAdmin(admin.ModelAdmin):
     readonly_fields = ['user',]
     list_filter = ( 'user','created_at', )
     search_fields = ('blog',)
+
 

@@ -20,8 +20,8 @@ from django.db.models import Max, Min, Count
 #     return render(request,'product-list.html', context)
 
 # filter by price
-min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
-max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
+# min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
+# max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
 
 class ProductListView(ListView):
     template_name = 'product-list.html'
@@ -61,9 +61,9 @@ class ProductListView(ListView):
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()
         context['sizes'] = Size.objects.all()
-        context['min_price'] = float(min_price.get('new_price__min'))
-        context['max_price'] = float(max_price.get('new_price__max')
-)
+        # context['min_price'] = float(min_price.get('new_price__min'))
+        # context['max_price'] = float(max_price.get('new_price__max')
+# )
         return context
 
 # def single_product(request, id=1):
