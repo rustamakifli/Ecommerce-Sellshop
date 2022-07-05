@@ -1,6 +1,7 @@
-{% extends 'base.html' %} 
+
+{% extends 'base.html' %}
 {% load static %}
-{% block content %} 
+{% block content %}
         <!-- pages-title-start -->
 		<div class="pages-title section-padding">
 			<div class="container">
@@ -34,83 +35,14 @@
 										<th>Remove</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td class="td-img text-left">
-											<a href="#"><img src="{% static 'img/cart/1.png' %}" alt="Add Product" /></a>
-											<div class="items-dsc">
-												<h5><a href="#">men’s black t-shirt</a></h5>
-												<p class="itemcolor">Color : <span>Blue</span></p>
-												<p class="itemcolor">Size   : <span>SL</span></p>
-											</div>
-										</td>
-										<td>$56.00</td>
-										<td>
-											<form action="#" method="POST">
-												<div class="plus-minus">
-													<a class="dec qtybutton">-</a>
-													<input type="text" value="02" name="qtybutton" class="plus-minus-box">
-													<a class="inc qtybutton">+</a>
-												</div>
-											</form>
-										</td>
-										<td>
-											<strong>$112.00</strong>
-										</td>
-										<td><i class="mdi mdi-close" title="Remove this product"></i></td>
-									</tr>
-									<tr>
-										<td class="td-img text-left">
-											<a href="#"><img src="{% static 'img/cart/2.png' %}" alt="Add Product" /></a>
-											<div class="items-dsc">
-												<h5><a href="#">men’s white t-shirt</a></h5>
-												<p class="itemcolor">Color : <span>Blue</span></p>
-												<p class="itemcolor">Size   : <span>SL</span></p>
-											</div>
-										</td>
-										<td>$56.00</td>
-										<td>
-											<form action="#" method="POST">
-												<div class="plus-minus">
-													<a class="dec qtybutton">-</a>
-													<input type="text" value="02" name="qtybutton" class="plus-minus-box">
-													<a class="inc qtybutton">+</a>
-												</div>
-											</form>
-										</td>
-										<td>
-											<strong>$112.00</strong>
-										</td>
-										<td><i class="mdi mdi-close" title="Remove this product"></i></td>
-									</tr>
-									<tr>
-										<td class="td-img text-left">
-											<a href="#"><img src="{% static 'img/cart/3.png' %}" alt="Add Product" /></a>
-											<div class="items-dsc">
-												<h5><a href="#">men’s white t-shirt</a></h5>
-												<p class="itemcolor">Color : <span>Blue</span></p>
-												<p class="itemcolor">Size   : <span>SL</span></p>
-											</div>
-										</td>
-										<td>$56.00</td>
-										<td>
-											<form action="#" method="POST">
-												<div class="plus-minus">
-													<a class="dec qtybutton">-</a>
-													<input type="text" value="02" name="qtybutton" class="plus-minus-box">
-													<a class="inc qtybutton">+</a>
-												</div>
-											</form>
-										</td>
-										<td>
-											<strong>$112.00</strong>
-										</td>
-										<td><i class="mdi mdi-close" title="Remove this product"></i></td>
-									</tr>
+								<tbody id="cart_body">
+									
 								</tbody>
 							</table>
 						</div>
 					</div>
+				</div>
+				<div id="quantityAlert" class="alert alert-success" role="alert" style="position: fixed; top: 9%; text-align: center; display: none; right: 4%;">
 				</div>
 				<div class="row margin-top">
 					<div class="col-sm-6">
@@ -121,9 +53,9 @@
 							<div class="cart-form-text custom-input">
 								<p>Enter your coupon code if you have one!</p>
 								<form action="mail.php" method="post">
-									<input type="text" name="subject" placeholder="Enter your code here..." />
+									<input id="coupon_code" type="text" name="subject" placeholder="Enter your code here..." />
 									<div class="submit-text coupon">
-										<button type="submit">apply coupon </button>
+										<button id="coupon_button" type="button">apply coupon </button>
 									</div>
 								</form>
 							</div>
@@ -135,33 +67,20 @@
 								<h3><strong>payment details</strong></h3>
 							</div>
 							<div class="cart-form-text pay-details table-responsive">
-								<table>
+								<table id="total_products">
 									<tbody>
-										<tr>
-											<th>Cart Subtotal</th>
-											<td>$155.00</td>
-										</tr>
-										<tr>
-											<th>Shipping and Handing</th>
-											<td>$15.00</td>
-										</tr>
-										<tr>
-											<th>Vat</th>
-											<td>$00.00</td>
-										</tr>
 									</tbody>
 									<tfoot>
-										<tr>
-											<th class="tfoot-padd">Order total</th>
-											<td class="tfoot-padd">$170.00</td>
-										</tr>
 									</tfoot>
 								</table>
+							</div>
+							<div id="cont_ship" style="float: right; margin: 16% 0 0 16%;" class="submit-text coupon">
+								<a href="{% url 'checkout' %}">continue shopping </a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row margin-top">
+				<!-- <div class="row margin-top">
 					<div class="col-xs-12">
 						<div class="padding60">
 							<div class="row">
@@ -202,8 +121,14 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</section>
 		<!-- cart content section end -->
+		
+
+{% endblock %}
+{% block cart %}
+<script src="{% static 'js/cart.js' %}"></script>
+
 {% endblock %}

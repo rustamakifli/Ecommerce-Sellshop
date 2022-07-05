@@ -271,40 +271,16 @@
 					<div class="cart-itmes">
 						<a class="cart-itme-a" href="{% url 'cart' %}">
 							<i class="mdi mdi-cart"></i>
-							02 items : <strong>$86.00</strong>
-						</a>
-						<div class="cartdrop">
-							<div class="sin-itme clearfix">
-								<i class="mdi mdi-close"></i>
-								<a class="cart-img" href="{% url 'cart' %}"><img src="{% static 'img/cart/1.png' %}"
-										alt="" /></a>
-								<div class="menu-cart-text">
-									<a href="#">
-										<h5>men’s black t-shirt</h5>
-									</a>
-									<span>Color : Black</span>
-									<span>Size : SL</span>
-									<strong>$122.00</strong>
-								</div>
-							</div>
-							<div class="sin-itme clearfix">
-								<i class="mdi mdi-close"></i>
-								<a class="cart-img" href="{% url 'cart' %}"><img src="{% static 'img/cart/2.png' %}"
-										alt="" /></a>
-								<div class="menu-cart-text">
-									<a href="#">
-										<h5>men’s black t-shirt</h5>
-									</a>
-									<span>Color : Black</span>
-									<span>Size : SL</span>
-									<strong>$132.00</strong>
-								</div>
-							</div>
-							<div class="total">
-								<span>total <strong>= $306.00</strong></span>
-							</div>
-							<a class="goto" href="{% url 'cart' %}">go to cart</a>
-							<a class="out-menu" href="{% url 'checkout' %}">Check out</a>
+							<span id="itemnumBer"> </span>
+							items :
+							<strong id="sub_price"></strong> </a>
+						<div class="cartdrop" id="cartdrop">
+
+
+							<!-- <div class="total" id="sub_price">
+							</div> -->
+							<!-- <a class="goto" href="{% url 'cart' %}">go to cart</a>
+							<a class="out-menu" href="{% url 'checkout' %}">Check out</a> -->
 						</div>
 					</div>
 				</div>
@@ -348,7 +324,7 @@
 							<form action="" method="POST" role="form" name="email" id="subscribe-form">
 								{% csrf_token %}
 
-								<input type="email" name="email" placeholder="Enter your email..." /><br><br>	
+								<input type="email" name="email" placeholder="Enter your email..." /><br><br>
 								<button type="submit" value="subscribe">Subscribe</button>
 							</form>
 
@@ -580,17 +556,26 @@
 	<!-- fetch js -->
 	<script src="{% static 'js/fetch.js' %}"></script>
 
+	{% if user.is_authenticated %}
+	<script src="{% static 'js/carts.js' %}"></script>
+	<script src="{% static 'js/add-to-cart.js' %}"></script>
+	{% block cart %}
+	{% endblock %}
+
+	{% endif %}
+
 	{% if not user.is_authenticated %}
 	<script>
 		const LoginLogic = {
-			fetchToken(username, password) {
-				fetch('/api/account/token/', {
+			fetchToken(email, password) {
+				fetch('/api/users/token/', {
 						method: "POST",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
+							'Authorization': `Bearer ${localStorage.getItem('token')}`
 						},
 						body: JSON.stringify({
-							"username": username,
+							"email": email,
 							"password": password
 						})
 					})
@@ -606,11 +591,11 @@
 		}
 
 
-		const submit = document.getElementById('sbmt');
+		const submit = document.getElementById('submit');
 		const form = document.getElementById("login_form")
 		submit.onclick = function () {
-			const username = document.querySelector('#id_username').value;
-			const password = document.querySelector('#id_password').value;
+			const username = document.getElementById('id_username').value;
+			const password = document.getElementById('id_password').value;
 			LoginLogic.fetchToken(username, password);
 			setInterval(form.submit(), 1000);
 		}

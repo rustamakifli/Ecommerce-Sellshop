@@ -39,6 +39,18 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class ProductSerializer(serializers.ModelSerializer):
+    product_versions = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='product-version-detail',
+    )
+    class Meta:
+        model = Product
+        fields = '__all__'
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
 class ProductVersionSerializer(serializers.ModelSerializer):
     product_reviews = ProductReviewSerializer(many=True, required=False)
     images = serializers.SerializerMethodField()

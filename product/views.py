@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
 import json
+from django.template.defaulttags import register
+
 from order.models import *
 from django.db.models import Max, Min, Count
 
@@ -97,6 +99,8 @@ class ProductView(DetailView,CreateView):
     context_object_name = 'product'
     form_class = ProductReviewsForm
     success_url = reverse_lazy('product')
+    # context_object_name = 'detailed'
+    # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
         form.instance.product_version_id = self.kwargs['pk']

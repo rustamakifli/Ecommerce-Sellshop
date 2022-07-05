@@ -32,6 +32,10 @@ class User(AbstractUser):
     def __str__(self):
         return str(self.username)
 
+    @property
+    def basket(self):
+        return self.basket_set.filter(status=False).last()
+
 class BillingAddress(AbsrtactModel):
 
     COUNTRY_CHOICES = (

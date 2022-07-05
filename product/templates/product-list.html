@@ -150,7 +150,7 @@
                                     {% endif %}
 									onmouseover="style.background='orange'"
 									onmouseout="style.background='{{color}}'" 
-                                    style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
+                                    style="background: '{{ color }}' none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
 									
                                 </a>
                                 {% endfor %}
@@ -176,15 +176,15 @@
 							<ul>
 								
 								{% for brand in brands %}
-									<li>
-										<a href="#">{{brand}}</a>
-										<!-- <a href="#">Ecko Untid</a> -->
-										<!-- <a href="#">Addidas</a>
+								<li>
+									<a href="#">{{brand}}</a>
+									<!-- <a href="#">Ecko Untid</a> -->
+									<!-- <a href="#">Addidas</a>
 										<a href="#">Custo</a>
 										<a href="#">Guccies</a> -->
-									</li>
-							
-									<!-- <li>
+								</li>
+
+								<!-- <li>
 										<a href="#">Unlimited</a>
 										<a href="#">Shoes</a>
 										<a href="#">Watch</a>
@@ -233,17 +233,24 @@
 					<div class="row">
 						<div class="tab-content grid-content">
 							<div class="tab-pane fade in text-center" id="grid">
+								{% for product in products %}
+
 								<div class="col-xs-12 col-sm-6 col-md-4">
 									
 									{% for product in products %}
 									<div class="single-product">
 										<div class="product-img">
 											<div class="pro-type">
+												{{ product.created_at|date:"d/m/Y" }}
+												{% if product.created_at > now  %}
 												<span>new</span>
-											</div>
-											{% for image in product.product_image.all %}
-											<a href="#"><img src="{{image.image.url}}" alt="Product Title" /></a>
-											{% endfor %}
+												{% endif %} </div>
+											{% for image in product.product_images.all %}
+											<a href="{% url 'single_product' product.id %}">
+
+												<img style="width: 270px; height: 279px;" src="{{image.image.url}}"
+													alt="Product Title" />
+											</a>{% endfor %}
 											<div class="actions-btn">
 												<a href="#"><i class="mdi mdi-cart"></i></a>
 												<a href="#" data-toggle="modal" data-target="#quick-view"><i
@@ -251,8 +258,9 @@
 												<a href="#"><i class="mdi mdi-heart"></i></a>
 											</div>
 										</div>
+
 										<div class="product-dsc">
-											<p><a href="#">men’s Black t-shirt</a></p>
+											<p><a href="{% url 'single_product' product.id %}">{{product.title}}</a></p>
 											<div class="ratting">
 												<i class="mdi mdi-star"></i>
 												<i class="mdi mdi-star"></i>
@@ -266,27 +274,35 @@
 									{% endfor %}
 									
 								</div>
+								{% endfor %}
+
 							</div>
 							<!-- single product end -->
 							<div class="tab-pane fade active in" id="list">
 								<div class="col-xs-12">
 									
+
 									{% for product in products %}
+
 									<div class="single-list-view">
 										<div class="row">
+
 											<div class="col-xs-12 col-md-4">
 												<div class="list-img">
 													<div class="product-img">
 														<div class="pro-type sell">
 															<span>sell</span>
 														</div>
-														{% for image in product.product_image.all %}
-														<a href="#"><img src="{{image.image.url}}"
-																alt="Product Title" /></a>
-														{% endfor %}
+														<a href="{% url 'single_product' product.id %}">
+															{% for image in product.product_images.all %}
+															<img style="width: 270px; height: 340.25px;"
+																src="{{image.image.url}}" alt="Product Title" />
+															{% endfor %}</a>
 													</div>
 												</div>
 											</div>
+											<input type="hidden" value="{{ product.id }}" class="Idpro">
+
 											<div class="col-xs-12 col-md-8">
 												<div class="list-text">
 													<a href="{{ product.get_absolute_url }}">
@@ -301,11 +317,13 @@
 														<i class="mdi mdi-star-half"></i>
 														<i class="mdi mdi-star-outline"></i>
 													</div>
-													<h5><del>${{product.old_price}}</del> ${{product.new_price}}</h5>
-													<p>color test => {{product.color}}</p>
-													<p>size test => {{product.size}}</p>
+													
+													<h5 class="priceItem" data-value="{{product.new_price}}">
+														<del>${{product.old_price}}</del> ${{product.new_price}}</h5>
+													<!-- <p>{{product.description}}</p> -->
 													<div class="list-btn">
-														<a href="#">add to cart</a>
+
+														<a href="#" data="{{product.id}}" class="cartButton" id="cartButton" class="add_to_cart">add to cart</a>
 														<a href="#">wishlist</a>
 														<a href="#" data-toggle="modal"
 															data-target="#quick-view">zoom</a>
@@ -324,21 +342,28 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="pagnation-ul">
-							<ul>
-								
+							<!-- Pagination -->
+							<ul class="clearfix">
 								{% if page_obj.has_previous %}
-								<li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+								<li>
+									<a class="first-last" page="1"><i class="mdi mdi-menu-left"></i>First</a>
+									<a id="previous" page="{{ page_obj.previous_page_number }}">Previous</a>
+								</li>
 								{% endif %}
-
 								{% for page in page_obj.paginator.page_range %}
-								{% if page is page_obj.number %}
-								<li class="active"><span>{{ page }}</span></li>
-								{% else %}
-								<li><a href="?page={{page}}">{{ page }}</a></li>
-								{% endif %}
+								<li>
+
+									<a class="btn page_num">{{page}}</a>
+
+								</li>
 								{% endfor %}
+
 								{% if page_obj.has_next %}
-								<li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+								<li>
+									<a id="next" page="{{ page_obj.next_page_number }}">Next</a>
+									<a class="first-last" page="{{ page_obj.paginator.num_pages }}">Last<i
+											class="mdi mdi-menu-right"></i></a>
+								</li>
 								{% endif %}
 								
 							</ul>

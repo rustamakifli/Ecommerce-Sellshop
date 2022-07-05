@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-
+from sellshop.utils.abstract_models import AbstrasctModel
 
 
 User = get_user_model()
@@ -43,7 +43,8 @@ class Tag(models.Model):
 
 
 class Color(models.Model):
-    title = models.CharField(max_length=20, unique=True)
+    title = models.CharField(verbose_name="Title",
+                             max_length=30, help_text="Max 30 char.") 
 
     class Meta:
         verbose_name = 'Color'
@@ -54,8 +55,8 @@ class Color(models.Model):
 
 
 class Size(models.Model):
-    title = models.CharField(max_length=20, unique=True)
-
+    title = models.CharField(verbose_name="Title",
+                             max_length=30, help_text="Max 30 char.")
     class Meta:
         verbose_name = 'Size'
         verbose_name_plural = 'Sizes'
@@ -64,7 +65,7 @@ class Size(models.Model):
         return self.title
 
 
-class Product(models.Model):
+class Product(AbstrasctModel):
     category = models.ForeignKey(Category, related_name='category_products', on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, related_name='brand_products', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -79,6 +80,11 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def main_version(self):
+        return self.versions.filter(is_main=True).first()
+
+
     def is_featured(self):
         return self.featured
 
@@ -87,7 +93,7 @@ class Product(models.Model):
         return self.product_versions.filter(is_main=True).first()
 
 
-class ProductVersion(models.Model):
+class ProductVersion(AbstrasctModel):
     title = models.CharField(max_length=100, db_index=True,)
     product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, default=1, blank=True)
     color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default=1)
@@ -123,7 +129,7 @@ class ProductVersion(models.Model):
 
 
 
-class ProductImage(models.Model):
+class ProductImage(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default=1)
     image = models.FileField(upload_to='product_images',  null = True , blank = True)
     is_main = models.BooleanField('Main picture', default=False)
@@ -138,7 +144,7 @@ class ProductImage(models.Model):
     
 
 
-class ProductReview(models.Model):
+class ProductReview(AbstrasctModel):
     CHOICES = (
         (1, '*'),
         (2, '**'),

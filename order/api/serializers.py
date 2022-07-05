@@ -1,38 +1,82 @@
-import random
+
 from django.contrib.auth import get_user_model
-from django.db.models import fields
+
+
 from rest_framework import serializers
+from order.models import BasketItem, Basket
+from user.api.serializers import *
+from product.api.serializers import *
 
-from order.models import Order, OrderItem
-from product.api.serializers import ProductSerializer
+
+User = get_user_model()
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    products = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Order
-        fields = ("id", "customer", "product","complete")
-
-    def get_products(self, obj):
-        qs = obj.product.all()
-        return ProductSerializer(qs, many=True).data
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer() 
-    is_ordered = serializers.SerializerMethodField()
-    coupon_discount = serializers.SerializerMethodField()
+class BasketSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
+    basketitem = serializers.SerializerMethodField()
 
     class Meta:
-        model = OrderItem
-        fields = ("product", "quantity", "price", "date_added","order")
+        model = Basket
+        fields = (
+            'author',
+            'basketitem',
+            'sub_total',
+            'status',
+        )
 
-    def get_is_ordered(self, obj):
-        qs = obj.cart.is_ordered
-        return qs
 
-    # def get_coupon_discount(self, obj):
-    #     if obj.cart.coupon:
-    #         qs = obj.cart.coupon.discount
-    #         return qs
-    #     return 0
+    def get_basketitem(self, obj):
+        items = obj.basketitems.all().values_list('id', "productVersion", 'price', 'sub_total', 'count')
+        item_list = []
+        for item in items:
+            item_list.append(
+                {
+                    'id': item[0],
+                    'productVersion':item[1],
+                    'price':item[2],
+                    'sub_total':item[3],
+                    'count':item[4],
+                }
+            )
+        return item_list
+
+
+class BasketReadItemSerializer(serializers.ModelSerializer):
+    productVersion = ProductVersionSerializer()
+    basket = BasketSerializer()
+
+    class Meta:
+        model = BasketItem
+        fields = (
+            'id',
+            'basket',
+            'productVersion',
+            'price',
+            'sub_total',
+            'count',
+        )
+
+
+class BasketCreateItemSerializer(serializers.ModelSerializer):
+    productVersion = str(ProductVersionSerializer())
+    # basket = str(BasketSerializer())
+    
+    class Meta:
+        model = BasketItem
+        fields = (
+            'id',
+            'productVersion',
+            'price',
+            'sub_total',
+            'count',
+        )
+
+    def validate(self, data):
+        context = self.context
+        user = context['request'].user
+        basket = user.basket
+        print(basket)
+        if not basket:
+            basket = Basket.objects.create(author=user, sub_total=0)
+        data['basket'] = basket
+        return super().validate(data)
