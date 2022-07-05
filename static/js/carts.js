@@ -23,8 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 total_price += parseFloat(data[i]['count'] * data[i]['price'])
                 proSection.innerHTML += `
                 <div class="sin-itme clearfix">
-					<i class="mdi mdi-close"></i>
-					<a class="cart-img" href="http://127.0.0.1:8000/en/single_product/${data[i]['productVersion']['id']}/"><img src="${data[i]['productVersion']['images'][0]['image']}"
+                <i data="${data[i]['productVersion']['id']}" class="mdi mdi-close " onclick="remove(${data[i]['productVersion'].id}, ${ data[i].id }, ${ data[i].count}, ${ data[i].price } )" title="Remove this product"></i>					<a class="cart-img" href="http://127.0.0.1:8000/en/single_product/${data[i]['productVersion']['id']}/"><img src="${data[i]['productVersion']['images'][0]['image']}"
 										alt="" /></a>
 					<div class="menu-cart-text">
 					
@@ -54,3 +53,30 @@ document.addEventListener("DOMContentLoaded", function () {
     renderProducts();
 
 });
+
+
+async function remove(productVersion, valueId, countItem, priceItem) {
+
+    let postData = {
+        "productVersion": productVersion,
+        "price": parseFloat(priceItem),
+        "sub_total": parseFloat(priceItem),
+        "count": parseInt(countItem),
+    }
+
+    async function removeProducts() {
+        console.log('here');
+        let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            method: "DELETE",
+            body: JSON.stringify(postData)
+        });
+        console.log('remove')
+        window.location.reload()
+    }
+    removeProducts();
+};

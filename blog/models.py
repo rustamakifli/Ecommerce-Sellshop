@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
-
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
@@ -44,7 +44,7 @@ class Blog(AbstractModel):
     title = models.CharField(max_length=250, db_index=True)
     image = models.ImageField(upload_to='blog_images')
     description = models.CharField(max_length=255)
-    content = models.TextField()
+    content = RichTextField()
     slug = models.SlugField(max_length=70, editable=False, db_index=True) 
 
 

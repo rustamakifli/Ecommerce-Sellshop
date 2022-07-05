@@ -1,8 +1,8 @@
-
 let cart_body = document.getElementById("cart_body")
 
 url = location.origin + '/api/cartitems/';
 console.log(url)
+
 function cartItemManager() {
     fetch(url, {
             method: 'GET',
@@ -44,7 +44,7 @@ function cartItemManager() {
             <td>
             <strong>$${parseFloat(data[i]['productVersion']['new_price'] * data[i]['count']).toFixed(2)}</strong>
             </td>
-            <td><i data="${data[i]['productVersion']['id']}" class="mdi mdi-close remove_from_cart"  title="Remove this product"></i></td>
+            <td><i data="${data[i]['productVersion']['id']}" class="mdi mdi-close " onclick="remove(${data[i]['productVersion'].id}, ${ data[i].id }, ${ data[i].count}, ${ data[i].price } )" title="Remove this product"></i></td>
             </tr>
 			`
                 }
@@ -79,14 +79,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 async function minus(productVersion, valueId, countItem, priceItem) {
     console.log('mius bura');
-    
-    let postData = { 
+
+    let postData = {
         "productVersion": productVersion,
         "price": parseFloat(priceItem),
         "sub_total": parseFloat(priceItem),
         "count": parseInt(--countItem),
     }
-    async function removeProducts(){
+    async function removeProducts() {
         console.log('here');
         let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
             credentials: 'include',
@@ -97,38 +97,64 @@ async function minus(productVersion, valueId, countItem, priceItem) {
             method: "PUT",
             body: JSON.stringify(postData)
         });
-       
-        
+
+
         window.location.reload()
     }
     removeProducts();
     // }
-    
+
 
 };
 
 async function plus(productVersion, valueId, countItem, priceItem) {
-   
-            let postData = { 
-                "productVersion": productVersion,
-                "price": parseFloat(priceItem),
-                "sub_total": parseFloat(priceItem),
-                "count": parseInt(++countItem),
-            }
-            
-            async function addProducts(){
-                console.log('here');
-                let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    method: "PUT",
-                    body: JSON.stringify(postData)
-                });
-                
-                window.location.reload()
-            }
-            addProducts();
-    };
+
+    let postData = {
+        "productVersion": productVersion,
+        "price": parseFloat(priceItem),
+        "sub_total": parseFloat(priceItem),
+        "count": parseInt(++countItem),
+    }
+
+    async function addProducts() {
+        console.log('here');
+        let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            method: "PUT",
+            body: JSON.stringify(postData)
+        });
+
+        window.location.reload()
+    }
+    addProducts();
+};
+
+async function remove(productVersion, valueId, countItem, priceItem) {
+
+    let postData = {
+        "productVersion": productVersion,
+        "price": parseFloat(priceItem),
+        "sub_total": parseFloat(priceItem),
+        "count": parseInt(countItem),
+    }
+
+    async function removeProducts() {
+        console.log('here');
+        let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            method: "DELETE",
+            body: JSON.stringify(postData)
+        });
+        console.log('remove')
+        window.location.reload()
+    }
+    removeProducts();
+};
