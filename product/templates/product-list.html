@@ -246,11 +246,14 @@
 												<span>new</span>
 												{% endif %} </div>
 											{% for image in product.product_images.all %}
-											<a href="{% url 'single_product' product.id %}">
+												<a href="{% url 'single_product' product.id %}">
 
-												<img style="width: 270px; height: 279px;" src="{{image.image.url}}"
-													alt="Product Title" />
-											</a>{% endfor %}
+													<img style="width: 270px; height: 279px;" src="{{image.image.url}}"
+														alt="Product Title" />
+												
+
+												</a>
+											{% endfor %}
 											<div class="actions-btn">
 												<a href="#"><i class="mdi mdi-cart"></i></a>
 												<a href="#" data-toggle="modal" data-target="#quick-view"><i
@@ -295,8 +298,10 @@
 														</div>
 														<a href="{% url 'single_product' product.id %}">
 															{% for image in product.product_images.all %}
+															{% if image.is_main %}
 															<img style="width: 270px; height: 340.25px;"
-																src="{{image.image.url}}" alt="Product Title" />
+																src="{{image}}" alt="Product Title" />
+															{% endif %}
 															{% endfor %}</a>
 													</div>
 												</div>

@@ -120,8 +120,12 @@ class ProductVersion(AbstrasctModel):
     def __str__(self):
         return self.title
 
+    @property
+    def main_version(self):
+        return self.versions.filter(is_main=True).first()
+
     def main_image(self):
-        return self.product_images.all().order_by('is_main').first()
+        return self.product_images.all().order_by('-is_main').first()
 
     def other_images(self):
         return self.product_images.all().exclude('is_main')
