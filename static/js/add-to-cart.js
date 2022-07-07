@@ -1,6 +1,6 @@
 //add to cart
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function AddtoCartLogic() {
     let button = document.getElementsByClassName('cartButton');
     for (let i = 0; i < button.length; i++) {
         button[i].addEventListener('click', async (event) => {
@@ -49,10 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             console.log('i of button:', i);
             getProducts();
-
-
-
-
+            
         });
 
     }

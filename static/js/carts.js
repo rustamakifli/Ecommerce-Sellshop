@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < data.length; i++) {
             if (data[i]['count'] > 0 && data[i]['basket']['status'] == false) {
                 totalItems += parseInt(data[i]['count'])
-                console.log(totalItems)
+                // console.log(totalItems)
                 let ids = data[i]['id']
                 total_price += parseFloat(data[i]['count'] * data[i]['price'])
                 proSection.innerHTML += `
@@ -80,3 +80,37 @@ async function remove(productVersion, valueId, countItem, priceItem) {
     }
     removeProducts();
 };
+
+wishlistUrl = location.origin + '/api/wishlist/'
+const WishlistLogic = {
+	wishlistPostManager(productId) {
+		fetch(wishlistUrl, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify({
+				'product': productId,
+			})
+		})
+			.then(response => response.json())
+			.then(data => {
+				try {
+					wishlistManager()
+				}catch{
+				}
+			});
+            console.log('product id:',productId)
+
+	}
+}
+
+var add_to_wishlist = document.getElementsByClassName('add_to_wishlist');
+for (let i = 0; i < add_to_wishlist.length; i++) {
+	add_to_wishlist[i].onclick = function () {
+		const productId = this.getAttribute('data');
+		WishlistLogic.wishlistPostManager(productId);
+	}
+}

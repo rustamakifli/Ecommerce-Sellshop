@@ -1,20 +1,19 @@
 from urllib import request
 from rest_framework.response import Response
-from order.api.serializers import BasketSerializer, BasketReadItemSerializer, BasketCreateItemSerializer
+from order.api.serializers import (
+    BasketSerializer,
+    BasketReadItemSerializer,
+    BasketCreateItemSerializer,
+    WishlistSerializer
+)
 from django.contrib.auth import get_user_model
-# from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-# import django_filters.rest_framework
-# from rest_framework import filters
-from rest_framework.status import ( 
-    HTTP_200_OK, 
-    HTTP_201_CREATED, 
-    HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST,
-)
+from rest_framework import status,permissions
+from rest_framework.views import APIView
 from django.http import Http404
 from order.models import *
+from product.models import *
 
 
 User = get_user_model()
@@ -57,4 +56,24 @@ class BasketItemRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             return BasketCreateItemSerializer
 
 
+class WishlistAPIView(APIView):
+    serializer_class = WishlistSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
+    def get(self, request, *args, **kwargs):
+        obj, created = Wishlist.objects.get_or_create(user=request.user)
+        serializer = self.serializer_class(obj)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        product_id = request.data.get('product')
+        product = ProductVersion.objects.get(pk=product_id)
+        Wishlist.objects.get_or_create(user=request.user)
+        wishlist = Wishlist.objects.get(user=request.user)
+        if product and product not in wishlist.product.all():
+            wishlist.product.add(product)
+        else:
+            wishlist.product.remove(product)
+        message = {'success': True,
+                   'message': 'Product added to your wishlist.'}
+        return Response(message, status=status.HTTP_201_CREATED)
