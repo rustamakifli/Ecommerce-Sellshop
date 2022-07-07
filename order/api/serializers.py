@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 
 
 from rest_framework import serializers
-from order.models import BasketItem, Basket
+from order.models import BasketItem, Basket,Wishlist
 from user.api.serializers import *
 from product.api.serializers import *
 
@@ -80,3 +80,16 @@ class BasketCreateItemSerializer(serializers.ModelSerializer):
             basket = Basket.objects.create(author=user, sub_total=0)
         data['basket'] = basket
         return super().validate(data)
+
+
+
+class WishlistSerializer(serializers.ModelSerializer):
+    product = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Wishlist
+        fields = '__all__'
+
+    def get_product(self, obj):
+        qs = obj.product.all()
+        return ProductVersionSerializer(qs, many=True).data

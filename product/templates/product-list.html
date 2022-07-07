@@ -329,7 +329,7 @@
 													<div class="list-btn">
 
 														<a href="#" data="{{product.id}}" class="cartButton" id="cartButton" class="add_to_cart">add to cart</a>
-														<a href="#">wishlist</a>
+														<a data="{{product.id}}"  class="add_to_wishlist">wishlist</a>
 														<a href="#" data-toggle="modal"
 															data-target="#quick-view">zoom</a>
 													</div>
@@ -569,4 +569,7 @@
 	}
 </script> -->
 <!-- quick view end -->
+{% block cart %}
+<script src="{% static 'js/wishlist.js' %}"></script>
+{% endblock %}
 {% endblock %}
