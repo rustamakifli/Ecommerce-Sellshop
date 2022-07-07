@@ -1,4 +1,3 @@
-from dataclasses import fields
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from csv import *
@@ -16,7 +15,7 @@ class ProductImageInline(NestedTabularInline):
 
 class ProductVersionInline(NestedTabularInline):
     model = ProductVersion
-    extra = 3
+    extra = 1
     inlines = [ProductImageInline,]
 
     list_filter = ('color', 'size' )
@@ -61,14 +60,6 @@ class ProductReviewsAdmin(TranslationAdmin):
 
 class BrandAdmin(TranslationAdmin):
     list_display = ('title',)
-    list_filter = ('title',)
-    search_fields = ('title',)
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('title',),
-            'classes': ('collapse',)
-        }),
-    ]
 
 
 class TagAdmin(TranslationAdmin):

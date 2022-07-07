@@ -26,7 +26,7 @@ urlpatterns = [
     path('baton/', include('baton.urls')),
     path('api/', include('blog.api.urls')),
     path('api/', include("product.api.urls")),
-    path('', include("core.api.urls")),
+    path('api/', include("core.api.urls")),
     path('api/', include('order.api.urls')),
     path("api/users/", include('user.api.urls')),
     path('', include('social_django.urls', namespace='social')), 

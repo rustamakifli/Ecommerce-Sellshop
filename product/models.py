@@ -9,7 +9,7 @@ User = get_user_model()
 
 
 class Category(models.Model):
-    parent_cat = models.ForeignKey('self', related_name='sub_categories', on_delete=models.CASCADE, null=True, blank=True, default="",)
+    parent_cat = models.ForeignKey('self', related_name='sub_categories', on_delete=models.CASCADE, null=True, blank=True,)
     title = models.CharField(max_length=50, db_index=True)
     
     class Meta:
@@ -67,7 +67,7 @@ class Size(models.Model):
 
 class Product(AbstrasctModel):
     category = models.ForeignKey(Category, related_name='category_products', on_delete=models.CASCADE)
-    brand = models.ForeignKey(Brand, related_name='brand_products', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, related_name='brand_products', on_delete=models.CASCADE, default="1")
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=100, db_index=True)
     description = models.TextField(null=True, blank=True)
@@ -95,8 +95,8 @@ class Product(AbstrasctModel):
 
 class ProductVersion(AbstrasctModel):
     title = models.CharField(max_length=100, db_index=True,)
-    product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, default=1, blank=True)
-    color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, blank=True)
+    color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE,)
     size = models.ForeignKey(Size, related_name='same_size_product_versions', on_delete=models.CASCADE, null=True, blank=True)
     old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
     new_price = models.DecimalField(decimal_places = 2, max_digits=6)
@@ -105,10 +105,10 @@ class ProductVersion(AbstrasctModel):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        if not self.quantity:
-            self.title = f'{self.product.title} {self.color} (Out of Stock)'
+        if not self.quantity:          
+            self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
         else:
-            self.title = f'{self.product.title} {self.color}'
+            self.title = f'{self.product.brand} {self.product.title} {self.color}'
 
     def get_absolute_url(self):
         return f"/products/{self.id}/"
@@ -134,7 +134,7 @@ class ProductVersion(AbstrasctModel):
 
 
 class ProductImage(AbstrasctModel):
-    product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default=1)
+    product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default="1")
     image = models.FileField(upload_to='product_images',  null = True , blank = True)
     is_main = models.BooleanField('Main picture', default=False)
     
@@ -157,8 +157,8 @@ class ProductReview(AbstrasctModel):
         (5, '*****'),
     )
 
-    product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, default="1", null=True)
-    user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, default="1")
+    product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, null=True, default="1")
+    user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, null=True, default="1")
     review = models.TextField()
     rating = models.IntegerField(choices=CHOICES, default=5)
     created_at = models.DateTimeField(auto_now_add=True)

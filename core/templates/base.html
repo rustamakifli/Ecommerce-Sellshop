@@ -69,6 +69,26 @@
 							<div class="left floatleft">
 								<p><i class="mdi mdi-clock"></i> Mon-Fri : 09:00-19:00</p>
 							</div>
+							<div class=" floatright">
+								<form action="{% url 'set_language' %}" method="post">
+									{% csrf_token %}
+									<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
+									<ul class="nav navbar-nav navbar-right language menu">
+										{% get_current_language as LANGUAGE_CODE %}
+										{% get_available_languages as LANGUAGES %}
+										{% get_language_info_list for LANGUAGES as languages %}
+										{% for language in languages %}
+										<li>
+											<button type="submit" name="language" style="margin-top: 8px" value="{{ language.code }}"
+												class="language-btn"
+												class="{% if language.code == LANGUAGE_CODE %}selected{% endif %} ">
+												{{ language.code }}
+											</button>
+										</li>
+										{% endfor %}
+									</ul>
+								</form>
+							</div>
 						</div>
 						<div class="middel-top clearfix">
 							<ul class="clearfix right floatright">
@@ -103,26 +123,7 @@
 								</form>
 							</div>
 						</div>
-						<div class=" floatright">
-							<form action="{% url 'set_language' %}" method="post">
-								{% csrf_token %}
-								<input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}" />
-								<ul class="nav navbar-nav navbar-right language menu">
-									{% get_current_language as LANGUAGE_CODE %}
-									{% get_available_languages as LANGUAGES %}
-									{% get_language_info_list for LANGUAGES as languages %}
-									{% for language in languages %}
-									<li>
-										<button type="submit" name="language" value="{{ language.code }}"
-											class="language-btn"
-											class="{% if language.code == LANGUAGE_CODE %}selected{% endif %} ">
-											{{ language.code }}
-										</button>
-									</li>
-									{% endfor %}
-								</ul>
-							</form>
-						</div>
+
 					</div>
 				</div>
 			</div>
@@ -553,8 +554,7 @@
 	<script src="{% static 'js/plugins.js' %}"></script>
 	<!-- main js -->
 	<script src="{% static 'js/main.js' %}"></script>
-	<!-- fetch js -->
-	<script src="{% static 'js/fetch.js' %}"></script>
+
 
 	{% if user.is_authenticated %}
 	<script src="{% static 'js/carts.js' %}"></script>
