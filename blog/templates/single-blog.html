@@ -24,8 +24,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12 col-sm-8 col-md-9">
-						<div class="single-blog-page" id="blog-detail">
-							
+						<div class="single-blog-page" id="blog-detail">	
 							<div class="single-blog-img">
 								<img src="{{ blog.image.url }}" alt="" />
 							</div>
@@ -122,91 +121,32 @@
 							<div class="s-side-text">
 								<div class="sidebar-title clearfix">
 									<h4 class="floatleft">Categories</h4>
-									<h5 class="floatright"><a href="#">All</a></h5>
 								</div>
 								<div class="categories left-right-p">
+									{% for category in categories %}
+									{% if category.parent_cat is null %}
 									<ul id="accordion" class="panel-group clearfix">
 										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion" data-target="#collapse1">
+											<div data-toggle="collapse" data-parent="#accordion"
+												data-target="#collapse{{category.id}}">
 												<div class="medium-a">
-													Women
+													<a href="{% url 'blogs' %}?{{request.GET.urlencode}}&category_id={{category.id}}"> {{category.title}} <span>{{category.product_count}}</span></a>
 												</div>
 											</div>
-											<div class="panel-collapse collapse in" id="collapse1">
+											<div class=" panel-collapse collapse " id="collapse{{category.id}}">
 												<div class="normal-a">
-													<a href="#">Men Bag</a>
-													<a href="#">Shoes</a>
-													<a href="#">Watch</a>
-													<a href="#">T-shirt</a>
-													<a href="#">shirt</a>
+													{% for subcat in categories %}
+													{% if subcat.parent_cat == category %}
+													<a href="#">{{subcat}}</a>
+													{% endif %}
+													{% endfor %}
 												</div>
 											</div>
 										</li>
-										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion" data-target="#collapse2">
-												<div class="medium-a">
-													Fashion
-												</div>
-											</div>
-											<div class="paypal-dsc panel-collapse collapse" id="collapse2">
-												<div class="normal-a">
-													<a href="#">Men Bag</a>
-													<a href="#">Shoes</a>
-													<a href="#">Watch</a>
-													<a href="#">T-shirt</a>
-													<a href="#">shirt</a>
-												</div>
-											</div>
-										</li>
-										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion" data-target="#collapse3">
-												<div class="medium-a">
-													Accessories
-												</div>
-											</div>
-											<div class="paypal-dsc panel-collapse collapse" id="collapse3">
-												<div class="normal-a">
-													<a href="#">Men Bag</a>
-													<a href="#">Shoes</a>
-													<a href="#">Watch</a>
-													<a href="#">T-shirt</a>
-													<a href="#">shirt</a>
-												</div>
-											</div>
-										</li>
-										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion" data-target="#collapse4">
-												<div class="medium-a">
-													Top Brands
-												</div>
-											</div>
-											<div class="paypal-dsc panel-collapse collapse" id="collapse4">
-												<div class="normal-a">
-													<a href="#">Men Bag</a>
-													<a href="#">Shoes</a>
-													<a href="#">Watch</a>
-													<a href="#">T-shirt</a>
-													<a href="#">shirt</a>
-												</div>
-											</div>
-										</li>
-										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion" data-target="#collapse5">
-												<div class="medium-a">
-													Jewelry
-												</div>
-											</div>
-											<div class="paypal-dsc panel-collapse collapse" id="collapse5">
-												<div class="normal-a">
-													<a href="#">Men Bag</a>
-													<a href="#">Shoes</a>
-													<a href="#">Watch</a>
-													<a href="#">T-shirt</a>
-													<a href="#">shirt</a>
-												</div>
-											</div>
-										</li>
+		
 									</ul>
+									{% endif %}
+									{% endfor %}
 								</div>
 							</div>
 							<div class="s-side-text">
@@ -217,18 +157,9 @@
 								<div class="brands-select clearfix">
 									<ul>
 										<li>
-											<a href="#">Offset</a>
-											<a href="#">Ecko Untid</a>
-											<a href="#">Addidas</a>
-											<a href="#">Custo</a>
-											<a href="#">Guccies</a>
-										</li>
-										<li>
-											<a href="#">Unlimited</a>
-											<a href="#">Shoes</a>
-											<a href="#">Watch</a>
-											<a href="#">Color Full</a>
-											<a href="#">Best choice</a>
+											{% for brand in brands %}
+											<a href="#">{{ brand.title }}</a>
+											{% endfor %}
 										</li>
 									</ul>
 								</div>
@@ -239,21 +170,13 @@
 								</div>
 								<div class="recent-post clearfix">
 									<ul>
+										{% for recent in recents %}
 										<li>
 											<a href="#"><img src="{% static 'img/blog/r1.jpg' %}" alt="" /></a>
-											<h5><a href="#">women’s fashon</a></h5>
-											<span>Jun 25, 2016</span>
+											<h5><a href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }}</a></h5>
+											<span>{{ blog.created_at }}</span>
 										</li>
-										<li>
-											<a href="#"><img src="{% static 'img/blog/r2.jpg' %}" alt="" /></a>
-											<h5><a href="#">child's fashon</a></h5>
-											<span>Jun 24, 2016</span>
-										</li>
-										<li>
-											<a href="#"><img src="{% static 'img/blog/r3.jpg' %}" alt="" /></a>
-											<h5><a href="#">women’s fashon</a></h5>
-											<span>Jun 22, 2016</span>
-										</li>
+										{% endfor %}
 									</ul>
 								</div>
 							</div>
@@ -291,7 +214,7 @@
 									<div class="banner"><a href="{% url 'blog_detail' slug=blog.slug %}"><img src="{{ blog.image.url }}" alt="" /></a>
 									</div>
 									<div class="s-blog-text">
-										<h4><a href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }} {{ blog.id }}</a></h4>
+										<h4><a href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }}</a></h4>
 										<span>By : <a href="#">{{ blog.author }}</a> | <a href="#">210 Like</a> | <a href="#">{{comments_count}} Comments</a></span>
 										<p>{{ blog.description }}</p>
 									</div>

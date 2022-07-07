@@ -12,18 +12,9 @@ from django.template.defaulttags import register
 from order.models import *
 from django.db.models import Max, Min, Count
 
-# def product(request):
-#     category_list = Category.objects.all()
-#     product_list = ProductVersion.objects.all()
-#     context = {
-#         'categories': category_list,
-#         'products': product_list
-#     }
-#     return render(request,'product-list.html', context)
-
 # filter by price
-# min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
-# max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
+min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
+max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
 
 class ProductListView(ListView):
     template_name = 'product-list.html'
@@ -63,34 +54,10 @@ class ProductListView(ListView):
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()
         context['sizes'] = Size.objects.all()
-        # context['min_price'] = float(min_price.get('new_price__min'))
-        # context['max_price'] = float(max_price.get('new_price__max')
-# )
+        context['min_price'] = float(min_price.get('new_price__min'))
+        context['max_price'] = float(max_price.get('new_price__max')
+)
         return context
-
-# def single_product(request, id=1):
-#     review_form = ProductReviewsForm()
-#     relatedproducts = ProductVersion.objects.all()
-#     singleproduct = ProductVersion.objects.get(id=id)
-#     product_reviews = ProductReview.objects.all()
-#     product_colors = singleproduct.property.filter(property_name__name='color')
-#     product_sizes =  singleproduct.property.filter(property_name__name='size')
-#     if request.method == 'POST':
-#         review_form = ProductReviewsForm(data=request.POST)
-#         if review_form.is_valid():
-#             review_form.save()
-#             return redirect(reverse_lazy('single_product', kwargs={"id": singleproduct.id}))
-#         else:
-#             raise Http404 
-#     context = {
-#         'review_form':review_form,
-#         'related_products': relatedproducts,
-#         'product': singleproduct,
-#         'colors' : product_colors,
-#         'sizes' : product_sizes,
-#         'reviews' : product_reviews,
-#         }
-#     return render(request,'single-product.html', context)
 
 
 class ProductView(DetailView,CreateView):
@@ -99,8 +66,6 @@ class ProductView(DetailView,CreateView):
     context_object_name = 'product'
     form_class = ProductReviewsForm
     success_url = reverse_lazy('product')
-    # context_object_name = 'detailed'
-    # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
         form.instance.product_version_id = self.kwargs['pk']

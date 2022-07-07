@@ -17,19 +17,19 @@ class SubscriberAPIView(CreateAPIView):
         return Response(serializer.data)
 
         
-    # def post(self, request, *args, **kwargs):
-    #     serializer = self.serializer_class(data=request.data)
-    #     email = request.data.get('email')
-    #     if Subscriber.objects.filter(email=email).exists() == False:
-    #         if serializer.is_valid():
-    #             Subscriber.objects.create(email=email)
-    #             message = {'success': True,
-    #                        'message': 'Subscriber added.'}
-    #             return Response(message, status=status.HTTP_201_CREATED)
-    #         else:
-    #             message = {'success': False,
-    #                        'message': 'Invalid email address.'}
-    #             return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    #     message = {'success': False,
-    #                'message': 'Subscriber already exists.'}
-    #     return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        email = request.data.get('email')
+        if Subscriber.objects.filter(email=email).exists() == False:
+            if serializer.is_valid():
+                Subscriber.objects.create(email=email)
+                message = {'success': True,
+                           'message': 'Subscriber added.'}
+                return Response(message, status=status.HTTP_201_CREATED)
+            else:
+                message = {'success': False,
+                           'message': 'Invalid email address.'}
+                return Response(message, status=status.HTTP_400_BAD_REQUEST)
+        message = {'success': False,
+                   'message': 'Subscriber already exists.'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
