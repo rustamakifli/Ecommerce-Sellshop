@@ -72,6 +72,8 @@ function addtoCartFromWishlist() {
 	})
 }
 
+
+
 function removeFromWishlist() {
 	var removeFromWishlist = document.querySelectorAll('.removeFromWishlist');
 	for (let i = 0; i < removeFromWishlist.length; i++) {
