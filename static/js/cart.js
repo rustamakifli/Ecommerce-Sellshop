@@ -20,6 +20,7 @@ function cartItemManager() {
             for (let i = 0; i < data.length; i++) {
                 if (data[i]['count'] > 0 && data[i]['basket']['status'] == false) {
                     total_price += parseFloat(data[i]['count'] * data[i]['price'])
+                    console.log(data[i]['productVersion']['color']['title'])
                     cart_body.innerHTML += `
             <tr>
             <td class="td-img text-left">

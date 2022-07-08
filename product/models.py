@@ -103,7 +103,7 @@ class ProductVersion(AbstrasctModel):
     quantity = models.PositiveIntegerField(default=0)
     is_main = models.BooleanField(default=False)
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not self.quantity:          
             self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'

@@ -555,11 +555,11 @@
 	<!-- main js -->
 	<script src="{% static 'js/main.js' %}"></script>
 
+	<script src="{% static 'js/wishlist.js' %}"></script>
 
 	{% if user.is_authenticated %}
 	<script src="{% static 'js/carts.js' %}"></script>
 	<script src="{% static 'js/add-to-cart.js' %}"></script>
-	<script src="{% static 'js/wishlist.js' %}"></script>
 	
 
 	{% block cart %}

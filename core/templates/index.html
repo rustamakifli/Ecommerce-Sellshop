@@ -102,10 +102,13 @@
 										<span>{{productversion.created_at | date:"d.m.y"}}</span>
 									</div>
 									{% for image in productversion.product_images.all %}
+									{% if image.is_main %}
 									<a href="{% url 'single_product' productversion.id %}">
 										<img style="width: 263px; height: 340px;" src="{{image.image.url}}"
 											alt="Product Title" />
-									</a>{% endfor %}
+									</a>
+									{% endif %}
+									{% endfor %}
 									<div class="actions-btn">
 										<a><i data="{{productversion.id}}" class="mdi mdi-cart add_to_cart "></i></a>
 										<a><i data="{{productversion.id}}"
@@ -270,10 +273,13 @@
 											{% endif %}
 										</div>
 										{% for image in productversion.product_images.all %}
+										{% if image.is_main %}
 										<a href="{% url 'single_product' productversion.id %}">
 
 											<img src="{{image.image.url}}" alt="Product Title" />
-										</a>{% endfor %}
+										</a>
+										{% endif %}
+										{% endfor %}
 										<div class="actions-btn">
 											<a><i data="{{productversion.id}}"
 													class="mdi mdi-cart add_to_cart "></i></a>
@@ -308,9 +314,11 @@
 									<div class="single-product">
 										<div class="product-img">
 											{% for image in productversion.product_images.all %}
+											{% if image.is_main %}
 											<a href="{% url 'single_product' productversion.id %}">
 												<img src="{{image.image.url}}" alt="Product Title" />
 											</a>
+											{% endif %}
 
 											{% endfor %}
 											<div class="actions-btn">
@@ -350,10 +358,11 @@
 												<span>{{product.created_at | date:"d.m.y"}}</span>
 											</div>
 											{% for image in product.product_images.all %}
+											{% if image.is_main %}
 											<a href="{% url 'single_product' product.id %}">
 												<img src="{{image.image.url}}" alt="Product Title" />
 											</a>
-
+											{% endif %}
 											{% endfor %}
 											<div class="actions-btn">
 												<a><i data="{{productversion.id}}"
