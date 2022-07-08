@@ -19,40 +19,7 @@
 	</div>
 </div>
 <!-- pages-title-end -->
-<!-- collection section start -->
-<section class="collection-area collection-area2 section-padding">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="single-colect banner collect-one">
-					<a href="#"><img src="{% static 'img/collect/4.jpg' %}" alt="" /></a>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="colect-text ">
-					<h4><a href="#">Fashion Collection 2016</a></h4>
-					<h5>big sale of the men 2016 fashion <br /> Up To 23% Off!</h5>
-					<a href="#">Shop Now <i class="mdi mdi-arrow-right"></i></a>
-				</div>
-				<div class="collect-img banner margin single-colect">
-					<a href="#"><img src="{% static 'img/collect/5.jpg' %]" alt="" /></a>
-						</div>
-					</div>
-					<div class="col-sm-4">
-						<div class="collect-img banner single-colect">
-							<a href="#"><img src="{% static 'img/collect/6.jpg' %}" alt="" /></a>
-				</div>
-				<div class="colect-text ">
-					<h4><a href="#">Men’s Collection 2016</a></h4>
-					<p>There are many variations of passages of Lorem Ipsum avalabbut the majority have suffered
-						alteration in some form.</p>
-					<a href="#">Shop Now <i class="mdi mdi-arrow-right"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- collection section end -->
+
 <!-- product-list-view content section start -->
 <section class="pages products-page section-padding-bottom">
 	<div class="container">
@@ -178,31 +145,10 @@
 								{% for brand in brands %}
 								<li>
 									<a href="#">{{brand}}</a>
-									<!-- <a href="#">Ecko Untid</a> -->
-									<!-- <a href="#">Addidas</a>
-										<a href="#">Custo</a>
-										<a href="#">Guccies</a> -->
 								</li>
-
-								<!-- <li>
-										<a href="#">Unlimited</a>
-										<a href="#">Shoes</a>
-										<a href="#">Watch</a>
-										<a href="#">Color Full</a>
-										<a href="#">Best choice</a>
-									</li> -->
 								{% endfor %}
 								
 							</ul>
-						</div>
-					</div>
-					<div class="s-side-text">
-						<div class="banner clearfix">
-							<a href="#"><img src="{% static 'img/products/banner.jpg' %}" alt="" /></a>
-							<div class="banner-text">
-								<h2>best</h2> <br />
-								<h2 class="banner-brand">brand</h2>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -233,52 +179,52 @@
 					<div class="row">
 						<div class="tab-content grid-content">
 							<div class="tab-pane fade in text-center" id="grid">
-								{% for product in products %}
+								
 
 								<div class="col-xs-12 col-sm-6 col-md-4">
-									
-									{% for product in products %}
-									<div class="single-product">
-										<div class="product-img">
-											<div class="pro-type">
-												{{ product.created_at|date:"d/m/Y" }}
-												{% if product.created_at > now  %}
+<!-- 
+									<ul class="load-list load-list-one">
+										{% for product in products %}	
+										<li>
+											<div class="row text-center">
 												
-												<span>new</span>
-												{% endif %} </div>
-											{% for image in product.product_images.all %}
-												<a href="{% url 'single_product' product.id %}">
+												<div class="col-xs-12 col-sm-6 col-md-3">
+													<div class="single-product">
+														<div class="product-img">
+															<div class="pro-type">
+																<span>{{product.created_at | date:"d.m.y"}}</span>
+															</div>
+															{% for image in product.product_images.all %}
+															{% if image.is_main %}
+															<a href="{% url 'single_product' product.id %}">
+																<img style="width: 263px; height: 340px;" src="{{image.image.url}}"
+																	alt="Product Title" />
+															</a>
+															{% endif %}
+															{% endfor %}
+															<div class="actions-btn">
+																<a><i data="{{product.id}}" class="mdi mdi-cart add_to_cart "></i></a>
+																<a><i data="{{product.id}}"
+																		class="mdi mdi-heart add_to_wishlist"></i></a>
+															</div>
+														</div>
+														<div class="product-dsc">
+															<p><a
+																	href="{% url 'single_product' product.id %}">{{ product.title }}</a>
+															</p>
+															<span>{{product.new_price}}</span>
+														</div>
+													</div>
+												</div>
 
-													<img style="width: 270px; height: 279px;" src="{{image.image.url}}"
-														alt="Product Title" />
 												
-
-												</a>
-											{% endfor %}
-											<div class="actions-btn">
-												<a href="#"><i class="mdi mdi-cart"></i></a>
-												<a href="#" data-toggle="modal" data-target="#quick-view"><i
-														class="mdi mdi-eye"></i></a>
-												<a href="#"><i class="mdi mdi-heart"></i></a>
 											</div>
-										</div>
+										</li>
+										{% endfor %}
+									</ul> -->
 
-										<div class="product-dsc">
-											<p><a href="{% url 'single_product' product.id %}">{{product.title}}</a></p>
-											<div class="ratting">
-												<i class="mdi mdi-star"></i>
-												<i class="mdi mdi-star"></i>
-												<i class="mdi mdi-star"></i>
-												<i class="mdi mdi-star-half"></i>
-												<i class="mdi mdi-star-outline"></i>
-											</div>
-											<span>${{product.new_price}}</span>
-										</div>
-									</div>
-									{% endfor %}
-									
 								</div>
-								{% endfor %}
+								
 
 							</div>
 							<!-- single product end -->
@@ -495,24 +441,6 @@
 		</div>
 	</div>
 </div>
-<!-- <script>
-	var minSlider = document.getElementById('min');
-	var maxSlider = document.getElementById('max');
-	
-	var outputMin = document.getElementById('min-value');
-	var outputMax = document.getElementById('max-value');
-	
-	outputMin.innerHTML = minSlider.value;
-	outputMax.innerHTML = maxSlider.value;
-	
-	minSlider.oninput = function(){
-	 outputMin.innerHTML=this.value;    
-	}
-	
-	maxSlider.oninput = function(){
-	 outputMax.innerHTML=this.value;    
-	}
-</script> -->
 <!-- quick view end -->
 {% block cart %}
 <script src="{% static 'js/wishlist.js' %}"></script>

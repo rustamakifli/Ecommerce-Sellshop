@@ -13,9 +13,11 @@ from order.models import *
 from django.db.models import Max, Min, Count
 
 # filter by price
-min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
-max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
-
+try:
+    min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
+    max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
+except:
+    pass
 class ProductListView(ListView):
     template_name = 'product-list.html'
     model = ProductVersion
@@ -54,8 +56,13 @@ class ProductListView(ListView):
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()
         context['sizes'] = Size.objects.all()
-        context['min_price'] = float(min_price.get('new_price__min'))
-        context['max_price'] = float(max_price.get('new_price__max'))
+        try:
+            context['min_price'] = float(min_price.get('new_price__min'))
+            context['max_price'] = float(max_price.get('new_price__max'))
+        except:
+            context['min_price'] = 0
+            context['max_price'] = 1 
+            
 
         return context
 

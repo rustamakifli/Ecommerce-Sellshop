@@ -101,14 +101,18 @@ class ProductVersion(AbstrasctModel):
     old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
     new_price = models.DecimalField(decimal_places = 2, max_digits=6)
     quantity = models.PositiveIntegerField(default=0)
-    is_main = models.BooleanField(default=False)
+    # sizes = models.ManyToManyField(Size, blank=True)
+    # is_main = models.BooleanField(default=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.quantity:          
-            self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
-        else:
-            self.title = f'{self.product.brand} {self.product.title} {self.color}'
+        try:
+            if not self.quantity:          
+                self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
+            else:
+                self.title = f'{self.product.brand} {self.product.title} {self.color}'
+        except:
+            self.title = "Test"
 
     def get_absolute_url(self):
         return f"/products/{self.id}/"
