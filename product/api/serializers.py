@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
+from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview, Discount)
+
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = '__all__'
 
 
 class ColorSerializer(serializers.ModelSerializer):
@@ -57,6 +62,7 @@ class ProductVersionSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     color = ColorSerializer()
     size = SizeSerializer()
+    discount = DiscountSerializer()
 
     def get_images(self, product_version):
        return ProductImageSerializer(product_version.product_images.all(), many=True).data

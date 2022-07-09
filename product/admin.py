@@ -2,8 +2,8 @@ from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from csv import *
 
-from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
-myModels = [Category, Brand, Tag, Color, Size, ProductReview]
+from product.models import (Category, Brand, Discount, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
+myModels = [Category, Brand, Tag, Color, Size, ProductReview, Discount,]
 admin.site.register(myModels)
 from nested_admin import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
@@ -59,6 +59,10 @@ class ProductReviewsAdmin(TranslationAdmin):
 
 
 class BrandAdmin(TranslationAdmin):
+    list_display = ('title',)
+
+
+class DiscountAdmin(TranslationAdmin):
     list_display = ('title',)
 
 

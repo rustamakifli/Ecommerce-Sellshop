@@ -65,9 +65,11 @@
 						<div class="col-xs-12 col-sm-6 col-md-3">
 							<div class="single-product">
 								<div class="product-img">
-									<div class="pro-type">
-										<span>{{productversion.created_at | date:"d.m.y"}}</span>
+									{% if product.discount %}
+									<div class="pro-type sell">
+										<span> sale </span>
 									</div>
+									{% endif %}
 									{% for image in productversion.product_images.all %}
 									{% if image.is_main %}
 									<a href="{% url 'single_product' productversion.id %}">
@@ -128,9 +130,9 @@
 								<div class="col-xs-12 col-sm-6 col-md-3 r-margin-top">
 									<div class="single-product">
 										<div class="product-img">
-											{% if productversion.created_at > now %}
-											<div class="pro-type">
-												<span>new</span>
+											{% if product.discount %}
+											<div class="pro-type sell">
+												<span> sale </span>
 											</div>
 											{% endif %}
 										</div>
@@ -175,6 +177,11 @@
 								<div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
 										<div class="product-img">
+											{% if productversion.discount %}
+											<div class="pro-type sell">
+												<span> sale </span>
+											</div>
+											{% endif %}
 											{% for image in productversion.product_images.all %}
 											{% if image.is_main %}
 											<a href="{% url 'single_product' productversion.id %}">
@@ -216,9 +223,11 @@
 								<div class="col-xs-12 col-sm-6 col-md-3">
 									<div class="single-product">
 										<div class="product-img">
-											<div class="pro-type">
-												<span>{{product.created_at | date:"d.m.y"}}</span>
+											{% if product.discount %}
+											<div class="pro-type sell">
+												<span> sale </span>
 											</div>
+											{% endif %}
 											{% for image in product.product_images.all %}
 											{% if image.is_main %}
 											<a href="{% url 'single_product' product.id %}">

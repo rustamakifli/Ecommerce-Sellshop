@@ -146,7 +146,7 @@
 									<p>{{ product.product.description }}</p>
 								</div>
 								<div class="info-reviews review-text tab-pane fade in active" id="reviews">
-									{% if reviews %}
+									
 									{% for review in reviews %}
 									<div class="about-author">
 										<div class="autohr-text">
@@ -162,12 +162,10 @@
 										</div>
 									</div>
 									<hr>
-									{% endfor %}
+									{% empty %}
+										<p>No Reviews Yet</p>
+									{% endfor %}							
 
-									{% else %}
-									<p>No Reviews Yet</p>
-									
-									{% endif %}
 									<div class="your-rating log-title">
 										<h3>leave your review</h3>
 									</div>
@@ -201,9 +199,16 @@
 									</div>
 								</div>
 								<div class="info-reviews tags tab-pane fade in" id="tags">
+
 									{% for tag in product_version_tags %}
+
 									<a href="{% url 'product' %}?tag_id={{tag.id}}">#{{ tag }}</a>,
 									&nbsp; &nbsp;
+									
+									{% empty %}
+
+									<p>There is no any tag belongs to this product</p>
+
 									{% endfor %}
 								</div>
 							</div>

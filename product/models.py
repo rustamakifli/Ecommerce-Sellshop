@@ -82,18 +82,23 @@ class Product(AbstrasctModel):
     def is_featured(self):
         return self.featured
 
+class Discount(AbstrasctModel):
+    title=models.CharField('Title', max_length=80)
+    percentage=models.CharField('Percentage', max_length=20, null=True, blank=True)
+    value=models.IntegerField('Value', null=True, blank=True)
 
+    def __str__(self):
+        return self.title
 
 class ProductVersion(AbstrasctModel):
     title = models.CharField(max_length=100, db_index=True,)
     product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, blank=True)
     color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default="1")
     size = models.ForeignKey(Size, related_name='same_size_product_versions', on_delete=models.CASCADE, null=True, blank=True)
-    old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
-    new_price = models.DecimalField(decimal_places = 2, max_digits=6)
     quantity = models.PositiveIntegerField(default=0)
-    # sizes = models.ManyToManyField(Size, blank=True)
-    # is_main = models.BooleanField(default=False)
+    old_price = models.DecimalField(decimal_places = 2, max_digits=6, verbose_name = "Price")
+    discount = models.ForeignKey('Discount',related_name='product_discount', on_delete=models.CASCADE, blank=True, null=True,)
+    new_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, verbose_name = "Discounted Price")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,6 +141,12 @@ class ProductVersion(AbstrasctModel):
 
     # def other_images(self):
     #     return self.product_images.all().exclude('is_main')
+
+    # @property
+    # def discounted_price(self):
+    #     if self.discount > 0:
+    #         discounted_price = self.new_price - self.new_price * self.discount / 100
+    #         return discounted_price
 
 class ProductImage(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default="1")
