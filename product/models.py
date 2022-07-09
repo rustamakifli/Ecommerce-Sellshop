@@ -43,8 +43,7 @@ class Tag(models.Model):
 
 
 class Color(models.Model):
-    title = models.CharField(verbose_name="Title",
-                             max_length=30, help_text="Max 30 char.") 
+    title = models.CharField(verbose_name="Title", max_length=30, help_text="Max 30 char.") 
 
     class Meta:
         verbose_name = 'Color'
@@ -80,23 +79,15 @@ class Product(AbstrasctModel):
     def __str__(self):
         return self.title
 
-    @property
-    def main_version(self):
-        return self.versions.filter(is_main=True).first()
-
-
     def is_featured(self):
         return self.featured
 
-    @property
-    def main_version(self):
-        return self.product_versions.filter(is_main=True).first()
 
 
 class ProductVersion(AbstrasctModel):
     title = models.CharField(max_length=100, db_index=True,)
     product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, blank=True)
-    color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE,)
+    color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default="1")
     size = models.ForeignKey(Size, related_name='same_size_product_versions', on_delete=models.CASCADE, null=True, blank=True)
     old_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, default=0)
     new_price = models.DecimalField(decimal_places = 2, max_digits=6)
@@ -124,18 +115,27 @@ class ProductVersion(AbstrasctModel):
     def __str__(self):
         return self.title
 
-    @property
-    def main_version(self):
-        return self.versions.filter(is_main=True).first()
+    # def get_images(self):
+    #     return self.product_images.all()
 
-    def main_image(self):
-        return self.product_images.all().order_by('-is_main').first()
+    def version_images(self):
+        all_versions = ProductVersion.objects.filter(product_id = self.product_id )
 
-    def other_images(self):
-        return self.product_images.all().exclude('is_main')
+        same_color_versions = []
+        for version in all_versions:
+            if version.color.id == self.color.id:
+                same_color_versions.append(version)  
+        
+        for version in same_color_versions:
+            if version.product_images.all():
+                results = version.product_images.all()
+                return results
 
+    # def main_image(self):
+    #     return self.product_images.all().order_by('-is_main').first()
 
-
+    # def other_images(self):
+    #     return self.product_images.all().exclude('is_main')
 
 class ProductImage(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default="1")
@@ -148,8 +148,6 @@ class ProductImage(AbstrasctModel):
     class Meta:
         verbose_name = 'Product image'
         verbose_name_plural = 'Product images'
-
-    
 
 
 class ProductReview(AbstrasctModel):
