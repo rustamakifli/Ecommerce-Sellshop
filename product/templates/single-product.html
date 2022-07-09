@@ -74,7 +74,7 @@
 										<div class="s-shoose">
 											<h5>Color</h5>
 											<div class="color-select clearfix">
-												{% for product_version in product_versions_query %}
+												{% for product_version in product_versions_query_distinct_color %}
 												<a href="{% url 'single_product' product_version.id %}">
 													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
 												</a>
@@ -90,7 +90,7 @@
 														<span class=""><i class="mdi mdi-chevron-down"></i></span>
 													</button>
 													<ul class="dropdown-menu">
-														{% for product_version in product_versions_query %}
+														{% for product_version in product_versions_query_distinct_size %}
 															{% if product_version.size %}
 																<li><a href="{% url 'single_product' product_version.id %}">{{ product_version.size }}</a></li>
 															{% endif %}
@@ -104,11 +104,8 @@
 											<h5>qty</h5>
 											<form action="#" method="POST">
 												<div class="plus-minus">
-													<!-- <a class="dec qtybutton">-</a> -->
 													<label for="quantity"></label>
 													<input type="number" value="02" id="quantity" name="quantity" min="1" max="{{ product.quantity }}" class="plus-minus-box">
-													<!-- <input type="text" value="02" name="qtybutton" class="plus-minus-box"> -->
-													<!-- <a class="inc qtybutton">+</a> -->
 												</div>
 											</form>
 										</div>
@@ -314,7 +311,7 @@
 															<div class="s-shoose">
 																<h5>Color</h5>
 																<div class="color-select clearfix">
-																	{% for product_version in product_versions_query %}
+																	{% for product_version in product_versions_distinct %}
 																	<a href="{% url 'single_product' product_version.id %}">
 																		<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
 																	</a>
@@ -330,7 +327,7 @@
 																			<span class=""><i class="mdi mdi-chevron-down"></i></span>
 																		</button>
 																		<ul class="dropdown-menu">
-																			{% for product_version in product_versions_query %}
+																			{% for product_version in product_versions_distinct %}
 																				{% if product_version.size %}
 																					<li><a href="{% url 'single_product' product_version.id %}">{{ product_version.size }}</a></li>
 																				{% endif %}

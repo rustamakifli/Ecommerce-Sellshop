@@ -96,14 +96,25 @@ class ProductView(DetailView,CreateView):
 
         context['related_products'] = ProductVersion.objects.filter(
             product__category=ProductVersion.objects.get(pk=self.kwargs.get('pk')).product.category).exclude(pk=self.kwargs.get('pk'))[0:3]
+
         context['review_form'] = ProductReviewsForm(
             data=self.request.POST)
+
         context['reviews'] = ProductReview.objects.filter(
             product_version_id=self.kwargs.get('pk')).all()
+
         context['images'] = ProductImage.objects.filter(
             product_version=self.kwargs.get('pk'))[0:4]
-        context['product_versions_query'] = ProductVersion.objects.filter(
-            product__id=parent_product.id)
+
+        # context['product_versions_query'] = ProductVersion.objects.filter(
+        #     product__id=parent_product.id)
+
+        context['product_versions_query_distinct_color'] = ProductVersion.objects.filter(
+            product__id=parent_product.id).distinct("color")
+
+        context['product_versions_query_distinct_size'] = ProductVersion.objects.filter(
+            product__id=parent_product.id).distinct("size")
+
         context['product_version_tags'] = Tag.objects.filter(
             product__id=parent_product.id
         )

@@ -54,11 +54,11 @@ INSTALLED_APPS = [
     'social_django',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    'user',
-    'blog',
-    'product',
-    'order',
+    'core.apps.CoreConfig',
+    'user.apps.UserConfig',
+    'blog.apps.BlogConfig',
+    'product.apps.ProductConfig',
+    'order.apps.OrderConfig',
     
 ]
 

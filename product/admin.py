@@ -5,7 +5,7 @@ from csv import *
 from product.models import (Category, Brand, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
 myModels = [Category, Brand, Tag, Color, Size, ProductReview]
 admin.site.register(myModels)
-from nested_admin import NestedModelAdmin, NestedTabularInline
+from nested_admin import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 
 class ProductImageInline(NestedTabularInline):
@@ -13,7 +13,7 @@ class ProductImageInline(NestedTabularInline):
     extra = 5
 
 
-class ProductVersionInline(NestedTabularInline):
+class ProductVersionInline(NestedStackedInline):
     model = ProductVersion
     extra = 1
     inlines = [ProductImageInline,]
