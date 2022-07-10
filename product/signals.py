@@ -1,15 +1,6 @@
-from django.db.models.signals import post_save, pre_save
-from product.models import Brand, Category, ProductImage, ProductVersion, ProductReview, Product, Color, Size, ProductImage, Tag
+from django.db.models.signals import pre_save
+from product.models import ProductVersion, ProductImage
 from django.dispatch import receiver
-
-
-
-# @receiver(pre_save, sender = ProductVersion)
-# def copy_images (sender, instance, **kwargs):
-#     if not instance.product_images:
-#         instance.product_images = ProductImage.objects.all().first()
-#         instance.save()
-
 
 @receiver(pre_save, sender = ProductVersion)
 def calculate_discounted_price (sender, instance, **kwargs):
@@ -24,6 +15,17 @@ def calculate_discounted_price (sender, instance, **kwargs):
         instance.new_price = instance.old_price
 
 
+@receiver(pre_save, sender = ProductVersion)
+def title_inherit_product_title (sender, instance, **kwargs):
+    try:
+        if not instance.quantity:          
+            instance.title = f'{instance.product.brand} {instance.product.title} {instance.color} (Out of Stock)'
+        else:
+            instance.title = f'{instance.product.brand} {instance.product.title} {instance.color}'
+    except:
+        instance.title = " "
+
+
     # if not instance.discount:
     #     result = instance.old_price 
     # else:
@@ -35,3 +37,8 @@ def calculate_discounted_price (sender, instance, **kwargs):
     # instance.new_price = result
 
 
+# @receiver(pre_save, sender = ProductVersion)
+# def copy_images (sender, instance, **kwargs):
+#     if not instance.product_images:
+#         instance.product_images = ProductImage.objects.all().first()
+#         instance.save()

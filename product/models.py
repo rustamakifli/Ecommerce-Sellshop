@@ -100,15 +100,15 @@ class ProductVersion(AbstrasctModel):
     discount = models.ForeignKey('Discount',related_name='product_discount', on_delete=models.CASCADE, blank=True, null=True,)
     new_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, verbose_name = "Discounted Price")
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        try:
-            if not self.quantity:          
-                self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
-            else:
-                self.title = f'{self.product.brand} {self.product.title} {self.color}'
-        except:
-            self.title = "Test"
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     try:
+    #         if not self.quantity:          
+    #             self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
+    #         else:
+    #             self.title = f'{self.product.brand} {self.product.title} {self.color}'
+    #     except:
+    #         self.title = "Test"
 
     def get_absolute_url(self):
         return f"/products/{self.id}/"
@@ -123,18 +123,18 @@ class ProductVersion(AbstrasctModel):
     # def get_images(self):
     #     return self.product_images.all()
 
-    def version_images(self):
-        all_versions = ProductVersion.objects.filter(product_id = self.product_id )
+    # def version_images(self):
+    #     all_versions = ProductVersion.objects.filter(product_id = self.product_id )
 
-        same_color_versions = []
-        for version in all_versions:
-            if version.color.id == self.color.id:
-                same_color_versions.append(version)  
+    #     same_color_versions = []
+    #     for version in all_versions:
+    #         if version.color.id == self.color.id:
+    #             same_color_versions.append(version)  
         
-        for version in same_color_versions:
-            if version.product_images.all():
-                results = version.product_images.all()
-                return results
+    #     for version in same_color_versions:
+    #         if version.product_images.all():
+    #             results = version.product_images.all()
+    #             return results
 
     # def main_image(self):
     #     return self.product_images.all().order_by('-is_main').first()
