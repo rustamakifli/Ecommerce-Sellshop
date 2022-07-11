@@ -54,8 +54,8 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
-        context['colors'] = Color.objects.all()
-        context['sizes'] = Size.objects.all()
+        context['colors'] = Color.objects.all()[:6]
+        context['sizes'] = Size.objects.all()[:5]
         try:
             context['min_price'] = float(min_price.get('new_price__min'))
             context['max_price'] = float(max_price.get('new_price__max'))

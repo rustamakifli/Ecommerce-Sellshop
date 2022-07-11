@@ -76,7 +76,11 @@
 											<div class="color-select clearfix">
 												{% for product_version in product_versions_query_distinct_color %}
 												<a href="{% url 'single_product' product_version.id %}">
-													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
+													{% if product_version.color__title != "white" %}
+													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ product_version.color }} solid;"></span>
+													{% else %}
+													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
+													{% endif %}
 												</a>
 												{% endfor %}
 											</div>

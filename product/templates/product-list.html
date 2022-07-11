@@ -91,6 +91,7 @@
 								</div>  -->
 						</div>
 					</div>
+
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">size</h4>
@@ -99,44 +100,28 @@
 						<div class="size-select clearfix">
 							{% for size in sizes %}
 							<a href="{% url 'product' %}?{{request.GET.urlencode}}&size_id={{size.id}}" >{{ size.title }}</a>
-							<!-- <a href="{% url 'product' %}?size_id={{size.id}}">s</a>
-							<a href="{% url 'product' %}?size_id={{size.id}}">l</a>
-							<a href="{% url 'product' %}?size_id={{size.id}}">sl</a>
-							<a href="{% url 'product' %}?size_id={{size.id}}">xl</a> -->
 							{% endfor %}
 						</div>
 					</div>
+
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">color</h4>
 							<h5 class="floatright"><a href="#">All</a></h5>
 						</div>
-                        <div class="color-select clearfix">
-                            <form method="GET" style="display: flex;">
-                                {% for color in colors %}
-                                <a href="{% url 'product' %}?{{request.GET.urlencode}}&color_id={{color.id}}"style="margin-right: 11.58px;" name="color" color="{{ color }}" ><span
-                                    {% if color.title in request.get_full_path %}
-                                    	class="outline"
-                                    {% endif %}
-									onmouseover="style.background='orange'"
-									onmouseout="style.background='{{color}}'" 
-                                    style="background: '{{ color }}' none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
-									
-                                </a>
-                                {% endfor %}
-                            </form>
-                        </div>
-						<!-- <div class="color-select clearfix">
-							<span></span>
-							<span></span>
-							<span class="outline"></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-							
-						</div> -->
+						<div class="color-select clearfix">
+							{% for color in colors %}
+							<a href="{% url 'product' %}?{{request.GET.urlencode}}&color_id={{color.id}}" style="margin-right: 11.58px;">
+								{% if color.title != "white" %}
+								<span style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ color }} solid;"></span>
+								{% else %}
+								<span style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
+								{% endif %}
+							</a>
+							{% endfor %}
+						</div>
 					</div>
+
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">brands</h4>
