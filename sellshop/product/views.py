@@ -4,12 +4,13 @@ from product.models import Brand, Category, ProductImage, ProductVersion, Produc
 from .forms import ProductReviewsForm
 from django.http import Http404,JsonResponse
 from django.contrib import messages
-from django.views.generic import DetailView,CreateView
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.template.defaulttags import register
 from order.models import *
 from django.db.models import Max, Min, Count
+# from decimal import Decimal as D
 
 # filter by price
 try:
@@ -26,6 +27,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.filter(hide=False, quantity__gt=0)
         category_id = self.request.GET.get('category_id') 
         brand_id = self.request.GET.get('brand_id') 
         tag_id = self.request.GET.get('tag_id') 
@@ -33,6 +35,12 @@ class ProductListView(ListView):
         size_id = self.request.GET.get('size_id') 
         max_price = self.request.GET.get('max_price') 
         min_price = self.request.GET.get('min_price') 
+        discount = self.request.GET.get('discount') 
+        # price1 = D(self.request.GET.get('min_price', 0)) 
+        # price2 = D(self.request.GET.get('max_price', 0))
+        price1 = self.request.GET.get('min_price', 0) 
+        price2 = self.request.GET.get('max_price', 100000)
+        queryset = queryset.filter(new_price__range=(price1, price2))
         if category_id:
             queryset = queryset.filter(product__category__id=category_id)
         if brand_id:
@@ -47,6 +55,8 @@ class ProductListView(ListView):
             queryset = queryset.filter(new_price__gte=min_price)
         if max_price:
             queryset = queryset.filter(new_price__lte=max_price)
+        if discount:
+            queryset = queryset.filter(discount=True)
         return queryset
 
 
@@ -56,7 +66,6 @@ class ProductListView(ListView):
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()[:6]
         context['sizes'] = Size.objects.all()[:5]
-        context['products'] = ProductVersion.objects.filter(hide=False)
 
         try:
             context['min_price'] = float(min_price.get('new_price__min'))
@@ -81,7 +90,6 @@ class ProductView(DetailView,CreateView):
         form.instance.user = self.request.user
         star = self.request.POST.get("star_value",None)
         form.instance.rating = star
-        messages.add_message(self.request, messages.INFO, 'your review is waiting for approval')
         return super().form_valid(form)
 
     def get_object(self):
@@ -108,10 +116,10 @@ class ProductView(DetailView,CreateView):
         context['images'] = ProductImage.objects.filter(
             product_version=self.kwargs.get('pk'))[0:4]
 
-        context['product_versions_query_distinct_color'] = ProductVersion.objects.filter(hide=False,
+        context['product_versions_query_distinct_color'] = ProductVersion.objects.filter(hide=False, quantity__gt=0,
             product__id=parent_product.id).distinct("color")
 
-        context['product_versions_query_distinct_size'] = ProductVersion.objects.filter(hide=False,
+        context['product_versions_query_distinct_size'] = ProductVersion.objects.filter(hide=False, quantity__gt=0,
             product__id=parent_product.id).distinct("size")
 
         context['product_version_tags'] = Tag.objects.filter(
@@ -139,3 +147,15 @@ class SearchView(ListView):
             'quantity': len(qs)
         }
         return render(request, 'search.html', context=context)
+
+
+class UpdateReviewView(LoginRequiredMixin, UpdateView):
+    form_class = ProductReviewsForm
+    model = ProductReview
+    template_name = 'edit_review.html'
+
+    def form_valid(self, form):
+        star = self.request.POST.get("star_value",None)
+        form.instance.rating = star
+        form.instance.confirm = False
+        return super().form_valid(form)

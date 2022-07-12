@@ -28,11 +28,13 @@
 				<div class="sidebar left-sidebar">
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
-							<h4 class="floatleft"><a href="{% url 'product' %}"><button class="btn btn-danger">Delete all filters</button></a></h4>
+							<h4 class="floatleft"><a href="{% url 'product' %}"><button class="btn btn-danger">ALL&nbsp;</button></a></h4>
+							<h4 class="floatleft"><a href="{% url 'product' %}?&discount=True"><button style="margin-left: 85px;" class="btn btn-danger">SALE</button></a></h4>
+							
 						</div>
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">Categories</h4>
-							<h5 class="floatright"><a href="{% url 'product' %}">All</a></h5>
+							
 						</div>
 						<div class="categories left-right-p">
 
@@ -65,39 +67,23 @@
 
 						</div>
 					</div>
-					<div class="s-side-text">
-						<div class="sidebar-title">
-							<h4>price</h4>
-						</div>
-						<div>
-							<p>En kicik mehsulun qiymeti: {{ min_price }}</p>
-							<p>En boyuk mehsulun qiymeti: {{ max_price }}</p>
-							<!-- <div class="priceSlider">
-								<p>En kicik mehsulun qiymeti: {{ min_price }}</p>
-								<p>En boyuk mehsulun qiymeti: {{ max_price }}</p>
-								<div class="min-max">
-								 <div class="min">
-									 <label>Min</label><span id="min-value"></span>
-								 </div>
-								 <div class="max">
-									 <label>Max</label><span id="max-value"></span>
-								 </div>     
-								</div> 
-									
-								<div class="min-max-range">
-								<input type="range" min="{{ min_price }}" max="{{ max_price }}" value="{{ min_price }}" class="range" id="min">
-								<input type="range" min="5001" max="{{ max_price }}" value="8000" class="range" id="max">      
-								</div>    
-									
-								<div style="clear: both;"></div>    
-								</div>  -->
-						</div>
-					</div>
+                    <div class="s-side-text">
+                        <div class="sidebar-title">
+                            <h4>price</h4>
+                        </div>
+						<form action="">
+                        <div style="margin-top: 10%;">
+								<input type="text" name="min_price" placeholder="Min. price" maxlength="14" size="13" >
+								<input type="text" name="max_price" placeholder="Max. price" maxlength="14" size="13"> 
+								<input type="submit" value="Go">
+                        </div>
+						</form>
+                    </div>
 
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">size</h4>
-							<h5 class="floatright"><a href="#">All</a></h5>
+							
 						</div>
 						<div class="size-select clearfix">
 							{% for size in sizes %}
@@ -109,7 +95,7 @@
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">color</h4>
-							<h5 class="floatright"><a href="#">All</a></h5>
+							
 						</div>
 						<div class="color-select clearfix">
 							{% for color in colors %}
@@ -127,7 +113,7 @@
 					<div class="s-side-text">
 						<div class="sidebar-title clearfix">
 							<h4 class="floatleft">brands</h4>
-							<h5 class="floatright"><a href="#">All</a></h5>
+							
 						</div>
 						<div class="brands-select clearfix">
 							<ul>
