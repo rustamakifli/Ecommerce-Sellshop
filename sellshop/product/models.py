@@ -142,7 +142,7 @@ class ProductReview(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_reviews', on_delete=models.CASCADE, null=True, default="1")
     user = models.ForeignKey(User, related_name='user_product_reviews', on_delete=models.CASCADE, editable=False, null=True, default="1")
     review = models.TextField()
-    rating = models.IntegerField(choices=CHOICES, default=5)
+    rating = models.IntegerField(choices=CHOICES, default=5, null=True, blank=True,)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     confirm = models.BooleanField('Confirm', default=False, help_text="Confirm review") 
@@ -151,6 +151,10 @@ class ProductReview(AbstrasctModel):
         verbose_name = 'Product review'
         verbose_name_plural = 'Product reviews'
 
+    def get_absolute_url(self):
+        return reverse_lazy ('single_product', kwargs = {
+            'pk': self.product_version.id
+        })
 
     def __str__(self):
         if self.confirm:

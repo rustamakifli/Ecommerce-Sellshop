@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %} 
+
         <!-- pages-title-start -->
 		<div class="pages-title section-padding">
 			<div class="container">
@@ -160,6 +161,9 @@
 												<span class="floatright ratting">
 													<i class="mdi mdi-star">{{ review.rating }}</i>
 												</span>
+												<span class="floatright ">
+													<a href="{% url 'edit_review' review.id %}">EDIT</a>
+												</span>
 												<span>{{ review.created_at }}</span>
 												<p>{{ review.review }}</p>
 											</div>
@@ -182,14 +186,14 @@
 													<div class="custom-mess">
 														{{ review_form.review }}
 													</div>
-													<div>
+													<div >
 														<select style="margin-bottom: 20px;" class="btn btn-success" name='star_value'>
-															<option selected="selected" disabled>CLick to select rating</option>
-															<option value="1"><b>*</b></option>
-															<option value="2"><b>**</b></option>
-															<option value="3"><b>***</b></option>
-															<option value="4"><b>****</b></option>
-															<option value="5"><b>*****</b></option>
+															<option selected="selected" id="rating_1" disabled>Click to select rating</option>
+															<option value="1"><b>&#9733;</b></option>
+															<option value="2"><b>&#9733; &#9733;</b></option>
+															<option value="3"><b>&#9733; &#9733; &#9733;</b></option>
+															<option value="4"><b>&#9733; &#9733; &#9733; &#9733;</b></option>
+															<option value="5"><b>&#9733; &#9733; &#9733; &#9733; &#9733;</b></option>
 														</select>
 													</div>
 												</div>
