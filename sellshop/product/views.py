@@ -8,7 +8,6 @@ from django.views.generic import DetailView,CreateView
 from django.views.generic import ListView
 from django.db.models import Q
 from django.template.defaulttags import register
-
 from order.models import *
 from django.db.models import Max, Min, Count
 
@@ -18,6 +17,7 @@ try:
     max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
 except:
     pass
+
 class ProductListView(ListView):
     template_name = 'product-list.html'
     model = ProductVersion
@@ -56,6 +56,8 @@ class ProductListView(ListView):
         context['brands'] = Brand.objects.all()
         context['colors'] = Color.objects.all()[:6]
         context['sizes'] = Size.objects.all()[:5]
+        context['products'] = ProductVersion.objects.filter(hide=False)
+
         try:
             context['min_price'] = float(min_price.get('new_price__min'))
             context['max_price'] = float(max_price.get('new_price__max'))
@@ -79,8 +81,8 @@ class ProductView(DetailView,CreateView):
         form.instance.user = self.request.user
         star = self.request.POST.get("star_value",None)
         form.instance.rating = star
+        messages.add_message(self.request, messages.INFO, 'your review is waiting for approval')
         return super().form_valid(form)
-
 
     def get_object(self):
         return ProductVersion.objects.filter(id=self.kwargs['pk']).first()
@@ -95,24 +97,21 @@ class ProductView(DetailView,CreateView):
         parent_product = single_product.product
 
         context['related_products'] = ProductVersion.objects.filter(
-            product__category=ProductVersion.objects.get(pk=self.kwargs.get('pk')).product.category).exclude(pk=self.kwargs.get('pk'))[0:3]
+            product__category=ProductVersion.objects.get(pk=self.kwargs.get('pk')).product.category, hide=False).exclude(pk=self.kwargs.get('pk'))[0:3]
 
         context['review_form'] = ProductReviewsForm(
             data=self.request.POST)
 
-        context['reviews'] = ProductReview.objects.filter(
+        context['reviews'] = ProductReview.objects.filter(confirm=True,
             product_version_id=self.kwargs.get('pk')).all()
 
         context['images'] = ProductImage.objects.filter(
             product_version=self.kwargs.get('pk'))[0:4]
 
-        # context['product_versions_query'] = ProductVersion.objects.filter(
-        #     product__id=parent_product.id)
-
-        context['product_versions_query_distinct_color'] = ProductVersion.objects.filter(
+        context['product_versions_query_distinct_color'] = ProductVersion.objects.filter(hide=False,
             product__id=parent_product.id).distinct("color")
 
-        context['product_versions_query_distinct_size'] = ProductVersion.objects.filter(
+        context['product_versions_query_distinct_size'] = ProductVersion.objects.filter(hide=False,
             product__id=parent_product.id).distinct("size")
 
         context['product_version_tags'] = Tag.objects.filter(
@@ -120,8 +119,9 @@ class ProductView(DetailView,CreateView):
         )
         return context
 
+
 class SearchView(ListView):
-    model = Product
+    model = ProductVersion
     template_name = 'search.html'
 
     def get(self, request, *args, **kwargs):

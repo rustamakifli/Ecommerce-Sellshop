@@ -82,6 +82,7 @@ class Product(AbstrasctModel):
     def is_featured(self):
         return self.featured
 
+
 class Discount(AbstrasctModel):
     title=models.CharField('Title', max_length=80)
     percentage=models.CharField('Percentage', max_length=20, null=True, blank=True)
@@ -90,28 +91,23 @@ class Discount(AbstrasctModel):
     def __str__(self):
         return self.title
 
+
 class ProductVersion(AbstrasctModel):
     title = models.CharField(max_length=100, db_index=True,)
     product = models.ForeignKey(Product, related_name='product_versions', on_delete=models.CASCADE, null=True, blank=True)
     color = models.ForeignKey(Color, related_name='same_color_product_versions', on_delete=models.CASCADE, default="1")
     size = models.ForeignKey(Size, related_name='same_size_product_versions', on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0)
-    old_price = models.DecimalField(decimal_places = 2, max_digits=6, verbose_name = "Price")
-    discount = models.ForeignKey('Discount',related_name='product_discount', on_delete=models.CASCADE, blank=True, null=True,)
-    new_price = models.DecimalField(decimal_places = 2, max_digits=6, null=True, blank=True, verbose_name = "Discounted Price")
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     try:
-    #         if not self.quantity:          
-    #             self.title = f'{self.product.brand} {self.product.title} {self.color} (Out of Stock)'
-    #         else:
-    #             self.title = f'{self.product.brand} {self.product.title} {self.color}'
-    #     except:
-    #         self.title = "Test"
+    old_price = models.DecimalField(verbose_name = "Price", decimal_places = 2, max_digits=6,)
+    discount = models.ForeignKey('Discount', related_name='product_discount', on_delete=models.CASCADE, blank=True, null=True,)
+    new_price = models.DecimalField(verbose_name = "Discounted Price", decimal_places = 2, max_digits=6, null=True, blank=True, help_text="""
+        Buraya hər hansı məbləğ qeyd etməyə ehtiyac yoxdur. Daxil etdiyiniz qiymət və endirim (əgər varsa) nəzərə alınaraq avtomatik hesablanma aparılır.""")
+    hide = models.BooleanField('Hide', default=False, help_text="Məhsulun səhifədə görünməsini dayandırmaq") 
 
     def get_absolute_url(self):
-        return f"/products/{self.id}/"
+        return reverse_lazy ('single_product', kwargs = {
+            'pk': self.id
+        })
 
     class Meta:
         verbose_name = 'Product version'
@@ -120,38 +116,11 @@ class ProductVersion(AbstrasctModel):
     def __str__(self):
         return self.title
 
-    # def get_images(self):
-    #     return self.product_images.all()
-
-    # def version_images(self):
-    #     all_versions = ProductVersion.objects.filter(product_id = self.product_id )
-
-    #     same_color_versions = []
-    #     for version in all_versions:
-    #         if version.color.id == self.color.id:
-    #             same_color_versions.append(version)  
-        
-    #     for version in same_color_versions:
-    #         if version.product_images.all():
-    #             results = version.product_images.all()
-    #             return results
-
-    # def main_image(self):
-    #     return self.product_images.all().order_by('-is_main').first()
-
-    # def other_images(self):
-    #     return self.product_images.all().exclude('is_main')
-
-    # @property
-    # def discounted_price(self):
-    #     if self.discount > 0:
-    #         discounted_price = self.new_price - self.new_price * self.discount / 100
-    #         return discounted_price
 
 class ProductImage(AbstrasctModel):
     product_version = models.ForeignKey(ProductVersion, related_name='product_images', on_delete=models.CASCADE, default="1")
     image = models.FileField(upload_to='product_images',  null = True , blank = True)
-    is_main = models.BooleanField('Main picture', default=False)
+    is_main = models.BooleanField('Main picture', default=False, help_text="Daxil etdiyiniz şəkillərdən yalnız birini məhsulun əsas şəkli olaraq seçin") 
     
     def __str__(self):
         return self.image.url
@@ -176,6 +145,7 @@ class ProductReview(AbstrasctModel):
     rating = models.IntegerField(choices=CHOICES, default=5)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    confirm = models.BooleanField('Confirm', default=False, help_text="Confirm review") 
 
     class Meta:
         verbose_name = 'Product review'
@@ -183,7 +153,9 @@ class ProductReview(AbstrasctModel):
 
 
     def __str__(self):
-        return f"{self.review}-{self.rating}-{self.user.username}"
+        if self.confirm:
+            return f"{self.review} - Review is confirmed"
+        return self.review
 
 
 
