@@ -38,21 +38,6 @@ def index(request):
 
     return render(request,'index.html',context=context)
 
-# def contact(request):
-#     contact_form = ContactForm()
-#     if request.method == 'POST':
-#         contact_form = ContactForm(data=request.POST)
-#         if contact_form.is_valid():
-#             contact_form.save()
-#             messages.add_message(request, messages.SUCCESS, 'Contact qeyde alindi!')
-#         else:
-#             raise Http404
-#         return redirect(reverse_lazy('index'))
-#     context = {
-#         'contact_form':contact_form
-#         }
-#     return render(request,'contact.html', context)
-
 
 class ContactView(CreateView):
     template_name = 'contact.html'
@@ -65,22 +50,6 @@ class ContactView(CreateView):
         messages.add_message(self.request, messages.SUCCESS, 'Mesajiniz qeyde alindi!')
         return result
 
-
-
-# def subscribe_renderer(request):
-#     subscribe_form = SubscribeForm()
-#     if request.method == 'POST':
-#         subscribe_form = SubscribeForm(data=request.POST)
-#         if subscribe_form.is_valid():
-#             subscribe_form.save()
-#             messages.add_message(request, messages.SUCCESS, 'Email qeyde alindi!')
-#         else:
-#             raise Http404 
-#         return redirect(reverse_lazy('index'))
-#     context = {
-#         'subscribe_form':subscribe_form
-#         }
-#     return render(request,'index.html', context)
 
 class SubscribeView(CreateView):
     template_name = 'index.html'
