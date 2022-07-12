@@ -56,6 +56,7 @@ class ProductReviewsAdmin(TranslationAdmin):
     list_filter = ('user', 'rating',)
     search_fields = ('review', 'user', 'rating',)
     readonly_fields = ["user",]
+    ordering = ('-confirm',)
 
 
 class BrandAdmin(TranslationAdmin):
