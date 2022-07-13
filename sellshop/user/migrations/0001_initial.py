@@ -16,26 +16,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BillingAddress',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('first_name', models.CharField(max_length=40)),
-                ('last_name', models.CharField(max_length=40)),
-                ('email', models.EmailField(max_length=40)),
-                ('country', models.CharField(choices=[('Bangladesh', 'Bangladesh'), ('United States', 'United States'), ('UNited KIngdom', 'UNited KIngdom'), ('Canada', 'Canada'), ('Malaysia', 'Malaysia'), ('United Arab Emirates', 'United Arab Emirates')], max_length=40)),
-                ('address', models.CharField(max_length=255)),
-                ('town', models.CharField(choices=[('Aberdeen', 'Aberdeen'), ('Bedfordshire', 'Bedfordshire'), ('Caerphilly', 'Caerphilly'), ('Denbighshire', 'Denbighshire'), ('East Ayshire', 'East Ayshire'), ('Falkirk', 'Falkirk')], max_length=40)),
-                ('mobile_phone', models.IntegerField()),
-                ('information', models.TextField()),
-                ('reference', models.CharField(blank=True, max_length=40)),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
             name='User',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

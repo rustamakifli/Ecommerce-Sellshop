@@ -1,11 +1,61 @@
 from django.db import models
 # Create your models here.
 from django.contrib.auth import get_user_model
+from traitlets import default
 from product.models import ProductVersion
 from sellshop.utils.abstract_models import AbstrasctModel
+from django_countries.fields import CountryField
+from phonenumber_field.modelfields import PhoneNumberField
 
 User = get_user_model()
 
+class Country(AbstrasctModel):
+    country = CountryField(
+        verbose_name="Country", max_length=255, null=False, blank=False)
+
+    def __str__(self) -> str:
+        return f"{self.country}"
+
+    class Meta:
+        verbose_name_plural = "Countries"
+
+class ShippingAddress(AbstrasctModel):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE,related_name="shipping_address")
+
+    first_name  = models.CharField(max_length=50)
+    last_name   = models.CharField(max_length=50)
+    address   = models.CharField(max_length=100)
+    default = models.BooleanField(default=False)
+    city        = models.CharField(max_length=50)
+    zipcode     = models.CharField(max_length=50)
+    country     = models.ForeignKey(Country,on_delete=models.CASCADE, max_length=50)
+    phone       = PhoneNumberField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.address
+
+    class Meta:
+        verbose_name = "Shipping Address"
+        verbose_name_plural = "Shipping Addresses"
+
+
+class BillingAddress(models.Model):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE, default='',related_name="billing_address")
+
+    first_name  = models.CharField(max_length=50)
+    last_name   = models.CharField(max_length=50)
+    address     = models.CharField(max_length=100)
+    city        = models.CharField(max_length=50)
+    zipcode     = models.CharField(max_length=50)
+    country     = models.CharField(max_length=50)
+    phone       = PhoneNumberField(blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.address
+
+    class Meta:
+        verbose_name = "Billing Address"
+        verbose_name_plural = "Billing Addresses"
 
 
 class Wishlist(AbstrasctModel):

@@ -36,32 +36,32 @@ class User(AbstractUser):
     def basket(self):
         return self.basket_set.filter(status=False).last()
 
-class BillingAddress(AbsrtactModel):
+# class BillingAddress(AbsrtactModel):
 
-    COUNTRY_CHOICES = (
-        ('Bangladesh', 'Bangladesh'),
-        ('United States', 'United States'),
-        ('UNited KIngdom', 'UNited KIngdom'),
-        ('Canada', 'Canada'),
-        ('Malaysia', 'Malaysia'),
-        ('United Arab Emirates', 'United Arab Emirates')
-    )
+#     COUNTRY_CHOICES = (
+#         ('Bangladesh', 'Bangladesh'),
+#         ('United States', 'United States'),
+#         ('UNited KIngdom', 'UNited KIngdom'),
+#         ('Canada', 'Canada'),
+#         ('Malaysia', 'Malaysia'),
+#         ('United Arab Emirates', 'United Arab Emirates')
+#     )
 
-    TOWN_CHOICES = (
-        ('Aberdeen','Aberdeen'),
-        ('Bedfordshire','Bedfordshire'),
-        ('Caerphilly','Caerphilly'),
-        ('Denbighshire','Denbighshire'),
-        ('East Ayshire','East Ayshire'),
-        ('Falkirk','Falkirk')
-    )
+#     TOWN_CHOICES = (
+#         ('Aberdeen','Aberdeen'),
+#         ('Bedfordshire','Bedfordshire'),
+#         ('Caerphilly','Caerphilly'),
+#         ('Denbighshire','Denbighshire'),
+#         ('East Ayshire','East Ayshire'),
+#         ('Falkirk','Falkirk')
+#     )
 
-    first_name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    email = models.EmailField(max_length=40)
-    country = models.CharField(max_length=40, choices=COUNTRY_CHOICES)
-    address = models.CharField(max_length=255)
-    town = models.CharField(max_length=40, choices=TOWN_CHOICES)
-    mobile_phone = models.IntegerField()
-    information = models.TextField()
-    reference = models.CharField(max_length=40,blank=True)
+#     first_name = models.CharField(max_length=40)
+#     last_name = models.CharField(max_length=40)
+#     email = models.EmailField(max_length=40)
+#     country = models.CharField(max_length=40, choices=COUNTRY_CHOICES)
+#     address = models.CharField(max_length=255)
+#     town = models.CharField(max_length=40, choices=TOWN_CHOICES)
+#     mobile_phone = models.IntegerField()
+#     information = models.TextField()
+#     reference = models.CharField(max_length=40,blank=True)

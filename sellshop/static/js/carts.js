@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 										alt="" /></a>
 					<div class="menu-cart-text">
 					
-                    <a href="http://127.0.0.1:8000/en/single_product/${data[i]['productVersion']['id']}/">
+                    <a href="http://127.0.0.1:8000/en/products/${data[i]['productVersion']['id']}/">
 					<h5>${data[i]['count']} x ${data[i]['productVersion']['title']}</h5>
 					</a>
 					<span>Color : ${data[i]['productVersion']['color']['title']}</span>

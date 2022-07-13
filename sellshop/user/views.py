@@ -7,12 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth import get_user_model
-from user.forms import AddresForm, RegisterForm,UpdatePersonalInfoForm,LoginForm,CustomPasswordChangeForm
+from user.forms import  RegisterForm,UpdatePersonalInfoForm,LoginForm,CustomPasswordChangeForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from user.utils import account_activation_token
-
+from order.forms import BillingAddressForm
+from django.db.models import Q
+from order.models import Basket, BillingAddress,Country
 from user.tasks import send_email_confirmation
 
 
@@ -123,11 +125,13 @@ class RegisterView(CreateView):
 
 @login_required
 def account(request):
-    form_acc = AddresForm()
+    form_acc = BillingAddressForm
+  
     form_pers_info = UpdatePersonalInfoForm()
+    
     if request.method == 'POST':
         if request.POST.get('submit') == 'address':
-            form_acc = AddresForm(data=request.POST)
+            form_acc = BillingAddressForm(data=request.POST)
             if form_acc.is_valid():
                 form_acc.save()
             return redirect(reverse_lazy('account'))
@@ -143,6 +147,7 @@ def account(request):
                 return redirect(reverse_lazy('account'))
     context = {
         'form_acc':form_acc,
+       
         'form_pers_info':form_pers_info,
     }
     return render(request,'my-account.html', context)
