@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User
-from user.models import BillingAddress
+# from user.models import BillingAddress
 
 
 # admin.site.unregister(BaseUserAdmin)
@@ -19,17 +19,17 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 
-@admin.register(BillingAddress)
-class BillingAddressAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email','reference', 'created_at')
-    list_filter = ( 'created_at', )
-    search_fields = ('first_name', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('first_name', 'last_name','email','country','town','address','mobile_phone','information','reference', ),
-            'classes': ('collapse',)
-        }),
-        # ('Other', {
-        #     'fields': ('tags', )
-        # }),
-    ]
+# @admin.register(BillingAddress)
+# class BillingAddressAdmin(admin.ModelAdmin):
+#     list_display = ('first_name', 'last_name', 'email','reference', 'created_at')
+#     list_filter = ( 'created_at', )
+#     search_fields = ('first_name', )
+#     fieldsets = [
+#         ('Standard info', {
+#             'fields': ('first_name', 'last_name','email','country','town','address','mobile_phone','information','reference', ),
+#             'classes': ('collapse',)
+#         }),
+#         # ('Other', {
+#         #     'fields': ('tags', )
+#         # }),
+#     ]

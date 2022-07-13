@@ -3,6 +3,13 @@ from django.contrib import admin
 # Register your models here.
 from order.models import *
 
+
+@admin.register(ShippingAddress)
+class ShippingAddressAdmin(admin.ModelAdmin):
+    list_display = ['user', 'city', 'zipcode']
+    list_filter = ['user', 'city']
+    search_fields = ['customer']
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('basket', 'total', 'created_at')
@@ -41,4 +48,4 @@ class BasketItemAdmin(admin.ModelAdmin):
 
 # admin.site.register([Basket ])
 
-admin.site.register([Wishlist])
+admin.site.register([Wishlist,BillingAddress,Country])

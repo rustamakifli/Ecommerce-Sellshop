@@ -21,7 +21,7 @@ def send_mail_to_subscribers():
     mail_text = render_to_string('email-subscriber.html',{
         'blogs': blogs,
     })
-    Publish(data={"body":mail_text,"subject":"Blogs for this week","recipients": email_list,"subtype":"html"},event_type="send_mail")
+    Publish(data={"body":mail_text,"subject":"Blogs for this week","recipients":list(email_list) ,"subtype":"html"},event_type="send_mail")
     # msg = EmailMultiAlternatives(subject='Blogs for this week', body=mail_text, from_email=settings.EMAIL_HOST_USER, to=email_list, )
     # msg.attach_alternative(mail_text, "text/html")
     # msg.send()
