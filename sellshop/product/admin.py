@@ -1,44 +1,53 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from csv import *
+from nested_admin import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 from product.models import (Category, Brand, Discount, Product, Tag, Color, Size, ProductVersion, ProductImage, ProductReview)
 myModels = [Category, Brand, Tag, Color, Size, ProductReview, Discount,]
 admin.site.register(myModels)
-from nested_admin import NestedModelAdmin, NestedTabularInline, NestedStackedInline
 
 
 class ProductImageInline(NestedTabularInline):
     model = ProductImage
     extra = 5
+    classes = ['collapse']
 
 
 class ProductVersionInline(NestedStackedInline):
     model = ProductVersion
     extra = 1
     inlines = [ProductImageInline,]
+    classes = ['collapse']
 
-    list_filter = ('color', 'size' )
-    exclude = ('title',)
+
 
 
 class ProductAdmin(NestedModelAdmin):
     inlines = [ProductVersionInline,]
+    list_filter = ('title', 'category', 'brand', 'description', 'tags', 'featured')
+    fieldsets = (
+        ('Main', {
+            'fields': ('title', 'category', 'brand', 'description'),
+            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-inline-attribute', 'baton-tab-group-fs-tech--inline-feature', ),
+
+        }),
+        ('Additional', {
+            'fields': ('tags', 'featured'),
+            'classes': ('tab-fs-tech', ),
+
+        }),
+    )
 
 admin.site.register(Product, ProductAdmin)
 
 
 class CategoryAdmin(TranslationAdmin):
     list_display = ('title', 'parent_cat',)
-    list_filter = ('title', )
+    list_filter = ('title',)
     search_fields = ('title', )
-    fieldsets = [
-        ('Standard info', {
-            'fields': ('title',  'parent_cat',),
-            'classes': ('collapse',)
-        }),
-    ]
-
+    classes = ['collapse']
+    
 
 class ProductImagesAdmin(TranslationAdmin):
     list_display = ('image', 'product_version','is_main' )
