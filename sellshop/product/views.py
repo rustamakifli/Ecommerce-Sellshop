@@ -1,18 +1,12 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from product.models import Brand, Category, ProductImage, ProductVersion, ProductReview, Product, Color, Size, ProductImage, Tag
-from .forms import ProductReviewsForm
-from django.http import Http404,JsonResponse
-from django.contrib import messages
+from product.models import Brand, Category, ProductImage, ProductVersion, ProductReview, Color, Size, ProductImage, Tag
+from product.forms import ProductReviewsForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.template.defaulttags import register
 from order.models import *
-from django.db.models import Max, Min, Count
-# from decimal import Decimal as D
 
-# filter by price
 
 class ProductListView(ListView):
     template_name = 'product-list.html'
@@ -28,12 +22,10 @@ class ProductListView(ListView):
         tag_id = self.request.GET.get('tag_id') 
         color_id = self.request.GET.get('color_id') 
         size_id = self.request.GET.get('size_id') 
-        max_price = self.request.GET.get('max_price') 
-        min_price = self.request.GET.get('min_price') 
         discount = self.request.GET.get('discount') 
-        price1 = self.request.GET.get('min_price', 0) 
-        price2 = self.request.GET.get('max_price', 100000)
-        queryset = queryset.filter(new_price__range=(price1, price2))
+        min_price = self.request.GET.get('min_price', 0) 
+        max_price = self.request.GET.get('max_price', 9999)
+
         if category_id:
             queryset = queryset.filter(product__category__id=category_id)
         if brand_id:
@@ -44,12 +36,18 @@ class ProductListView(ListView):
             queryset = queryset.filter(color__id=color_id)
         if size_id:
             queryset = queryset.filter(size__id=size_id)
-        if min_price:
-            queryset = queryset.filter(new_price__gte=min_price)
-        if max_price:
-            queryset = queryset.filter(new_price__lte=max_price)
         if discount:
             queryset = queryset.filter(discount=True)
+
+        if max_price and min_price:
+            queryset = queryset.filter(new_price__range=(min_price, max_price))
+        elif min_price:
+            queryset = queryset.filter(new_price__gte=min_price)
+        elif max_price:
+            queryset = queryset.filter(new_price__lte=max_price)
+        else:
+            pass
+
         return queryset
 
 
@@ -70,7 +68,6 @@ class ProductView(DetailView,CreateView):
     template_name = 'single-product.html'
     context_object_name = 'product'
     form_class = ProductReviewsForm
-    # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
         form.instance.product_version_id = self.kwargs['pk']
@@ -125,7 +122,6 @@ class SearchView(ListView):
             if request.GET.get("search_name"):
                 qs = ProductVersion.objects.filter(Q(product__title__icontains=request.GET.get("search_name")) | 
                  Q(product__description__icontains=request.GET.get("search_name")))
-                # Q(product__brand__icontains=request.GET.get("search_name")) |
         context = {
             'title': 'Product-list Sellshop',
             'productversions': qs,

@@ -35,7 +35,7 @@
 										<ul class="clearfix">
 											<li><i class="pe-7s-user"></i>By :<a href="#">{{ blog.author }}</a><span>|</span></li>
 											<li><i class="pe-7s-comment"></i><a href="#">{{ blog.created_at }}</a><span>|</span></li>
-											<li><i class="pe-7s-like"></i><a href="#">210 Like</a><span>|</span></li>
+											<li><i class="pe-7s-like"></i><a href="#"></a><span>|</span></li>
 											<li><i class="pe-7s-back"></i><a href="#">{{ comments_count }} Comments</a></li>
 										</ul>
 									</div>
@@ -62,7 +62,8 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.parent_comment.user}}</a></h4>
-												<span class="floatright"><a href="#">Reply</a></span>
+												<span class="floatright"><a href=""><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+													Reply</button></a></span>
 												<span>{{comment.parent_comment.created_at}}</span>
 												<p>{{comment.parent_comment.comment}}</p>
 											</div>
@@ -73,7 +74,6 @@
 											<img src="{% static 'img/blog/author3.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.user }}</a></h4>
-												<span class="floatright"><a href="#">Reply</a></span>
 												<span>{{ comment.created_at }}</span>
 												<p>{{ comment.comment }}</p>
 											</div>
@@ -86,18 +86,20 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.user}}</a></h4>
-												<span class="floatright"><a href="#">Reply</a></span>
+												<span class="floatright"><a href="#"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+													Reply</button></a></span>
 												<span>{{comment.created_at}}</span>
 												<p>{{comment.comment}}</p>
 											</div>
 										</div>
+										
 									</div>
 									{% endif %}
 									{% endfor %}
 								</div>
 								<div class="leave-comment">
 									<h4>leave your review</h4>
-									<form action="" method="post">
+									<form action="" method="post" id="commentform">
 										{% csrf_token %}
 										{{ comment_form.non_field_errors }}
 										<div class="row">
@@ -142,7 +144,7 @@
 									</div>
 									<div class="s-blog-text">
 										<h4><a href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }}</a></h4>
-										<span>By : <a href="#">{{ blog.author }}</a> | <a href="#">210 Like</a> | <a href="#">{{comments_count}} Comments</a></span>
+										<span>By : <a href="#">{{ blog.author }}</a> | <a href="#"></a> | <a href="#">{{comments_count}} Comments</a></span>
 										<p>{{ blog.description }}</p>
 									</div>
 									<div class="date-read clearfix">
@@ -158,4 +160,46 @@
 			</div>
 		</section>
 		<!-- related post section end -->
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+					<form action="" method="post" id="commentform">
+						{% csrf_token %}
+						{{ comment_form.non_field_errors }}
+						<div class="row">
+							<div class="col-xs-12">
+								<div class="custom-mess">
+									{{ comment_form.comment }}
+								</div>
+							</div>
+							<div class="col-xs-12">
+								<div class="submit-text">
+									<button  type="submit">submit comment</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+			</div>
+		</div>
 {% endblock %}
+<!-- <script>
+	function yourFunction(e) {
+		e.preventDefault()
+		console.log("test")
+	var btn = document.getElementById("submitreply").value
+	var a = btn
+	var btn2 = document.getElementById("submitmodal").value
+	btn2 = a
+	}
+</script> -->

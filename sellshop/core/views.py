@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from .forms import ContactForm ,SubscribeForm
 from django.contrib import messages
 from django.views.generic import CreateView
-from product.models import ProductImage,ProductVersion
+from product.models import ProductVersion
 from blog.models import Blog
 from django.db.models import Count
 
@@ -23,14 +23,12 @@ def index(request):
     bestseller = queryset.annotate(mostsold=Count('Product_Cart')).order_by('-mostsold')[1:8]
     firstbestseller = queryset.annotate(mostsold=Count('Product_Cart')).order_by('-mostsold')[0] if queryset.count() > 0 else None
     latest_blog = Blog.objects.order_by("-created_at")[:3]
-    # images = ProductImage.objects.filter(is_main=True)
 
     context = {
         'title': 'Home Sellshop',
         'featured_products': featured_products,
         'new_arrivals': new_arrivals,
         'latest_blog': latest_blog,
-        # 'images': images,
         'bestseller': bestseller,
         'firstbestseller': firstbestseller,
         'productversions': queryset,

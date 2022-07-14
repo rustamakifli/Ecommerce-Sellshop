@@ -1,11 +1,8 @@
-from contextlib import ContextDecorator
-from django.shortcuts import render
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, ListView
 
 from blog.forms import BlogCommentForm
-from blog.models import BlogBrand, BlogCategory,Blog,BlogComment
-from django.views.generic import DetailView, CreateView, ListView
+from blog.models import BlogCategory,Blog,BlogComment
 
 
 class BlogDetailView(DetailView, CreateView):
@@ -17,12 +14,16 @@ class BlogDetailView(DetailView, CreateView):
     def form_valid(self, form):
         form.instance.slug = self.kwargs['slug']
         form.instance.author = self.request.user
+        try:
+            parent_comment_id = int(self.request.POST.get('parent_id'))
+            form.instance.parent_comment = BlogComment.objects.get(id=parent_comment_id)
+        except:
+            form.instance.parent_comment = None
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.all()
-        context['brands'] = BlogBrand.objects.all()
         context['blogs'] = Blog.objects.all()
         context['recents'] = Blog.objects.order_by("-created_at")
         cat_id = Blog.objects.get(slug=self.kwargs.get('slug')).category_id

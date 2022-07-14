@@ -40,7 +40,6 @@ class BlogBrand(models.Model):
 class Blog(AbstractModel):
     author = models.ForeignKey(User, related_name='author_blogs', on_delete=models.CASCADE, default=1)
     category = models.ForeignKey(BlogCategory, related_name='category_blogs', on_delete=models.CASCADE, default=1)
-    brand = models.ForeignKey(BlogBrand, related_name='brand_blogs', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, db_index=True)
     image = models.ImageField(upload_to='blog_images')
     description = models.CharField(max_length=255)
@@ -64,7 +63,7 @@ class Blog(AbstractModel):
 
 
 class BlogComment(AbstractModel):
-    parent_comment = models.ForeignKey('self', related_name='child_comments', on_delete=models.CASCADE, null=True, blank=True, default="",)
+    parent_comment = models.ForeignKey('self', related_name='child_comments', on_delete=models.CASCADE, null=True, blank=True, )
     blog = models.ForeignKey(Blog, related_name='blog_comments', on_delete=models.CASCADE, default=1)
     user = models.ForeignKey(User, related_name='user_blog_comments', on_delete=models.CASCADE, default=1)
     comment = models.TextField()
@@ -84,4 +83,6 @@ class BlogComment(AbstractModel):
         if self.parent_comment is not None:
             return False
         return True
+
+
 
