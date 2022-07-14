@@ -1,6 +1,0 @@
-*API:
-    api put,delete,get ve post hazirdi. amma filterleme prosesi calismir. 
-    category uzre filter ede bilmedim.
-    image ve property hissesi null gorsenir
-    create edende category falan add elesemde default olaraq 1 goturur
-    queryset ile bagli problem oldugunu dusunurem

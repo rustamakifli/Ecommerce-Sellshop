@@ -149,8 +149,11 @@ def account(request):
         'form_acc':form_acc,
        
         'form_pers_info':form_pers_info,
-    }
-    return render(request,'my-account.html', context)
+    } 
+    if request.user.is_authenticated:
+        return render(request, "my-account.html")
+    return render(request, "error-404.html")
+
 
 class Activate(View):
     def get(self, request, *args, **kwargs):

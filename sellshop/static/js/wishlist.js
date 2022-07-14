@@ -1,5 +1,7 @@
+url = location.origin + '/api/wishlist/';
+
 function wishlistManager() {
-	fetch(`http://127.0.0.1:8000/api/wishlist/`, {
+	fetch(url, {
 			method: 'GET',
 			credentials: 'include',
 			headers: {

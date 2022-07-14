@@ -1,3 +1,5 @@
+url = location.origin + '/api/cartitems/';
+
 document.addEventListener("DOMContentLoaded", function () {
     let proSection = document.getElementById('cartdrop')
     async function renderProducts() {
@@ -27,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
 										alt="" /></a>
 					<div class="menu-cart-text">
 					
-                    <a href="http://127.0.0.1:8000/en/products/${data[i]['productVersion']['id']}/">
+                    <a href="/en/products/${data[i]['productVersion']['id']}/">
 					<h5>${data[i]['count']} x ${data[i]['productVersion']['title']}</h5>
 					</a>
 					<span>Color : ${data[i]['productVersion']['color']['title']}</span>
@@ -66,7 +68,7 @@ async function remove(productVersion, valueId, countItem, priceItem) {
 
     async function removeProducts() {
         console.log('here');
-        let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
+        let response = await fetch(url + `/${valueId}/`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',

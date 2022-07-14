@@ -78,7 +78,12 @@ class Order(AbstrasctModel):
 class Basket(AbstrasctModel):
     author = models.ForeignKey(User, default='', on_delete=models.CASCADE)
     status = models.BooleanField(default=False)  ##### status = is_ordered
-
+    product = models.ManyToManyField(
+        ProductVersion, blank=True)
+    ordered_at = models.DateTimeField(
+        verbose_name="Ordered at", null=True, blank=True)
+    shipping_address = models.OneToOneField(
+        ShippingAddress, null=True, blank=True, verbose_name="Shipping Address", on_delete=models.CASCADE)
     sub_total = models.DecimalField('Sub Total', decimal_places=2, max_digits=10,)
 
     def __str__(self):
