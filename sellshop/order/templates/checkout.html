@@ -40,46 +40,46 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label for="billing:firstname"> First Name <span class="required">*</span> </label>
-									{{form.first_name}}
-									{{form.errors.first_name}}
+									{{shipping.first_name}}
+									{{shipping.errors.first_name}}
 								</div>
 								<div class="col-md-6">
 									<label for="billing:lastname"> Last Name <span class="required">*</span> </label>
-									{{form.last_name}}
-									{{form.errors.last_name}}
+									{{shipping.last_name}}
+									{{shipping.errors.last_name}}
 								</div>
 							</div>
 							<div>
 								<label>Address <span class="required">*</span></label>
-								{{form.address}}
-								{{form.errors.address}}
+								{{shipping.address}}
+								{{shipping.errors.address}}
 							</div>
 							<div class="custom-select">
 								<label for="billing:country_id">Country <span class="required">*</span></label>
-								{{form.country}}
-								{{form.errors.country}}
+								{{shipping.country}}
+								{{shipping.errors.country}}
 							</div>
 							<div>
 								<label for="billing:city">City <span class="required">*</span></label>
-								{{form.city}}
-								{{form.errors.city}}
+								{{shipping.city}}
+								{{shipping.errors.city}}
 							</div>
 							<div>
 								<label for="billing:postcode">Zip/Postal Code <span class="required">*</span></label>
-								{{form.zipcode}}
-								{{form.zipcode.errors}}
+								{{shipping.zipcode}}
+								{{shipping.zipcode.errors}}
 							</div>
 							<div>
 								<label for="billing:telephone">Telephone <span class="required">*</span></label>
-								{{form.phone}}
-								{{form.phone.errors}}
+								{{shipping.phone}}
+								{{shipping.phone.errors}}
 							</div>
 							
-							{{form.is_default}}
+							{{shipping.is_default}}
 							<p class="require"><em class="required">* </em>Required Fields</p>
-							{{form.errors}}
+							{{shipping.errors}}
 							<div class="submit-text">
-								<button type="submit" >Save</button>
+								<button type="submit" >Finish Shopping</button>
 							</div>
 						</form>
 
@@ -121,12 +121,12 @@
 								</li>
 							</ul>
 							<div>
-								<form action="" method="POST" class="submit-text">
+								<!-- <form action="" method="POST" class="submit-text">
 									{% csrf_token %}
 									<button form="checkoutForm" type="submit" value="submit form"
 										{% if cart_products > 0 %} type="submit" {% else %} disabled {% endif %} style="background-color: black;
 										border: none; float: right;" id="checkout-button">Place Order</button>
-								</form>
+								</form> -->
 							</div>
 						</div>
 					</div>

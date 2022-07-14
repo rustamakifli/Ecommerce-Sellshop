@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&v@(o85_dsxio#5f-qr*r5k^)1e4irnx0id&ldr+9$#u29!vi!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('DEBUG') else True
 
 ALLOWED_HOSTS = [
     '*'
@@ -86,7 +86,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ),
     'DATETIME_FORMAT': '%B %d, %Y',
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -184,26 +184,25 @@ SOCIAL_AUTH_PIPELINE = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sellshop',
-        'USER': 'user',
-        'PASSWORD': '12345',
-        'PORT': 5432,
-        'HOST': 'localhost',
+        'NAME': os.environ.get('POSTGRES_DB', 'sellshop'),
+        'USER': os.environ.get('POSTGRES_USER', 'user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '12345'),
+        'PORT':  os.environ.get('POSTGRES_PORT', 5432),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
     }
 }
 
 # CELERY STUFF
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:{os.environ.get('REDIS_PORT', '6379')}"
+CELERY_RESULT_BACKEND = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:{os.environ.get('REDIS_PORT', '6379')}"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Baku'
 
-REDIS_BROKER_URL = 'redis://localhost:6379'
+REDIS_BROKER_URL = f"redis://{os.environ.get('REDIS_HOST', 'localhost')}:{os.environ.get('REDIS_PORT', '6379')}"
 
 REDIS_CLIENT = redis.Redis.from_url(REDIS_BROKER_URL)
-
 # REDIS_CLIENT = redis.Redis.from_url(REDIS_BROKER_URL)
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -260,10 +259,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
+else:
+    STATIC_ROOT =  BASE_DIR / 'static'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
 
 MEDIA_URL = '/media/'
 

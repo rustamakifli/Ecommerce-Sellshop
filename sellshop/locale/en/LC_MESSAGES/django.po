@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-05 19:53+0000\n"
+"POT-Creation-Date: 2022-07-14 07:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,231 +18,313 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/templates/base.html:68 core/templates/base.html:80
-msgid "My account"
-msgstr ""
-
-#: core/templates/base.html:70
-msgid "Login"
-msgstr ""
-
-#: core/templates/base.html:71
-msgid "Registar"
-msgstr ""
-
-#: core/templates/base.html:79 core/templates/base.html:381
-msgid "Logout"
-msgstr ""
-
-#: core/templates/base.html:81
-msgid "My cart"
-msgstr ""
-
-#: core/templates/base.html:82 core/templates/base.html:384
-msgid "Check out"
-msgstr ""
-
-#: core/templates/base.html:84
-msgid "My wishlist"
-msgstr ""
-
-#: core/templates/base.html:111 core/templates/base.html:173
+#: blog/templates/blog.html:12 blog/templates/single-blog.html:12
+#: core/templates/base.html:146 core/templates/base.html:212
 msgid "Home"
 msgstr ""
 
-#: core/templates/base.html:117 core/templates/base.html:179
-msgid "Shop"
-msgstr ""
-
-#: core/templates/base.html:120 core/templates/base.html:181
-msgid "men’s wear"
-msgstr ""
-
-#: core/templates/base.html:122 core/templates/base.html:134
-#: core/templates/base.html:183 core/templates/base.html:195
-msgid "Shirts & Top"
-msgstr ""
-
-#: core/templates/base.html:123 core/templates/base.html:135
-#: core/templates/base.html:184 core/templates/base.html:196
-msgid "Shoes"
-msgstr ""
-
-#: core/templates/base.html:124 core/templates/base.html:136
-#: core/templates/base.html:185 core/templates/base.html:197
-msgid "Dresses"
-msgstr ""
-
-#: core/templates/base.html:125 core/templates/base.html:137
-#: core/templates/base.html:186 core/templates/base.html:198
-msgid "Shemwear"
-msgstr ""
-
-#: core/templates/base.html:126 core/templates/base.html:138
-#: core/templates/base.html:187 core/templates/base.html:199
-msgid "Jeans"
-msgstr ""
-
-#: core/templates/base.html:127 core/templates/base.html:139
-#: core/templates/base.html:188 core/templates/base.html:200
-msgid "Sweaters"
-msgstr ""
-
-#: core/templates/base.html:128 core/templates/base.html:140
-#: core/templates/base.html:189 core/templates/base.html:201
-msgid "Jacket"
-msgstr ""
-
-#: core/templates/base.html:129 core/templates/base.html:190
-msgid "Men Watch"
-msgstr ""
-
-#: core/templates/base.html:132 core/templates/base.html:193
-msgid "women’s wear"
-msgstr ""
-
-#: core/templates/base.html:141 core/templates/base.html:202
-msgid "Women Watch"
-msgstr ""
-
-#: core/templates/base.html:147 core/templates/base.html:207
-msgid "Pages"
-msgstr ""
-
-#: core/templates/base.html:149 core/templates/base.html:209
-msgid "Wishlist"
-msgstr ""
-
-#: core/templates/base.html:150 core/templates/base.html:210
-msgid "Checkout"
-msgstr ""
-
-#: core/templates/base.html:151 core/templates/base.html:211
-msgid "Cart"
-msgstr ""
-
-#: core/templates/base.html:153
-msgid "Product"
-msgstr ""
-
-#: core/templates/base.html:157 core/templates/base.html:217
+#: blog/templates/blog.html:13 blog/templates/single-blog.html:13
+#: core/templates/base.html:196
 msgid "Blog"
 msgstr ""
 
-#: core/templates/base.html:163 core/templates/base.html:223
+#: blog/templates/single-blog.html:99
+msgid "leave your review"
+msgstr ""
+
+#: blog/templates/single-blog.html:109
+msgid "submit comments"
+msgstr ""
+
+#: blog/templates/single-blog.html:123 product/models.py:17
+msgid "Categories"
+msgstr ""
+
+#: blog/templates/single-blog.html:154
+msgid "brands"
+msgstr ""
+
+#: blog/templates/single-blog.html:155
+msgid "All"
+msgstr ""
+
+#: blog/templates/single-blog.html:169
+msgid "recent post"
+msgstr ""
+
+#: blog/templates/single-blog.html:187
+msgid "best"
+msgstr ""
+
+#: blog/templates/single-blog.html:204
+msgid "Related Blogs"
+msgstr ""
+
+#: blog/templates/single-blog.html:223
+msgid "read more"
+msgstr ""
+
+#: core/models.py:23 user/forms.py:24
+msgid "Email"
+msgstr ""
+
+#: core/templates/base.html:101 core/templates/base.html:113
+msgid "My account"
+msgstr ""
+
+#: core/templates/base.html:103
+msgid "Login"
+msgstr ""
+
+#: core/templates/base.html:104
+msgid "Registar"
+msgstr ""
+
+#: core/templates/base.html:112 core/templates/base.html:405
+msgid "Logout"
+msgstr ""
+
+#: core/templates/base.html:114
+msgid "My cart"
+msgstr ""
+
+#: core/templates/base.html:115 core/templates/base.html:411
+msgid "Check out"
+msgstr ""
+
+#: core/templates/base.html:117
+msgid "My wishlist"
+msgstr ""
+
+#: core/templates/base.html:125
+msgid "Search within these results..."
+msgstr ""
+
+#: core/templates/base.html:152 core/templates/base.html:218
+msgid "Shop"
+msgstr ""
+
+#: core/templates/base.html:157 core/templates/base.html:221
+msgid "men’s wear"
+msgstr ""
+
+#: core/templates/base.html:159 core/templates/base.html:172
+#: core/templates/base.html:223 core/templates/base.html:236
+msgid "Shirts & Top"
+msgstr ""
+
+#: core/templates/base.html:160 core/templates/base.html:173
+#: core/templates/base.html:224 core/templates/base.html:237
+msgid "Shoes"
+msgstr ""
+
+#: core/templates/base.html:161 core/templates/base.html:174
+#: core/templates/base.html:225 core/templates/base.html:238
+msgid "Dresses"
+msgstr ""
+
+#: core/templates/base.html:162 core/templates/base.html:175
+#: core/templates/base.html:226 core/templates/base.html:239
+msgid "Shemwear"
+msgstr ""
+
+#: core/templates/base.html:163 core/templates/base.html:176
+#: core/templates/base.html:227 core/templates/base.html:240
+msgid "Jeans"
+msgstr ""
+
+#: core/templates/base.html:164 core/templates/base.html:177
+#: core/templates/base.html:228 core/templates/base.html:241
+msgid "Sweaters"
+msgstr ""
+
+#: core/templates/base.html:165 core/templates/base.html:178
+#: core/templates/base.html:229 core/templates/base.html:242
+msgid "Jacket"
+msgstr ""
+
+#: core/templates/base.html:166 core/templates/base.html:230
+msgid "Men Watch"
+msgstr ""
+
+#: core/templates/base.html:170 core/templates/base.html:234
+msgid "women’s wear"
+msgstr ""
+
+#: core/templates/base.html:179 core/templates/base.html:243
+msgid "Women Watch"
+msgstr ""
+
+#: core/templates/base.html:186 core/templates/base.html:248
+msgid "Pages"
+msgstr ""
+
+#: core/templates/base.html:188 core/templates/base.html:250
+msgid "Wishlist"
+msgstr ""
+
+#: core/templates/base.html:189 core/templates/base.html:251
+msgid "Checkout"
+msgstr ""
+
+#: core/templates/base.html:190 core/templates/base.html:252
+msgid "Cart"
+msgstr ""
+
+#: core/templates/base.html:192
+msgid "Product"
+msgstr ""
+
+#: core/templates/base.html:202 core/templates/base.html:266
 msgid "About"
 msgstr ""
 
-#: core/templates/base.html:164 core/templates/base.html:224
+#: core/templates/base.html:203 core/templates/base.html:267
 msgid "Contact"
 msgstr ""
 
-#: core/templates/base.html:212
+#: core/templates/base.html:253
 msgid "Product Grid View"
 msgstr ""
 
-#: core/templates/base.html:213
+#: core/templates/base.html:254
 msgid "Product List View"
 msgstr ""
 
-#: core/templates/base.html:300
+#: core/templates/base.html:310
 msgid "newsletter"
 msgstr ""
 
-#: core/templates/base.html:320
+#: core/templates/base.html:342
 msgid "get in touch"
 msgstr ""
 
-#: core/templates/base.html:350
+#: core/templates/base.html:373
 msgid "Contact us"
 msgstr ""
 
-#: core/templates/base.html:376
+#: core/templates/base.html:399
 msgid "my account"
 msgstr ""
 
-#: core/templates/base.html:382
+#: core/templates/base.html:407
 msgid "My Account"
 msgstr ""
 
-#: core/templates/base.html:383
+#: core/templates/base.html:409
 msgid "My Cart"
 msgstr ""
 
-#: core/templates/base.html:386
+#: core/templates/base.html:414
 msgid "Sign In"
 msgstr ""
 
-#: core/templates/base.html:387
+#: core/templates/base.html:416
 msgid "Track My Orders"
 msgstr ""
 
-#: core/templates/base.html:389
+#: core/templates/base.html:420
 msgid "My Wishlist"
 msgstr ""
 
-#: core/templates/base.html:398
+#: core/templates/base.html:429
 msgid "shipping"
 msgstr ""
 
-#: core/templates/base.html:402
+#: core/templates/base.html:434
 msgid "New Products"
 msgstr ""
 
-#: core/templates/base.html:403
+#: core/templates/base.html:435
 msgid "Top Sellers"
 msgstr ""
 
-#: core/templates/base.html:404
+#: core/templates/base.html:438
 msgid "Manufactirers"
 msgstr ""
 
-#: core/templates/base.html:405
+#: core/templates/base.html:439
 msgid "Suppliers"
 msgstr ""
 
-#: core/templates/base.html:406
+#: core/templates/base.html:441
 msgid "Specials"
 msgstr ""
 
-#: core/templates/base.html:407
+#: core/templates/base.html:443
 msgid "Availability"
 msgstr ""
 
-#: core/templates/base.html:415
+#: core/templates/base.html:452
 msgid "Information"
 msgstr ""
 
-#: core/templates/base.html:419
+#: core/templates/base.html:457
 msgid "Return Exchange"
 msgstr ""
 
-#: core/templates/base.html:420
+#: core/templates/base.html:460
 msgid "Fast Delivery"
 msgstr ""
 
-#: core/templates/base.html:421
+#: core/templates/base.html:462
 msgid "Online Shopping"
 msgstr ""
 
-#: core/templates/base.html:422
+#: core/templates/base.html:465
 msgid "Shipping Guide"
 msgstr ""
 
-#: core/templates/base.html:423
+#: core/templates/base.html:466
 msgid "Turm Of Use"
 msgstr ""
 
-#: core/templates/base.html:424
+#: core/templates/base.html:469
 msgid "Home Delivery"
 msgstr ""
 
-#: product/models.py:18
+#: core/templates/index.html:17 core/templates/index.html:30
+msgid "new collection"
+msgstr ""
+
+#: core/templates/index.html:18 core/templates/index.html:31
+msgid "Men’s Fashion 2016"
+msgstr ""
+
+#: core/templates/index.html:21 core/templates/index.html:39
+msgid "Shop now"
+msgstr ""
+
+#: core/templates/index.html:32
+msgid "Starting at $65.00. Don’t miss out!"
+msgstr ""
+
+#: core/templates/index.html:55
+msgid "Featured Products"
+msgstr ""
+
+#: core/templates/index.html:117
+msgid "New Arrival"
+msgstr ""
+
+#: core/templates/index.html:118
+msgid "Popular Product"
+msgstr ""
+
+#: core/templates/index.html:119
+msgid "Best Seller"
+msgstr ""
+
+#: product/models.py:16
 msgid "Category"
 msgstr ""
 
-#: product/models.py:19
-msgid "Categories"
+#: sellshop/settings.py:234
+msgid "English"
+msgstr ""
+
+#: sellshop/settings.py:235
+msgid "Azerbaijan"
 msgstr ""
 
 #: user/admin.py:12
@@ -255,10 +337,6 @@ msgstr ""
 
 #: user/admin.py:16
 msgid "Important dates"
-msgstr ""
-
-#: user/forms.py:24
-msgid "Email"
 msgstr ""
 
 #: user/templates/email/reset-password-mail.html:3

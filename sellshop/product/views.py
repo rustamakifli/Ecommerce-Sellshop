@@ -46,7 +46,7 @@ class ProductListView(ListView):
         if brand_id:
             queryset = queryset.filter(product__brand__id=brand_id)
         if tag_id:
-            queryset = queryset.filter(product__tag__id=tag_id)
+            queryset = queryset.filter(product__tags__id=tag_id)
         if color_id:
             queryset = queryset.filter(color__id=color_id)
         if size_id:

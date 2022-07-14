@@ -1,3 +1,0 @@
-
-                <a class="goto" href="{% url 'cart' %}">go to cart</a>
-				<a class="out-menu" href="{% url 'checkout' %}">Check out</a>

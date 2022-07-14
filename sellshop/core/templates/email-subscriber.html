@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title> Weekly Blogs </title>
+    <title> Weekly Products </title>
 
 <body>
     <div
@@ -16,12 +16,12 @@
                             style="min-width:100%;width:100%;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px">
                             <div class="m_-3996558079662894338email-paddingTop30 m_-3996558079662894338email-textTransparentBlack"
                                 style="color:rgba(0,0,0,0.54);padding-top:30px">
-                                <h1>Blogs for week</h1>
+                                <h1>Products for week</h1>
                                 <div class="m_-3996558079662894338email-borderBottomGrey m_-3996558079662894338email-digestDividerHeight"
                                     style="height:2px;border-bottom:1px solid #e5e5e5"></div>
-                                <div class="m_-3996558079662894338email-fontSize14 m_-3996558079662894338email-paddingTop8"
-                                    style="font-size:14px;padding-top:8px">Blogs for {{blog.username}}
-                                </div>
+                                <!-- <div class="m_-3996558079662894338email-fontSize14 m_-3996558079662894338email-paddingTop8"
+                                    style="font-size:14px;padding-top:8px">Products for {{products.username}}
+                                </div> -->
                             </div>
                         </td>
                     </tr>
@@ -45,7 +45,7 @@
                                                 Today’s highlights
                                             </div>
                                             <div></div>
-                                            {% for blog in blogs %}
+                                            {% for product in products %}
                                             <table
                                                 class="m_-3996558079662894338email-marginTop24 m_-3996558079662894338email-xs-marginTop12 m_-3996558079662894338email-marginBottom36 m_-3996558079662894338email-xs-marginBottom32 m_-3996558079662894338email-borderSpacing0 m_-3996558079662894338email-fillWidth"
                                                 style="min-width:100%;width:100%;margin-top:24px;margin-bottom:36px;border-spacing:0">
@@ -57,10 +57,16 @@
                                                                 style="color:#333332;text-decoration:none"
                                                                 target="_blank"
                                                                 data-saferedirecturl="https://www.google.com/url?q=https://medium.com/@gracedobush/ubers-real-advantage-is-data-e54984ff524c?source%3Demail-f2ff1829188c-1568158676426-digest.reader------2-49------------------a4c4d21e_b659_44c2_8e7b_7e8bca34a6f1-1-----%26sectionName%3Dtop&amp;source=gmail&amp;ust=1568280848583000&amp;usg=AFQjCNEv2cQqgGpkl7lc_GZP9q7U_48dVQ">
-
-                                                                <div class="m_-3996558079662894338email-backgroundSizeCover m_-3996558079662894338email-backgroundNoRepeat m_-3996558079662894338email-width100 m_-3996558079662894338email-height100 m_-3996558079662894338email-xs-fillWidth m_-3996558079662894338email-borderBlueGrey m_-3996558079662894338email-backgroundGrayLightest"
-                                                                    style="background-image:url('{{blog.image.url}}');background-position:39% 42%;width:100px;max-height:100px;height:100px;border:1px solid #f2f2f2;background-color:#f8f8f8;background-size:cover;background-repeat:no-repeat">
-                                                                </div>
+                                                                <a href="{% url 'single_product' product.id %}">
+                                                                    {% for image in product.product_images.all %}
+                                                                    {% if image.is_main %}
+                                                                    <img style="width: 270px; height: 340.25px;" src="{{image.image.url}}"
+                                                                        alt="Product Title" />
+                                                                    {% endif %}
+                                                                    {% endfor %}</a>
+                                                                     <!-- <div class="m_-3996558079662894338email-backgroundSizeCover m_-3996558079662894338email-backgroundNoRepeat m_-3996558079662894338email-width100 m_-3996558079662894338email-height100 m_-3996558079662894338email-xs-fillWidth m_-3996558079662894338email-borderBlueGrey m_-3996558079662894338email-backgroundGrayLightest"
+                                                                    style="background-image:url('{{image.image.url}}');background-position:39% 42%;width:100px;max-height:100px;height:100px;border:1px solid #f2f2f2;background-color:#f8f8f8;background-size:cover;background-repeat:no-repeat">
+                                                                </div> -->
                                                                 <!-- <div class="m_-3996558079662894338email-backgroundSizeCover m_-3996558079662894338email-backgroundNoRepeat m_-3996558079662894338email-width100 m_-3996558079662894338email-height100 m_-3996558079662894338email-xs-fillWidth m_-3996558079662894338email-borderBlueGrey m_-3996558079662894338email-backgroundGrayLightest"
                                                                     style="background-image:url(https://simply-delicious-food.com/wp-content/uploads/2018/01/easy-vegetable-soup-1.jpg);background-position:39% 42%;width:100px;max-height:100px;height:100px;border:1px solid #f2f2f2;background-color:#f8f8f8;background-size:cover;background-repeat:no-repeat">
                                                                 </div> -->
@@ -75,18 +81,19 @@
                                                                     target="_blank" data-saferedirecturl="#"></a><a
                                                                     href="#" style="color:#333332;text-decoration:none"
                                                                     target="_blank"
-                                                                    data-saferedirecturl="#">{{ blog.title }}</a>
+                                                                    data-saferedirecturl="#">{{ product.title }}</a>
                                                             </div>
                                                             <div class="m_-3996558079662894338email-digestPostSubtitle"
                                                                 style="line-height:1.33;font-size:15px;margin-top:4px">
-                                                                {{blog.description}}
+                                                                {{product.description}}
                                                             </div>
                                                             <div class="m_-3996558079662894338email-marginTop8 m_-3996558079662894338email-xs-marginTop10 m_-3996558079662894338email-fontSize15 m_-3996558079662894338email-textDarkerGray"
-                                                                style="font-size:15px;color:#757575;margin-top:8px"><a
+                                                                style="font-size:15px;color:#757575;margin-top:8px">
+                                                                <!-- <a
                                                                     class="m_-3996558079662894338email-link m_-3996558079662894338email-textDarkerGray"
                                                                     href="#" style="color:#757575;text-decoration:none"
                                                                     target="_blank"
-                                                                    data-saferedirecturl="#">{{blog.author}}</a>
+                                                                    data-saferedirecturl="#">{{product.author}}</a> -->
 
                                                                 <span class="m_-3996558079662894338email-marginLeft10"
                                                                     style="margin-left:10px">12 min read</span></div>

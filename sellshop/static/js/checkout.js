@@ -1,7 +1,8 @@
 let product_table = document.getElementById("product_table")
+url = location.origin + '/api/cartitems/';
 
 function checkoutManager() {
-    fetch('http://127.0.0.1:8000/api/cartitems/', {
+    fetch(url, {
         method: 'GET',
         credentials: 'include',
         headers: {

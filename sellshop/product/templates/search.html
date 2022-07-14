@@ -56,6 +56,8 @@
                     <div class="list-text">
                         <h3>{{ productversion.title }}</h3>
                         <!-- <span>{{ productversion.product.subtitle }}</span> -->
+                        <input type="hidden" value="{{ productversion.id }}" class="Idpro">
+
                         <div class="ratting floatright">
                             <!-- <p>( {{ productversion.product.rating }} Rating )</p> -->
                             <i class="mdi mdi-star"></i>
@@ -64,12 +66,13 @@
                             <i class="mdi mdi-star-half"></i>
                             <i class="mdi mdi-star-outline"></i>
                         </div>
-                        <h5>
+                        <h5 class="priceItem" data-value="{{productversion.new_price}}">
                             <del>${{ productversion.old_price }}</del> ${{ productversion.new_price }}
                         </h5>
                         <p>{{ productversion.product.description }}</p>
                         <div class="list-btn">
-                            <a data="{{productversion.id}}" class="add_to_cart">add to
+                            <a data="{{productversion.id}}" class="cartButton"
+                            id="cartButton" class="add_to_cart">add to
                                 cart</a>
                             <a data="{{productversion.id}}" class="add_to_wishlist">wishlist</a>
                             <a href="#" data-toggle="modal"
@@ -86,5 +89,7 @@
 
 <!-- quick view end -->
 <!-- all js here -->
+<!-- <script src="{% static 'js/add-to-cart.js' %}"></script> -->
+
 
 {% endblock %}

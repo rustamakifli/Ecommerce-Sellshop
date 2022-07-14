@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% load custom_tags %}
 {% block content %}
 <!-- slider-section-start -->
@@ -14,11 +15,11 @@
 				<div class="container">
 					<div class="slider-left slider-right">
 						<div class="slide-text animated zoomInUp">
-							<h3>new collection</h3>
-							<h1>Men’s Fashion 2016</h1>
+							<h3>{% trans 'new collection' %}</h3>
+							<h1>{% trans 'Men’s Fashion 2016' %}</h1>
 						</div>
 						<div class="animated slider-btn fadeInUpBig">
-							<a class="shop-btn" href="{% url 'product' %}">Shop now</a>
+							<a class="shop-btn" href="{% url 'product' %}">{% trans 'Shop now' %}</a>
 						</div>
 					</div>
 				</div>
@@ -27,16 +28,16 @@
 				<div class="container">
 					<div class="slider-left two-caption-text slider-right">
 						<div class="slide-text animated zoomInUp">
-							<h3>new collection</h3>
-							<h1>Men’s Fashion 2016</h1>
-							<span>Starting at $65.00. Don’t miss out!</span>
+							<h3>{ % trans 'new collection' % }</h3>
+							<h1>{ % trans 'Men’s Fashion 2016' % }</h1>
+							<span>{% trans 'Starting at $65.00. Don’t miss out!' %}</span>
 						</div>
 						<div class="one-p animated bounceInLeft">
 							<p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those
 								interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum".</p>
 						</div>
 						<div class="animated slider-btn fadeInUpBig">
-							<a class="shop-btn" href="{% url 'product' %}">Shop now</a>
+							<a class="shop-btn" href="{% url 'product' %}">{% trans 'Shop now' %}</a>
 						</div>
 					</div>
 				</div>
@@ -52,7 +53,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="section-title text-center">
-					<h2>Featured Products</h2>
+					<h2>{% trans 'Featured Products'%}</h2>
 				</div>
 			</div>
 		</div>
@@ -114,9 +115,9 @@
 				<div class="section-title text-center">
 					<div class="product-tab nav nav-tabs">
 						<ul>
-							<li class="active"><a data-toggle="tab" href="#arrival">New Arrival <span>//</span></a></li>
-							<li><a data-toggle="tab" href="#popular">Popular Product <span>//</span></a></li>
-							<li><a data-toggle="tab" href="#best">Best Seller</a></li>
+							<li class="active"><a data-toggle="tab" href="#arrival">{% trans 'New Arrival' %} <span>//</span></a></li>
+							<li><a data-toggle="tab" href="#popular">{% trans 'Popular Product' %} <span>//</span></a></li>
+							<li><a data-toggle="tab" href="#best">{% trans 'Best Seller' %}</a></li>
 						</ul>
 					</div>
 				</div>
