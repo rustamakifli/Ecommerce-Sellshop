@@ -213,8 +213,11 @@
 													</div>
 
 													<h5 class="priceItem" data-value="{{product.new_price}}">
+														{% if product.discount %}
 														<del>${{product.old_price}}</del> ${{product.new_price}}</h5>
-													<!-- <p>{{product.description}}</p> -->
+														{% else %}
+														<span>${{product.new_price}}</span>
+														{% endif %}
 													<div class="color-select clearfix">
 														<h6>Color:</h6>
 														{% if product.color.title != "WHITE" %}
@@ -246,30 +249,38 @@
 					<div class="col-sm-12">
 						<div class="pagnation-ul">
 							<!-- Pagination -->
-							<ul class="clearfix">
+							<ul class="pagination in-center">
+								{% comment %}
 								{% if page_obj.has_previous %}
-								<li>
-									<a class="first-last" page="1"><i class="mdi mdi-menu-left"></i>First</a>
-									<a id="previous" page="{{ page_obj.previous_page_number }}">Previous</a>
-								</li>
+								   <li><a class="pagination-links" data-page="{{ page_obj.previous_page_number }}"><i class="fa fa-angle-left"></i></a></li>
 								{% endif %}
 								{% for page in page_obj.paginator.page_range %}
-								<li>
-
-									<a class="btn page_num">{{page}}</a>
-
-								</li>
+								   {% if page is page_obj.number %}
+									  <li class="active"><a href="#">{{page}}</a></li>
+								   {% else %}
+									  <li><a class="pagination-links" data-page="{{page}}">{{page}}</a></li>
+									{% endif %}
 								{% endfor %}
-
 								{% if page_obj.has_next %}
-								<li>
-									<a id="next" page="{{ page_obj.next_page_number }}">Next</a>
-									<a class="first-last" page="{{ page_obj.paginator.num_pages }}">Last<i
-											class="mdi mdi-menu-right"></i></a>
-								</li>
+								   <li><a class="pagination-links" data-page="{{ page_obj.next_page_number }}"><i class="fa fa-angle-right"></i></a></li>
 								{% endif %}
-
-							</ul>
+								{% endcomment %}
+				  
+								{% if page_obj.has_previous %}
+								   <li><a class="pagination-links" data-page="{{ page_obj.previous_page_number }}" href="?page={{ page_obj.previous_page_number }}{% if request.GET.category_id %}&category_id={{ request.GET.category_id }}{% endif %}                 {% if request.GET.color_id %}&color_id={{ request.GET.color_id }}{% endif %}              {% if request.GET.tag_id %}&tag_id={{request.GET.tag_id}}{% endif %}          {% if request.GET.brand_id %}&brand_id={{request.GET.brand_id}}{% endif %}"><i class="fa fa-angle-left"></i></a></li>
+								{% endif %}
+								{% for page in page_obj.paginator.page_range %}
+								  
+								   {% if page is page_obj.number %}
+									  <li class="active"><a href="?page={{ page }}{% if request.GET.category_id %}&category_id={{ request.GET.category_id }}{% endif %}                 {% if request.GET.color_id %}&color_id={{ request.GET.color_id }}{% endif %}              {% if request.GET.tag_id %}&tag_id={{request.GET.tag_id}}{% endif %}          {% if request.GET.brand_id %}&brand_id={{request.GET.brand_id}}{% endif %}">{{page}}</a></li>
+								   {% else %}
+									  <li><a class="pagination-links" data-page="{{page}}" href="?page={{ page }}{% if request.GET.category_id %}&category_id={{ request.GET.category_id }}{% endif %}                 {% if request.GET.color_id %}&color_id={{ request.GET.color_id }}{% endif %}              {% if request.GET.tag_id %}&tag_id={{request.GET.tag_id}}{% endif %}          {% if request.GET.brand_id %}&brand_id={{request.GET.brand_id}}{% endif %}">{{page}}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if page_obj.has_next %}
+								   <li><a class="pagination-links" data-page="{{ page_obj.next_page_number }}" href="?page={{ page_obj.next_page_number }}{% if request.GET.category_id %}&category_id={{ request.GET.category_id }}{% endif %}                 {% if request.GET.color_id %}&color_id={{ request.GET.color_id }}{% endif %}              {% if request.GET.tag_id %}&tag_id={{request.GET.tag_id}}{% endif %}          {% if request.GET.brand_id %}&brand_id={{request.GET.brand_id}}{% endif %}"><page class="fa fa-angle-right"></i></a></li>
+								{% endif %}
+							  </ul>
 						</div>
 					</div>
 				</div>
@@ -373,7 +384,11 @@
 												</div>
 
 												<h5 class="priceItem" data-value="{{product.new_price}}">
+													{% if product.discount %}
 													<del>${{product.old_price}}</del> ${{product.new_price}}</h5>
+													{% else %}
+													<span>${{product.new_price}}</span>
+													{% endif %}
 												<div class="list-btn">
 													<a href="#" data="{{product.id}}" class="cartButton" id="cartButton"
 														class="add_to_cart">add to cart</a>

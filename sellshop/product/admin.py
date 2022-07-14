@@ -11,33 +11,20 @@ admin.site.register(myModels)
 class ProductImageInline(NestedTabularInline):
     model = ProductImage
     extra = 5
-    classes = ['collapse']
-
 
 class ProductVersionInline(NestedStackedInline):
     model = ProductVersion
     extra = 1
     inlines = [ProductImageInline,]
-    classes = ['collapse']
+    classes = ["collapse"]
 
-
+    list_filter = ('color', 'size' )
+    exclude = ('title',)
 
 
 class ProductAdmin(NestedModelAdmin):
     inlines = [ProductVersionInline,]
-    list_filter = ('title', 'category', 'brand', 'description', 'tags', 'featured')
-    fieldsets = (
-        ('Main', {
-            'fields': ('title', 'category', 'brand', 'description'),
-            'classes': ('order-0', 'baton-tabs-init', 'baton-tab-inline-attribute', 'baton-tab-group-fs-tech--inline-feature', ),
 
-        }),
-        ('Additional', {
-            'fields': ('tags', 'featured'),
-            'classes': ('tab-fs-tech', ),
-
-        }),
-    )
 
 admin.site.register(Product, ProductAdmin)
 

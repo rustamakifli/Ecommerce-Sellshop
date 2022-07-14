@@ -17,6 +17,8 @@ class Category(models.Model):
         verbose_name_plural = _('Categories')
     
     def __str__(self):
+        if self.parent_cat:
+            return f'{self.title} - {self.parent_cat}'
         return self.title
 
 
