@@ -62,7 +62,7 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.parent_comment.user}}</a></h4>
-												<span class="floatright"><a href="#">Reply</a>  /   <a href="#">Hide</a></span>
+												<span class="floatright"><a href="#">Reply</a></span>
 												<span>{{comment.parent_comment.created_at}}</span>
 												<p>{{comment.parent_comment.comment}}</p>
 											</div>
@@ -73,7 +73,7 @@
 											<img src="{% static 'img/blog/author3.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.user }}</a></h4>
-												<span class="floatright"><a href="#">Reply</a>  /   <a href="#">Hide</a></span>
+												<span class="floatright"><a href="#">Reply</a></span>
 												<span>{{ comment.created_at }}</span>
 												<p>{{ comment.comment }}</p>
 											</div>
@@ -86,7 +86,7 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.user}}</a></h4>
-												<span class="floatright"><a href="#">Reply</a>  /   <a href="#">Hide</a></span>
+												<span class="floatright"><a href="#">Reply</a></span>
 												<span>{{comment.created_at}}</span>
 												<p>{{comment.comment}}</p>
 											</div>
@@ -97,16 +97,18 @@
 								</div>
 								<div class="leave-comment">
 									<h4>leave your review</h4>
-									<form action="#" class="blogcommentform">
+									<form action="" method="post">
+										{% csrf_token %}
+										{{ comment_form.non_field_errors }}
 										<div class="row">
 											<div class="col-xs-12">
-												<div class="input-text">
-													<input type="text" name="comment" class="form-control" placeholder="Comment here">
+												<div class="custom-mess">
+													{{ comment_form.comment }}
 												</div>
 											</div>
 											<div class="col-xs-12">
 												<div class="submit-text">
-													<button type="submit" value="submit form">submit comments</button>
+													<button type="submit">submit comment</button>
 												</div>
 											</div>
 										</div>
@@ -115,81 +117,6 @@
 							</div>
 						</div>
 						<!-- single post end -->
-					</div>
-					<div class="col-xs-12 col-sm-4 col-md-3">
-						<div class="sidebar left-sidebar">
-							<div class="s-side-text">
-								<div class="sidebar-title clearfix">
-									<h4 class="floatleft">Categories</h4>
-								</div>
-								<div class="categories left-right-p">
-									{% for category in categories %}
-									{% if category.parent_cat is null %}
-									<ul id="accordion" class="panel-group clearfix">
-										<li class="panel">
-											<div data-toggle="collapse" data-parent="#accordion"
-												data-target="#collapse{{category.id}}">
-												<div class="medium-a">
-													<a href="{% url 'blogs' %}?{{request.GET.urlencode}}&category_id={{category.id}}"> {{category.title}} <span>{{category.product_count}}</span></a>
-												</div>
-											</div>
-											<div class=" panel-collapse collapse " id="collapse{{category.id}}">
-												<div class="normal-a">
-													{% for subcat in categories %}
-													{% if subcat.parent_cat == category %}
-													<a href="#">{{subcat}}</a>
-													{% endif %}
-													{% endfor %}
-												</div>
-											</div>
-										</li>
-		
-									</ul>
-									{% endif %}
-									{% endfor %}
-								</div>
-							</div>
-							<div class="s-side-text">
-								<div class="sidebar-title clearfix">
-									<h4 class="floatleft">brands</h4>
-									<h5 class="floatright"><a href="#">All</a></h5>
-								</div>
-								<div class="brands-select clearfix">
-									<ul>
-										<li>
-											{% for brand in brands %}
-											<a href="#">{{ brand.title }}</a>
-											{% endfor %}
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="s-side-text">
-								<div class="sidebar-title clearfix">
-									<h4 class="floatleft">recent post</h4>
-								</div>
-								<div class="recent-post clearfix">
-									<ul>
-										{% for recent in recents %}
-										<li>
-											<a href="#"><img src="{% static 'img/blog/r1.jpg' %}" alt="" /></a>
-											<h5><a href="{% url 'blog_detail' slug=blog.slug %}">{{ blog.title }}</a></h5>
-											<span>{{ blog.created_at }}</span>
-										</li>
-										{% endfor %}
-									</ul>
-								</div>
-							</div>
-							<div class="s-side-text">
-								<div class="banner clearfix">
-									<a href="#"><img src="{% static 'img/products/banner.jpg' %}" alt="" /></a>
-									<div class="banner-text">
-										<h2>best</h2> <br />
-										<h2 class="banner-brand">brand</h2>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

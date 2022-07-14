@@ -79,10 +79,10 @@
 											<div class="color-select clearfix">
 												{% for product_version in product_versions_query_distinct_color %}
 												<a href="{% url 'single_product' product_version.id %}">
-													{% if product_version.color__title != "white" %}
-													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ product_version.color }} solid;"></span>
+													{% if product_version.color.title != "WHITE" %}
+														<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ product_version.color }} solid;"></span>
 													{% else %}
-													<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
+														<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
 													{% endif %}
 												</a>
 												{% endfor %}
@@ -339,11 +339,16 @@
 															<div class="s-shoose">
 																<h5>Color</h5>
 																<div class="color-select clearfix">
-																	{% for product_version in product_versions_distinct %}
+																	{% for product_version in product_versions_query_distinct_color %}
 																	<a href="{% url 'single_product' product_version.id %}">
-																		<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
+																		{% if product_version.color.title != "WHITE" %}
+																			<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ product_version.color }} solid;"></span>
+																		{% else %}
+																			<span style="background: {{ product_version.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
+																		{% endif %}
 																	</a>
 																	{% endfor %}
+																	<span style="display: none" >ikinci</span>
 																</div>
 															</div>
 															<div class="s-shoose">
@@ -355,12 +360,12 @@
 																			<span class=""><i class="mdi mdi-chevron-down"></i></span>
 																		</button>
 																		<ul class="dropdown-menu">
-																			{% for product_version in product_versions_distinct %}
-																				{% if product_version.size %}
-																					<li><a href="{% url 'single_product' product_version.id %}">{{ product_version.size }}</a></li>
-																				{% endif %}
-					
-																			{% endfor %}
+																			{% for product_version in product_versions_query_distinct_size %}
+																			{% if product_version.size %}
+																				<li><a href="{% url 'single_product' product_version.id %}">{{ product_version.size }}</a></li>
+																			{% endif %}
+				
+																		{% endfor %}
 																		</ul>
 																	</div>
 																</div>

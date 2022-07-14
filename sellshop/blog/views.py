@@ -14,6 +14,11 @@ class BlogDetailView(DetailView, CreateView):
     context_object_name = 'blog'
     form_class = BlogCommentForm
 
+    def form_valid(self, form):
+        form.instance.slug = self.kwargs['slug']
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.all()
@@ -26,10 +31,17 @@ class BlogDetailView(DetailView, CreateView):
             blog__slug=self.kwargs.get('slug')).all()
         context['comments_count'] = BlogComment.objects.filter(
             blog__slug=self.kwargs.get('slug')).all().count()
+        context['comment_form'] = BlogCommentForm(
+            data=self.request.POST)
         return context
+
 
     def get_object(self):
         return Blog.objects.filter(slug=self.kwargs['slug']).first()
+
+    def get_success_url(self):
+        blog_slug = self.kwargs['slug']
+        return reverse_lazy('blog_detail', kwargs = {'slug':blog_slug})
 
 
 class BlogListView(ListView):

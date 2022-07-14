@@ -13,11 +13,6 @@ from django.db.models import Max, Min, Count
 # from decimal import Decimal as D
 
 # filter by price
-try:
-    min_price = ProductVersion.objects.all().aggregate(Min('new_price'))
-    max_price = ProductVersion.objects.all().aggregate(Max('new_price'))
-except:
-    pass
 
 class ProductListView(ListView):
     template_name = 'product-list.html'
@@ -36,8 +31,6 @@ class ProductListView(ListView):
         max_price = self.request.GET.get('max_price') 
         min_price = self.request.GET.get('min_price') 
         discount = self.request.GET.get('discount') 
-        # price1 = D(self.request.GET.get('min_price', 0)) 
-        # price2 = D(self.request.GET.get('max_price', 0))
         price1 = self.request.GET.get('min_price', 0) 
         price2 = self.request.GET.get('max_price', 100000)
         queryset = queryset.filter(new_price__range=(price1, price2))
@@ -46,7 +39,7 @@ class ProductListView(ListView):
         if brand_id:
             queryset = queryset.filter(product__brand__id=brand_id)
         if tag_id:
-            queryset = queryset.filter(product__tag__id=tag_id)
+            queryset = queryset.filter(product__tags__id=tag_id)
         if color_id:
             queryset = queryset.filter(color__id=color_id)
         if size_id:
@@ -67,13 +60,7 @@ class ProductListView(ListView):
         context['colors'] = Color.objects.all()[:6]
         context['sizes'] = Size.objects.all()[:5]
 
-        try:
-            context['min_price'] = float(min_price.get('new_price__min'))
-            context['max_price'] = float(max_price.get('new_price__max'))
-        except:
-            context['min_price'] = 0
-            context['max_price'] = 1 
-            
+
 
         return context
 
@@ -83,7 +70,7 @@ class ProductView(DetailView,CreateView):
     template_name = 'single-product.html'
     context_object_name = 'product'
     form_class = ProductReviewsForm
-    success_url = reverse_lazy('product')
+    # success_url = reverse_lazy('product')
 
     def form_valid(self, form):
         form.instance.product_version_id = self.kwargs['pk']

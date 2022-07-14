@@ -100,7 +100,7 @@
 						<div class="color-select clearfix">
 							{% for color in colors %}
 							<a href="{% url 'product' %}?{{request.GET.urlencode}}&color_id={{color.id}}" style="margin-right: 11.58px;">
-								{% if color.title != "white" %}
+								{% if color.title != "WHITE" %}
 								<span style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ color }} solid;"></span>
 								{% else %}
 								<span style="background: {{ color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
@@ -217,8 +217,11 @@
 													<!-- <p>{{product.description}}</p> -->
 													<div class="color-select clearfix">
 														<h6>Color:</h6>
-														<span style="background: {{ product.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px green solid;"></span>
-														
+														{% if product.color.title != "WHITE" %}
+														<span style="background: {{ product.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px {{ product.color }} solid;"></span>
+														{% else %}
+														<span style="background: {{ product.color }} none repeat scroll 0 0; margin-right: 11.58px; border: 1px black solid;"></span>
+														{% endif %}
 													</div>
 													<div class="list-btn">
 

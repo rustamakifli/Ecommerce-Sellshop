@@ -15,25 +15,26 @@ def error404(request):
     return render(request,'error-404.html')
 
 def index(request):
-    new_arrivals = ProductVersion.objects.order_by("-created_at")
-    mostreview = ProductVersion.objects.annotate(
-        num_rev=Count('product_reviews')).order_by('-num_rev')[:6]
-    bestseller = ProductVersion.objects.annotate(
-        mostsold=Count('Product_Cart')).order_by('-mostsold')[1:8]
-    firstbestseller = ProductVersion.objects.annotate(
-        mostsold=Count('Product_Cart')).order_by('-mostsold')[0] if ProductVersion.objects.count() > 0 else None
+    queryset = ProductVersion.objects.filter(hide=False, quantity__gt=0)
+
+    mostreview = queryset.annotate(num_rev=Count('product_reviews')).order_by('-num_rev')[:4]
+    new_arrivals = queryset.order_by("-created_at")[:3]
+    featured_products = queryset.filter(product__featured=True)[:6]
+    bestseller = queryset.annotate(mostsold=Count('Product_Cart')).order_by('-mostsold')[1:8]
+    firstbestseller = queryset.annotate(mostsold=Count('Product_Cart')).order_by('-mostsold')[0] if queryset.count() > 0 else None
     latest_blog = Blog.objects.order_by("-created_at")[:3]
-    images = ProductImage.objects.filter(is_main=True)
-    productversions = ProductVersion.objects.all()
+    # images = ProductImage.objects.filter(is_main=True)
+
     context = {
         'title': 'Home Sellshop',
-        'mostreview': mostreview,
+        'featured_products': featured_products,
         'new_arrivals': new_arrivals,
         'latest_blog': latest_blog,
-        'images': images,
+        # 'images': images,
         'bestseller': bestseller,
         'firstbestseller': firstbestseller,
-        'productversions': productversions,
+        'productversions': queryset,
+        'mostreview': mostreview,
     }
 
     return render(request,'index.html',context=context)
