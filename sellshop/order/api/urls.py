@@ -1,5 +1,5 @@
 from django.urls import path
-from pyparsing import delimited_list
+# from pyparsing import delimited_list
 from order.api import views
 
 urlpatterns = [

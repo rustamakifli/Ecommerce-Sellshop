@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-14 07:14+0000\n"
+"POT-Creation-Date: 2022-07-16 17:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,49 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: blog/templates/blog.html:12 blog/templates/single-blog.html:12
+#: blog/templates/blog.html:14 blog/templates/single-blog.html:15
 #: core/templates/base.html:146 core/templates/base.html:212
 msgid "Home"
 msgstr "Ana səhifə"
 
-#: blog/templates/blog.html:13 blog/templates/single-blog.html:13
+#: blog/templates/blog.html:15 blog/templates/single-blog.html:16
 #: core/templates/base.html:196
 msgid "Blog"
 msgstr "Bloq"
 
-#: blog/templates/single-blog.html:99
+#: blog/templates/single-blog.html:108
 msgid "leave your review"
 msgstr "Rəyini bildir"
 
-#: blog/templates/single-blog.html:109
+#: blog/templates/single-blog.html:120
 msgid "submit comments"
 msgstr "Rəyini göndər"
 
-#: blog/templates/single-blog.html:123 product/models.py:17
-msgid "Categories"
-msgstr "Kateqoriyalar"
-
-#: blog/templates/single-blog.html:154
-msgid "brands"
-msgstr "Brandlar"
-
-#: blog/templates/single-blog.html:155
-msgid "All"
-msgstr "Hamısı"
-
-#: blog/templates/single-blog.html:169
-msgid "recent post"
-msgstr "Son post"
-
-#: blog/templates/single-blog.html:187
-msgid "best"
-msgstr "Ən yaxşı"
-
-#: blog/templates/single-blog.html:204
+#: blog/templates/single-blog.html:140
 msgid "Related Blogs"
 msgstr "Əlaqəli Bloqlar"
 
-#: blog/templates/single-blog.html:223
+#: blog/templates/single-blog.html:159
 msgid "read more"
 msgstr "Daha çoxu"
 
@@ -283,41 +263,33 @@ msgstr "İstifadə müddəti"
 msgid "Home Delivery"
 msgstr "Evə Çatdırılma"
 
-#: core/templates/index.html:17 core/templates/index.html:30
-msgid "new collection"
-msgstr "yeni kolleksiya"
-
-#: core/templates/index.html:18 core/templates/index.html:31
-msgid "Men’s Fashion 2016"
-msgstr "Kişi Moda 2016"
-
-#: core/templates/index.html:21 core/templates/index.html:39
+#: core/templates/index.html:22 core/templates/index.html:40
 #, fuzzy
 #| msgid "Shop"
 msgid "Shop now"
 msgstr "Mağaza"
 
-#: core/templates/index.html:32
+#: core/templates/index.html:33
 msgid "Starting at $65.00. Don’t miss out!"
 msgstr "$65.00-dan başlayaraq. Qaçırmayın!"
 
-#: core/templates/index.html:55
+#: core/templates/index.html:57
 #, fuzzy
 #| msgid "New Products"
 msgid "Featured Products"
 msgstr "Yeni məhsullar"
 
-#: core/templates/index.html:117
+#: core/templates/index.html:120
 msgid "New Arrival"
 msgstr "Yeni Gəliş"
 
-#: core/templates/index.html:118
+#: core/templates/index.html:121
 #, fuzzy
 #| msgid "Product"
 msgid "Popular Product"
 msgstr "Produkt"
 
-#: core/templates/index.html:119
+#: core/templates/index.html:122
 #, fuzzy
 #| msgid "Top Sellers"
 msgid "Best Seller"
@@ -327,11 +299,15 @@ msgstr "Ən çox satılanlar"
 msgid "Category"
 msgstr "Kateqoriya"
 
-#: sellshop/settings.py:234
+#: product/models.py:17
+msgid "Categories"
+msgstr "Kateqoriyalar"
+
+#: sellshop/settings.py:233
 msgid "English"
 msgstr "İngilis dili"
 
-#: sellshop/settings.py:235
+#: sellshop/settings.py:234
 msgid "Azerbaijan"
 msgstr "Azərbaycan"
 
@@ -370,3 +346,21 @@ msgstr "Saytımızdan istifadə etdiyiniz üçün təşəkkür edirik!"
 #, python-format
 msgid "The %(site_name)s team"
 msgstr ""
+
+#~ msgid "brands"
+#~ msgstr "Brandlar"
+
+#~ msgid "All"
+#~ msgstr "Hamısı"
+
+#~ msgid "recent post"
+#~ msgstr "Son post"
+
+#~ msgid "best"
+#~ msgstr "Ən yaxşı"
+
+#~ msgid "new collection"
+#~ msgstr "yeni kolleksiya"
+
+#~ msgid "Men’s Fashion 2016"
+#~ msgstr "Kişi Moda 2016"
