@@ -1,4 +1,3 @@
-url = location.origin + '/api/cartitems/';
 
 document.addEventListener("DOMContentLoaded", function () {
     let proSection = document.getElementById('cartdrop')
@@ -68,7 +67,7 @@ async function remove(productVersion, valueId, countItem, priceItem) {
 
     async function removeProducts() {
         console.log('here');
-        let response = await fetch(url + `/${valueId}/`, {
+        let response = await fetch(`http://127.0.0.1:8000/api/cartitems/${valueId}/`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
