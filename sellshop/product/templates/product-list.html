@@ -120,7 +120,7 @@
 
 								{% for brand in brands %}
 								<li>
-									<a href="#">{{brand}}</a>
+									<a href="{% url 'product' %}?{{request.GET.urlencode}}&brand_id={{brand.id}}">{{brand}}</a>
 								</li>
 								{% endfor %}
 

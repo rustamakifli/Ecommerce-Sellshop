@@ -43,7 +43,7 @@
                                 <span>sell</span>
                             </div>
                             <a href="{% url 'single_product' productversion.id %}">
-                                {% for image in images %} 
+                                {% for image in productversion.product_images.all %} 
                                 {% if image.is_main %}
                                 <img style="width: 270px; height: 340.25px;" src="{{image.image.url}}" alt="Product Title" />
                                 {% endif %}

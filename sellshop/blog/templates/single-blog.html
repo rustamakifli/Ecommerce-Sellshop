@@ -42,7 +42,11 @@
 											<li><i class="pe-7s-back"></i><a href="#">{{ comments_count }} Comments</a></li>
 										</ul>
 									</div>
-									<p>{{ blog.description }}</p>
+									<p>
+										With the rise of “instant-dopamine-hit” applications, the current attention span of humans has decimated so much that even a goldfish can beat us!
+
+But all hope isn’t lost disciples, there are some apps that when used, can blow up your productivity to new and unthinkable heights. Some use the same feedback loop as those “instant-dopamine-hit” applications, but constructively; others make your life way easier. Let’s take a look at 6 such incredible apps.
+									</p>
 									<div class="share-tag clearfix">
 										<ul class="blog-share floatleft">
 											<li><h5>share </h5></li>
@@ -65,8 +69,8 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.parent_comment.user}}</a></h4>
-												<span class="floatright"><a href=""><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-													Reply</button></a></span>
+												<!-- <span class="floatright"><a href=""><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+													Reply</button></a></span> -->
 												<span>{{comment.parent_comment.created_at}}</span>
 												<p>{{comment.parent_comment.comment}}</p>
 											</div>
@@ -89,8 +93,8 @@
 											<img src="{% static 'img/blog/author2.png' %}" alt="" />
 											<div class="author-des">
 												<h4><a href="#">{{ comment.user}}</a></h4>
-												<span class="floatright"><a href="#"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-													Reply</button></a></span>
+												<!-- <span class="floatright"><a href="#"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+													Reply</button></a></span> -->
 												<span>{{comment.created_at}}</span>
 												<p>{{comment.comment}}</p>
 											</div>
